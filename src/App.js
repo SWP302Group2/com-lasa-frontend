@@ -8,7 +8,7 @@ function App() {
     <Router>
       <React.Fragment>
         <Switch>
-          <Route exact path="/" />
+          <Route exact path="/" component={SignInPage} />
           <Route exact path={"/sign-in"} component={SignInPage} />
           <Route exact path={"/file-not-found"} component={PathNotFound} />
           <Redirect to={"/file-not-found"} />
