@@ -5,6 +5,7 @@ import Content from "./Content";
 import Row from "../grid-system/Row";
 
 function SignInPage() {
+  document.title = "Sign in to Lasa";
   const responsiveOptions = ["pc-10", "pc-offset-1", "tablet-12", "mobile-12"];
   return (
     <GridWide>

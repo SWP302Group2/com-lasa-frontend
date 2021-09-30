@@ -4,6 +4,15 @@ import PathNotFound from './components/PathNotFound';
 import SignInPage from './components/signin-page/SignInPage';
 
 function App() {
+  const clearCacheData = () => {
+    caches.keys().then((names) => {
+      names.forEach((name) => {
+        caches.delete(name);
+      });
+    });
+  };
+  clearCacheData();
+
   return (
     <Router>
       <React.Fragment>
