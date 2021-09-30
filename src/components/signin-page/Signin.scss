@@ -185,18 +185,17 @@ $color-font-headline: #255784;
 
             cursor: pointer;
             background: #fff;
-            box-shadow: 0 0px 2px rgba($color: rgb(29, 72, 202), $alpha: 0.2),
-                0 0px 4px rgba($color: rgb(29, 72, 202), $alpha: 0.1),
-                0 4px 8px rgba($color: rgb(29, 72, 202), $alpha: 0.1);
+            box-shadow: 0 0px 1px rgba($color: #000, $alpha: 0.1), 0 2px 2px rgba($color: #000, $alpha: 0.2),
+                0 2px 4px rgba($color: #000, $alpha: 0.2);
 
             &:hover,
             &:focus {
-                box-shadow: 0 0px 2px rgba($color: rgb(29, 72, 202), $alpha: 0.2),
-                    0 0 4px rgba($color: rgb(29, 72, 202), $alpha: 0.1),
-                    0 0 8px rgba($color: rgb(29, 72, 202), $alpha: 0.1),
-                    0 0 4px rgba($color: $color-blue-google, $alpha: 0.1),
-                    0 0 6px rgba($color: $color-blue-google, $alpha: 0.15),
-                    0 0 8px rgba($color: $color-blue-google, $alpha: 0.2);
+                box-shadow: 0 0px 1px rgba($color: $color-blue-google, $alpha: 0.1),
+                    0 2px 2px rgba($color: $color-blue-google, $alpha: 0.2),
+                    0 2px 2px rgba($color: $color-blue-google, $alpha: 0.2),
+                    0 0 4px rgba($color: $color-blue-google, $alpha: 0.4),
+                    0 2px 4px rgba($color: $color-blue-google, $alpha: 0.45),
+                    0 4px 8px rgba($color: $color-blue-google, $alpha: 0.4);
             }
 
             .google-icon {
@@ -279,7 +278,7 @@ $color-font-headline: #255784;
             margin: 1rem auto;
 
             font-size: 1.1rem;
-            font-family: "Mukta", "Ephesis", sans-serif;
+            font-family: "Mukta", sans-serif;
         }
 
         &__source {
