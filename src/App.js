@@ -19,8 +19,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={SignInPage} />
           <Route exact path={"/sign-in"} component={SignInPage} />
-          <Route exact path={"/file-not-found"} component={PathNotFound} />
-          <Redirect to={"/file-not-found"} />
+          <Route exact path={"/page-not-found"} component={PathNotFound} />
+          <Redirect to={"/page-not-found"} />
         </Switch>
       </React.Fragment>
     </Router>

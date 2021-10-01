@@ -1,5 +1,6 @@
 import React from "react";
-import axios from "axios";
+// import axios from "axios";
+import axiosInstance from "../../utils/axiosConfig.jsx";
 
 const CLIENT_ID =
   "69016056321-5j2fr23vo8oggc3jsqksgu2a4g1s1mhn.apps.googleusercontent.com";
@@ -10,18 +11,13 @@ function onFailure(error) {
 
 function onSignIn(googleUser) {
   console.log(googleUser);
-  const api = "http://localhost:8080/las/login";
+  const api = "/signin";
   const data = JSON.stringify({
     token: googleUser.getAuthResponse().id_token,
   });
-  const options = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
 
-  axios
-    .post(api, data, options)
+  axiosInstance
+    .post(api, data)
     .then((response) => response.json())
     .then((result) => console.log(result))
     .catch((error) => console.log(error));
