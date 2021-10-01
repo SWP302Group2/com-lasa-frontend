@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import PathNotFound from './components/PathNotFound';
 import SignInPage from './components/signin-page/SignInPage';
-
+import "./App.css";
 function App() {
   const clearCacheData = () => {
     caches.keys().then((names) => {
@@ -19,8 +19,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={SignInPage} />
           <Route exact path={"/sign-in"} component={SignInPage} />
-          <Route exact path={"/file-not-found"} component={PathNotFound} />
-          <Redirect to={"/file-not-found"} />
+          <Route exact path={"/page-not-found"} component={PathNotFound} />
+          <Redirect to={"/page-not-found"} />
         </Switch>
       </React.Fragment>
     </Router>

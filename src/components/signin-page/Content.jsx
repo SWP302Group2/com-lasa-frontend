@@ -4,14 +4,15 @@ import Introduce from "./Introduce";
 import SignInBox from "./SignInBox";
 
 function SignInContent() {
-  var rowClassList = ["container"];
-  var columnResponsive = ["pc-6", "tablet-6", "mobile-12"];
+  var rowClassList = ["container", "no-gutters"];
+  var introduceResponsive = ["large-pc-7", "pc-6", "tablet-6", "mobile-12"];
+  var signInResponsive = ["large-pc-5", "pc-6", "tablet-6", "mobile-12"];
   return (
-    <Row classList={rowClassList} noGutter={true}>
-      <Column classList={columnResponsive}>
+    <Row classList={rowClassList}>
+      <Column classList={introduceResponsive}>
         <Introduce />
       </Column>
-      <Column classList={columnResponsive}>
+      <Column classList={signInResponsive}>
         <SignInBox />
       </Column>
     </Row>
