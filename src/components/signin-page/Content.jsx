@@ -1,5 +1,5 @@
-import Column from "../grid-system/Column";
-import Row from "../grid-system/Row";
+import Column from "../../grid-system/Column";
+import Row from "../../grid-system/Row";
 import Introduce from "./Introduce";
 import SignInBox from "./SignInBox";
 
