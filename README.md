@@ -7,7 +7,7 @@
 This project is one of microservices of our Lecturer Appointment Schedule Application (LASA).
 As the name of the repo, the project is frontend side. It provides UI/UX base on HTML, CSS (SCSS & BEM), Javascript(ReactJS).
 
-## List microserver:
+## List microservices:
 - API server is deployed on Amazon (E2).
 - Database server is deployed on Google could.
 - Frontend server (this project) is deployed on google firebase.
