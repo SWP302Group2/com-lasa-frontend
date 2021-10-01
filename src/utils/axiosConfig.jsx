@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
     "Access-Control-Allow-Credentials": "true",
     "Content-Type": "application/json",
   },
-  //production use: amazon E2
+  //production use origin: amazon E2 // updateing
 });
 
 axiosInstance.interceptors.response.use(

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./App";
+import App from "./app-router/App.js";
 import reportWebVitals from './reportWebVitals';
 
 const app = (

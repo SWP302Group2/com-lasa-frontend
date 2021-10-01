@@ -1,8 +1,8 @@
-import Column from "../grid-system/Column";
-import GridWide from "../grid-system/GridWide";
+import Column from "../../grid-system/Column";
+import GridWide from "../../grid-system/GridWide";
 import "./Signin.css";
 import Content from "./Content";
-import Row from "../grid-system/Row";
+import Row from "../../grid-system/Row";
 
 function SignInPage() {
   document.title = "Sign in to Lasa";
