@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import PathNotFound from './components/PathNotFound';
 import SignInPage from './components/signin-page/SignInPage';
-
+import "./App.css";
 function App() {
   const clearCacheData = () => {
     caches.keys().then((names) => {

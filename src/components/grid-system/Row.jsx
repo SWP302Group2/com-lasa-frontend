@@ -1,13 +1,10 @@
 import "./GridLibrary.css";
 
-function Row({ classList, noGutter, ...props }) {
+function Row({ classList, ...props }) {
   if (!classList) {
     classList = [];
   }
   classList.push("row");
-  if (noGutter) {
-    classList.push("no-gutters");
-  }
   return <div className={classList.join(" ")}>{props.children}</div>;
 }
 

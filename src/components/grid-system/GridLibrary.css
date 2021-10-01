@@ -28,6 +28,7 @@
     display: flex;
     -ms-flex-flow: wrap;
         flex-flow: wrap;
+    width: 100%;
   }
   .col {
     display: block;
@@ -314,7 +315,7 @@
 /* normal PC */
 @media screen and (min-width: 1024px) {
   .wide {
-    width: 960px;
+    width: 1000px;
   }
   .row {
     -webkit-box-orient: horizontal;
@@ -459,6 +460,128 @@
   }
   .col {
     padding: 0 1rem;
+  }
+  .large-pc-0 {
+    display: none;
+  }
+  .large-pc-1 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 8.33333%;
+            flex: 0 0 8.33333%;
+    max-width: 8.33333%;
+  }
+  .large-pc-2 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 16.66667%;
+            flex: 0 0 16.66667%;
+    max-width: 16.66667%;
+  }
+  .large-pc-3 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+    max-width: 25%;
+  }
+  .large-pc-4 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 33.33333%;
+            flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+  }
+  .large-pc-5 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 41.66667%;
+            flex: 0 0 41.66667%;
+    max-width: 41.66667%;
+  }
+  .large-pc-6 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 50%;
+            flex: 0 0 50%;
+    max-width: 50%;
+  }
+  .large-pc-7 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 58.33333%;
+            flex: 0 0 58.33333%;
+    max-width: 58.33333%;
+  }
+  .large-pc-8 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 66.66667%;
+            flex: 0 0 66.66667%;
+    max-width: 66.66667%;
+  }
+  .large-pc-9 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 75%;
+            flex: 0 0 75%;
+    max-width: 75%;
+  }
+  .large-pc-10 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 83.33333%;
+            flex: 0 0 83.33333%;
+    max-width: 83.33333%;
+  }
+  .large-pc-11 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 91.66667%;
+            flex: 0 0 91.66667%;
+    max-width: 91.66667%;
+  }
+  .large-pc-12 {
+    -webkit-box-flex: 0;
+        -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+    max-width: 100%;
+  }
+  .large-pc-offset-1 {
+    margin-left: 8.33333%;
+  }
+  .large-pc-offset-2 {
+    margin-left: 16.66667%;
+  }
+  .large-pc-offset-3 {
+    margin-left: 25%;
+  }
+  .large-pc-offset-4 {
+    margin-left: 33.33333%;
+  }
+  .large-pc-offset-5 {
+    margin-left: 41.66667%;
+  }
+  .large-pc-offset-6 {
+    margin-left: 50%;
+  }
+  .large-pc-offset-7 {
+    margin-left: 58.33333%;
+  }
+  .large-pc-offset-8 {
+    margin-left: 66.66667%;
+  }
+  .large-pc-offset-9 {
+    margin-left: 75%;
+  }
+  .large-pc-offset-10 {
+    margin-left: 83.33333%;
+  }
+  .large-pc-offset-11 {
+    margin-left: 91.66667%;
+  }
+  .large-pc-1,
+  .large-pc-2,
+  .large-pc-3,
+  .large-pc-4,
+  .large-pc-5,
+  .large-pc-6,
+  .large-pc-7,
+  .large-pc-8,
+  .large-pc-9,
+  .large-pc-10,
+  .large-pc-11,
+  .large-pc-12 {
+    display: block;
   }
 }
 /*# sourceMappingURL=GridLibrary.css.map */
