@@ -1,4 +1,45 @@
+import { useHistory } from "react-router-dom";
+import { useEffect } from "react";
+import axiosInstance from "../../utils/axiosConfig";
+import Cookies from "universal-cookie/es6";
+
 function SignInLocalForm() {
+  const history = useHistory();
+
+  useEffect(() => handleSignInLocalForm());
+
+  function handleSignInLocalForm() {
+    const signInForm = document.querySelector("#form-sign-in");
+
+    function createTokenCookie(cookieInfo) {
+      const cookie = new Cookies();
+      const { token, ...options } = cookieInfo;
+      options.path = "/";
+      console.log(options);
+      cookie.set("access_token", token, options);
+      console.log(cookie.get("access_token"));
+    }
+    signInForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const api = "/las/api/v1/authentication";
+      const data = JSON.stringify({
+        username: "admin",
+        password: "123",
+      });
+      axiosInstance
+        .post(api, data)
+        .then((response) => response.data)
+        .then((cookieInfo) => {
+          console.log("Login success.");
+          console.log(cookieInfo);
+          createTokenCookie(cookieInfo);
+          history.push("/home");
+        })
+        .catch((error) => console.log(error));
+    });
+  }
+
   return (
     <article className="sign-in__local">
       <h2 className="sign-in__sub-headline sign-in__sub-headline--local">
