@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Cookies from "universal-cookie/es6";
-// import axios from "axios";
-import axiosInstance from "../../utils/axiosConfig.jsx";
+import axiosInstance from "../../utils/axiosConfig";
 
 const CLIENT_ID =
   "69016056321-5j2fr23vo8oggc3jsqksgu2a4g1s1mhn.apps.googleusercontent.com";
@@ -10,15 +9,13 @@ const CLIENT_ID =
 function SignInGoogle() {
   const history = useHistory();
 
-  useEffect(() => insertGapiScript());
-
   function createTokenCookie(cookieInfo) {
     const cookie = new Cookies();
     const { token, ...options } = cookieInfo;
     options.path = "/";
-    console.log(options);
+
     cookie.set("access_token", token, options);
-    console.log(cookie.getAll());
+    console.log(cookie.get("access_token"));
   }
 
   function onFailure(error) {
@@ -72,6 +69,8 @@ function SignInGoogle() {
     script.addEventListener("load", initializeGoogleSignIn);
     document.body.appendChild(script);
   }
+
+  useEffect(() => insertGapiScript());
 
   return (
     <article className="sign-in__google">

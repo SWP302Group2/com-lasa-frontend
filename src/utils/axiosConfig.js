@@ -5,7 +5,6 @@ const axiosInstance = axios.create({
   headers: {
     "Content-Type": "application/json",
   },
-  // "Content-Type": "application/x-www-form-urlencoded",
   //production use origin: amazon E2 // updateing
 });
 
