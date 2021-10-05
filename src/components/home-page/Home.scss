@@ -1,13 +1,9 @@
 $home-bg-color: hsl(218, 21%, 90%);
 
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 @media all and (min-width: 0px) {
     #home-page {
+        font-family: "Montserrat";
+
         .overlay {
             position: fixed;
             top: 0;
@@ -20,6 +16,7 @@ $home-bg-color: hsl(218, 21%, 90%);
             animation: opacityUp 500ms;
             background: rgba($color: #000000, $alpha: 0.2);
         }
+
         .navbar {
             display: flex;
             align-items: center;
@@ -237,7 +234,7 @@ $home-bg-color: hsl(218, 21%, 90%);
 }
 
 @media all and (min-width: 550px) {
-    #hom-page {
+    #home-page {
         .navbar {
             &__left {
                 .logo {
@@ -256,6 +253,7 @@ $home-bg-color: hsl(218, 21%, 90%);
                     display: none;
                 }
             }
+
             &__user-area {
                 display: flex;
             }

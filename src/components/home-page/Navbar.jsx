@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 function Navbar() {
     return (
@@ -8,16 +9,7 @@ function Navbar() {
                     <i className="navbar__icon material-icons">menu</i>
                 </div>
                 <Link className="logo" to="/home">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="4rem">
-                        <g>
-                            <title>Layer 1</title>
-                            <text fontStyle="normal" fontWeight="bold" textAnchor="middle"
-                                dominantBaseline="middle" y="65%" x="0" fontFamily="'Ephesis, sans-serif'"
-                                fontSize="3rem" strokeWidth="0" stroke="#fc8b36" fill="#f2bc94">
-                                LASA
-                            </text>
-                        </g>
-                    </svg>
+                    <Logo />
                 </Link>
             </div>
             <div className="navbar__right">

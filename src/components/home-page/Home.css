@@ -1,11 +1,7 @@
-* {
-  padding: 0;
-  margin: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
 @media all and (min-width: 0px) {
+  #home-page {
+    font-family: "Montserrat";
+  }
   #home-page .overlay {
     position: fixed;
     top: 0;
@@ -263,7 +259,7 @@
 }
 
 @media all and (min-width: 550px) {
-  #hom-page .navbar__left .logo {
+  #home-page .navbar__left .logo {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
