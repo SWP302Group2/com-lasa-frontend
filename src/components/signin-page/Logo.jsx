@@ -14,7 +14,7 @@ function Logo() {
             fontFamily="Ephesis, sans-serif"
             fontSize="3rem"
             strokeWidth="0"
-            stroke="#000"
+            stroke="#f2bc94"
             fill="#f2bc94"
           >
             LASA

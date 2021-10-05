@@ -1,23 +1,5 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto|Heebo|Mukta|Lora|Ephesis");
-* {
-  padding: 0;
-  margin: 0;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
 @media all and (min-width: 0) {
-  html {
-    height: 100%;
-  }
-  body {
-    height: -webkit-fit-content;
-    height: -moz-fit-content;
-    height: fit-content;
-    min-height: 100vh;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-  .container {
+  #sign-in-page .container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -33,9 +15,9 @@
     height: -moz-fit-content;
     height: fit-content;
     min-height: 100vh;
-    padding: 0.25rem 0;
+    padding: 0 0.25rem;
   }
-  .introduce {
+  #sign-in-page .introduce {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -52,21 +34,21 @@
     color: #f7f7f7;
     background-image: url("../svg/scattered-forcefields.svg");
   }
-  .introduce__headline {
+  #sign-in-page .introduce__headline {
     display: inline-block;
     width: 100%;
     text-align: center;
     font-size: 2rem;
     font-family: "Ephesis", sans-serif;
   }
-  .introduce__app-name {
+  #sign-in-page .introduce__app-name {
     display: inline-block;
     width: 100%;
     margin-bottom: 2rem;
     text-align: center;
     font-weight: 500;
   }
-  .introduce__content {
+  #sign-in-page .introduce__content {
     display: inline-block;
     width: 100%;
     text-align: center;
@@ -74,18 +56,18 @@
     font-size: 1.1rem;
     font-family: "Mukta", sans-serif;
   }
-  .introduce__source {
+  #sign-in-page .introduce__source {
     display: inline-block;
     width: 100%;
     text-align: right;
     font-weight: 600;
   }
-  .sign-in {
+  #sign-in-page .sign-in {
     padding: 1rem;
     width: 100% !important;
     min-height: 100vh;
   }
-  .sign-in .logo {
+  #sign-in-page .sign-in .logo {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -99,29 +81,29 @@
     height: 3rem;
     margin-bottom: 2rem;
   }
-  .sign-in__sub-headline {
+  #sign-in-page .sign-in__sub-headline {
     width: 100%;
     margin-bottom: 1rem;
     font-size: 1rem;
     font-weight: 600;
     color: #5750b8;
   }
-  .sign-in__sub-headline--local {
+  #sign-in-page .sign-in__sub-headline--local {
     font-size: 2rem;
     margin-bottom: 2rem;
   }
-  .sign-in__local {
+  #sign-in-page .sign-in__local {
     width: 100%;
     margin-bottom: 0.25rem;
     padding-bottom: 2rem;
     border-bottom: 1px solid #5750b8;
   }
-  .sign-in__google {
+  #sign-in-page .sign-in__google {
     width: 100%;
     background: #fff;
     margin-top: 1rem;
   }
-  .sign-in__google__button {
+  #sign-in-page .sign-in__google__button {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -130,7 +112,7 @@
             justify-content: center;
     width: 100%;
   }
-  .sign-in__form {
+  #sign-in-page .sign-in__form {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -143,10 +125,10 @@
             align-items: center;
     width: 100%;
   }
-  .sign-in__control {
+  #sign-in-page .sign-in__control {
     width: 100%;
   }
-  .sign-in__label {
+  #sign-in-page .sign-in__label {
     position: relative;
     bottom: 2.25rem;
     left: 1rem;
@@ -160,7 +142,7 @@
     text-transform: capitalize;
     text-align: left;
   }
-  .sign-in__input {
+  #sign-in-page .sign-in__input {
     outline: none;
     border: none;
     border: 1px solid rgba(87, 80, 184, 0.3);
@@ -170,19 +152,35 @@
     padding-left: 1rem;
     font-size: 1rem;
   }
-  .sign-in__input:hover, .sign-in__input:focus, .sign-in__input:not(:placeholder-shown) {
+  #sign-in-page .sign-in__input:hover, #sign-in-page .sign-in__input:focus, #sign-in-page .sign-in__input:not(:placeholder-shown) {
     border: 2px solid #5750b8;
   }
-  .sign-in__input:hover + .sign-in__label,
-  .sign-in__input:focus + .sign-in__label,
-  .sign-in__input:not(:placeholder-shown) + .sign-in__label {
+  #sign-in-page .sign-in__input:hover + .sign-in__label,
+  #sign-in-page .sign-in__input:focus + .sign-in__label,
+  #sign-in-page .sign-in__input:not(:placeholder-shown) + .sign-in__label {
     bottom: 3.8rem;
     padding: 0 4px;
     background: #fff;
     color: #655dd4;
     font-size: 0.8rem;
   }
-  .sign-in__button {
+  #sign-in-page .sign-in__error-message {
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    display: none;
+    padding: 1rem;
+    border-radius: 4px;
+    opacity: 0;
+    color: #d8000c;
+    border: 1px solid #d8000c;
+    background: #ffffff;
+    -webkit-animation: disappearErrorMessage 10s;
+            animation: disappearErrorMessage 10s;
+  }
+  #sign-in-page .sign-in__button {
     width: 50%;
     height: 3rem;
     border-radius: 50px;
@@ -198,12 +196,12 @@
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
-  .sign-in__button:hover, .sign-in__button:focus {
+  #sign-in-page .sign-in__button:hover, #sign-in-page .sign-in__button:focus {
     width: 100%;
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(66, 133, 244, 0.2), 0 4px 12px rgba(66, 133, 244, 0.2);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 2px 6px rgba(66, 133, 244, 0.2), 0 4px 12px rgba(66, 133, 244, 0.2);
   }
-  .sign-in #my-signin2 {
+  #sign-in-page .sign-in #my-signin2 {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -227,23 +225,24 @@
     -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
   }
-  .sign-in #my-signin2:hover, .sign-in #my-signin2:focus {
+  #sign-in-page .sign-in #my-signin2:hover, #sign-in-page .sign-in #my-signin2:focus {
     -webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
             box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
   }
-  .sign-in #my-signin2 .google-icon {
+  #sign-in-page .sign-in #my-signin2 .google-icon {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
     width: 52px;
     height: 47px;
     border: 13px solid #fff;
+    border-left: 11px solid #fff;
     border-top: 11px solid #fff;
     border-radius: 0.1rem;
     background: #fff;
     background-image: url("../svg/icons8-google-small-extra.svg");
   }
-  .sign-in #my-signin2 .google-text {
+  #sign-in-page .sign-in #my-signin2 .google-text {
     width: 100%;
     font-size: 1rem;
     font-weight: 500;
@@ -254,13 +253,7 @@
 }
 
 @media screen and (min-width: 768px) {
-  html {
-    background-image: linear-gradient(135deg, #d8696d, #ceb270, #86caa1, #15b3d6, #b379cf, #5d87be, #15abcc);
-  }
-  body {
-    background-color: rgba(255, 255, 255, 0.8);
-  }
-  .container {
+  #sign-in-page .container {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -274,7 +267,7 @@
     height: 100%;
     min-height: 100vh;
   }
-  .introduce {
+  #sign-in-page .introduce {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
@@ -292,10 +285,10 @@
     height: 600px;
     width: 100%;
     border-radius: 10px 0 0 10px;
-    color: #f7f7f7;
+    color: #ffffff;
     background-image: url("../svg/scattered-forcefields.svg");
   }
-  .sign-in {
+  #sign-in-page .sign-in {
     height: 600px;
     min-height: -webkit-fit-content;
     min-height: -moz-fit-content;
@@ -303,6 +296,30 @@
     padding: 2rem;
     border-radius: 0 10px 10px 0;
     background: #fff;
+  }
+}
+
+@-webkit-keyframes disappearErrorMessage {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes disappearErrorMessage {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 /*# sourceMappingURL=Signin.css.map */
