@@ -52,8 +52,8 @@ function SignInLocalForm() {
       })
       .catch((error) => {
         //Sign in failed
-        const status = error.state;
-        const message = error.message;
+        const status = error?.status;
+        const message = error?.message;
         reAssignUsernameValue(username);
         processError(username, status, message);
       });
