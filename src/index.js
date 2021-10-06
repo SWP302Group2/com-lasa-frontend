@@ -1,10 +1,14 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./app-router/App.js";
+import { Provider } from "react-redux";
+import App from "./app/App.js";
 import reportWebVitals from './reportWebVitals';
+import store from "./store.js";
 
 const app = (
-  <App />
+  <Provider store={store}>
+    <App />
+  </Provider>
 );
 
 ReactDOM.render(
