@@ -1,0 +1,103 @@
+@media all and (min-width: 0) {
+  #auth-page .content .auth-box .sign-up-google {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: column nowrap;
+            flex-flow: column nowrap;
+    width: 100%;
+    min-width: 300;
+    -webkit-animation: showDown 500ms;
+            animation: showDown 500ms;
+  }
+  #auth-page .content .auth-box .sign-up-google__headline {
+    margin-top: 6rem;
+    margin-bottom: 2rem;
+    font-size: 3rem;
+    font-weight: 400;
+    font-family: "Lobster";
+    color: #ddb637;
+  }
+  #auth-page .content .auth-box .sign-up-google__title {
+    width: 100%;
+    font-size: 0.8rem;
+    font-weight: 900;
+    text-align: center;
+    color: #276cc5;
+  }
+  #auth-page .content .auth-box .sign-up-google__button {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    width: 100%;
+  }
+  #auth-page .content .auth-box .sign-up-google #google-signup-student,
+  #auth-page .content .auth-box .sign-up-google #google-signup-lecturer {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+    width: 260px;
+    height: 50px;
+    margin-top: 3rem;
+    border-radius: 0.1rem;
+    border: 1.5px solid transparent;
+    cursor: pointer;
+    -webkit-transition: -webkit-box-shadow 218ms;
+    transition: -webkit-box-shadow 218ms;
+    transition: box-shadow 218ms;
+    transition: box-shadow 218ms, -webkit-box-shadow 218ms;
+    background: #4285f4;
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 2px 3px rgba(0, 0, 0, 0.25);
+  }
+  #auth-page .content .auth-box .sign-up-google #google-signup-student:hover, #auth-page .content .auth-box .sign-up-google #google-signup-student:focus,
+  #auth-page .content .auth-box .sign-up-google #google-signup-lecturer:hover,
+  #auth-page .content .auth-box .sign-up-google #google-signup-lecturer:focus {
+    -webkit-box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 0 3px 3px rgba(66, 133, 244, 0.3);
+  }
+  #auth-page .content .auth-box .sign-up-google__icon {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 52px;
+    height: 47px;
+    border: 13px solid #fff;
+    border-left: 11px solid #fff;
+    border-top: 11px solid #fff;
+    border-radius: 0.1rem;
+    background: #fff;
+    background-image: url("../../svg/icons8-google-small-extra.svg");
+  }
+  #auth-page .content .auth-box .sign-up-google__text {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    color: #fff;
+    font-family: "Roboto";
+  }
+}
+
+@media screen and (min-width: 768px) {
+  #auth-page .content .auth-box .sign-up-google {
+    height: 400px;
+    padding: 1rem;
+    border-radius: 10px;
+  }
+}
+/*# sourceMappingURL=signupGoogleBox.css.map */

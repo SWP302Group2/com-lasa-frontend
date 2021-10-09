@@ -1,0 +1,27 @@
+@media all and (min-width: 0) {
+  #auth-page .auth-box .logo {
+    position: absolute;
+    top: 0;
+    right: 0.75rem;
+    z-index: 1;
+    display: none;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    height: 3rem;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    border-radius: 0 0 10px 10px;
+    background: #1077a0;
+  }
+}
+
+@media all and (min-width: 500px) {
+  #auth-page .auth-box .logo {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+  }
+}
+/*# sourceMappingURL=logo.css.map */
