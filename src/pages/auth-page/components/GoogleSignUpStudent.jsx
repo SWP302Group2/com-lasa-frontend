@@ -3,47 +3,40 @@ import { useHistory } from "react-router-dom";
 import authApi from "../../../api/authApi";
 import { CLIENT_ID } from "../../../utils/constant";
 import cookieTools from "../../../utils/cookieTools";
+import googleTools from "../../../utils/googleTools";
 
 function GoogleSignUpStudent() {
     const history = useHistory();
     useEffect(() => {
-        //Insert google api script
-        function insetGoogleAPIScript() {
-            const script = document.createElement("script");
-            script.src = "https://apis.google.com/js/api:client.js";
+        //Start
+        (function insetGoogleAPIScript() {
+            const script = googleTools.addGapiScriptToDOM();
             script.addEventListener("load", loadGoogleSignIn);
-            document.body.appendChild(script);
-        }
+        })();
 
         function loadGoogleSignIn() {
             window.gapi.load("auth2", () => {
                 const button = document.getElementById("google-signup-student");
-                const myauth2 = initializeGapiAuth2();
-                myauth2.attachClickHandler(button, {}, onSignIn, onFailure);
-            });
-        }
-
-        function initializeGapiAuth2() {
-            return window.gapi.auth2.init({
-                client_id: CLIENT_ID,
-                cookiepolicy: "single_host_origin",
-                scope: "profile email",
-                access_type: "offline",
+                const auth2 = googleTools.initialGapiAuth2(CLIENT_ID);
+                auth2.attachClickHandler(button, {}, onSignIn, onFailure);
             });
         }
 
         //Sign in google success then call API to auth
         function onSignIn(googleUser) {
             const id_token = googleUser.getAuthResponse().id_token;
-
             authApi.signUpStudent(id_token)
                 .then(handleSignInSuccess)
                 .catch(handleSignInFail);
         }
 
+        function onFailure(error) {
+            console.log(error);
+        }
 
         function handleSignInSuccess(cookieData) {
-            console.log("Sign up success, cookie data: " + cookieData);
+            console.log("Sign up success, cookie data:");
+            console.log(cookieData);
             cookieTools.saveToken(cookieData);
             history.push("/home");
         }
@@ -51,20 +44,9 @@ function GoogleSignUpStudent() {
         function handleSignInFail(response) {
             const status = response?.status;
             const message = response?.status;
-
             console.log(`Status ${status}, Message ${message}`);
-
-            if (status === 401 && message === "Account not found") {
-                history.push("/sign-up");
-            }
         }
-
-        function onFailure(error) {
-            console.log(error);
-        }
-
-        insetGoogleAPIScript();
-    });
+    }, [history]);
 
     return (
         <div className="sign-up-google__button">

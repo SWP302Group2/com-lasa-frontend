@@ -7,6 +7,16 @@ const cookieTools = {
         cookie.set("access_token", accessToken, cookieInfo);
 
         console.log("Cookie has saved: " + cookie.get("access_token"));
+    },
+
+    getAccessToken: () => {
+        const cookie = new Cookies();
+        return cookie.get("access_token");
+    },
+
+    removeAccessToken: () => {
+        const cookie = new Cookies();
+        cookie.set("access_token", "", { maxAge: 0 });
     }
 }
 

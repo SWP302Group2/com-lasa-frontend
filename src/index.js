@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import App from "./app/App.js";
+import store from "./redux/store.js";
 import reportWebVitals from './reportWebVitals';
-import store from "./store.js";
 
 const app = (
   <Provider store={store}>

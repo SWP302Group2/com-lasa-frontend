@@ -1,3 +1,4 @@
+import cookieTools from "../utils/cookieTools";
 import axiosClient from "./axiosClient";
 
 const authApi = {
@@ -28,6 +29,20 @@ const authApi = {
         return axiosClient.post(url, params);
     },
 
+    getCurrentUserInfo: () => {
+        const url = "/home/information";
+        const accessToken = cookieTools.getAccessToken();
+
+        if (!accessToken)
+            return Promise.reject(new Error("ACCESS_TOKEN_NOT_EXIST"));
+
+        const params = {
+            headers: {
+                Authorization: accessToken,
+            }
+        };
+        return axiosClient.get(url, params);
+    }
 }
 
 export default authApi;

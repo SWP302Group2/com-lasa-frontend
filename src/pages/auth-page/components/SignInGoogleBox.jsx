@@ -3,6 +3,7 @@ import { useHistory } from "react-router";
 import authApi from "../../../api/authApi";
 import { AUTH_PAGE_SIGN_IN_TITLE, CLIENT_ID } from "../../../utils/constant";
 import cookieTools from "../../../utils/cookieTools";
+import googleTools from "../../../utils/googleTools";
 import "../css/signInGoogleBox.css"
 
 function SignInGoogleBox() {
@@ -19,35 +20,20 @@ function SignInGoogleBox() {
         const signInGoogleLink = document.querySelector(".auth-box-switch__link--signin-google");
         signInGoogleLink?.setAttribute("id", "active");
 
-        //Insert google api script
-        function insetGoogleAPIScript() {
-            const script = document.createElement("script");
-            script.src = "https://apis.google.com/js/api:client.js";
+        //Start
+        (function insetGoogleAPIScript() {
+            const script = googleTools.addGapiScriptToDOM();
             script.addEventListener("load", loadGoogleSignIn);
-            document.body.appendChild(script);
-
-            return script;
-        }
-
+        })();
 
         function loadGoogleSignIn() {
             window.gapi.load("auth2", () => {
                 const button = document.getElementById("google-signin");
-                const myauth2 = initializeGapiAuth2();
-                myauth2.attachClickHandler(button, {}, onSignIn, onFailure);
+                const auth2 = googleTools.initialGapiAuth2(CLIENT_ID);
+                auth2.attachClickHandler(button, {}, onSignIn, onFailure);
             });
         }
 
-        function initializeGapiAuth2() {
-            return window.gapi.auth2.init({
-                client_id: CLIENT_ID,
-                cookiepolicy: "single_host_origin",
-                scope: "profile email",
-                access_type: "offline",
-            });
-        }
-
-        //Sign in google success then call API to auth
         function onSignIn(googleUser) {
             const id_token = googleUser.getAuthResponse().id_token;
             console.log(id_token);
@@ -56,14 +42,14 @@ function SignInGoogleBox() {
                 .catch(handleSignInFail);
         }
 
-        //SIgn in google false
         function onFailure(error) {
-            console.log("Error: " + error);
+            console.log({ error });
         }
 
 
         function handleSignInSuccess(cookieData) {
-            console.log("Sign in success, cookie data: " + cookieData.accessToken);
+            console.log("Sign up success, cookie data:");
+            console.log(cookieData);
             cookieTools.saveToken(cookieData);
             history.push("/home");
         }
@@ -77,9 +63,7 @@ function SignInGoogleBox() {
                 history.push("/auth/sign-up-google");
             }
         }
-
-        insetGoogleAPIScript();
-    });
+    }, [history]);
 
     return (
         <div className="sign-in-google">
@@ -87,12 +71,7 @@ function SignInGoogleBox() {
             <p className="sign-in-google__title">
                 Sign in as Lecturer or Student
             </p>
-            <div className="sign-in-google__button">
-                <div id="google-signin">
-                    <span className="sign-in-google__icon"></span>
-                    <span className="sign-in-google__text">Sign in with Google</span>
-                </div>
-            </div>
+
         </div>
     );
 }

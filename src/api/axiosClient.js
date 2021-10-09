@@ -8,7 +8,6 @@ const axiosClient = axios.create({
         "Content-Type": "application/json",
     },
     paramsSerializer: params => queryString.stringify(params),
-    //production use origin: amazon E2 // updateing
 });
 
 axiosClient.interceptors.request.use(async (config) => {

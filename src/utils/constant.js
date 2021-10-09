@@ -4,3 +4,5 @@ export const AUTH_PAGE_SIGN_IN_TITLE = "Sign in to Lasa";
 export const AUTH_PAGE_SIGN_UP_TITLE = "Sign up to Lasa";
 export const AUTH_PAGE_ADMIN_TITLE = "Administrator";
 export const DEVELOP_BASE_URL = "http://localhost:8080/las/api/v1";
+export const HOME_PAGE_TITLE = "Home - Lecturer Appoinment Schedule";
+export const DEFAULT_AVATAR_URL = "https:avatarfiles.alphacoders.com/699/69905.png";
