@@ -1,0 +1,417 @@
+.auth-page .content .sign-up {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: calc(100% - 2rem);
+  max-width: 500px;
+  min-width: 500px;
+  border-radius: 6px;
+  padding: 1rem 2rem;
+  margin: 0 auto;
+  -webkit-animation: auth-signup-showup 400ms ease;
+          animation: auth-signup-showup 400ms ease;
+  font-family: "Poppins";
+  background: #fff;
+  -webkit-box-shadow: -2px -2px 4px #7a8a92, 2px 2px 4px #232e3a;
+          box-shadow: -2px -2px 4px #7a8a92, 2px 2px 4px #232e3a;
+}
+
+.auth-page .content .sign-up__process {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  width: 100%;
+}
+
+.auth-page .content .sign-up__checkpoint {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  overflow: hidden;
+  height: 1.5rem;
+  width: 1.5rem;
+  font-size: 0.8rem;
+  border-radius: 50%;
+  background: #9da19d;
+  color: #e0e4eb;
+}
+
+.auth-page .content .sign-up__checkpoint:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  -webkit-transform: translateX(calc(-50% - 0.75rem));
+          transform: translateX(calc(-50% - 0.75rem));
+  height: 2px;
+  width: calc(29% - 0.75rem);
+  background-color: #9da19d;
+}
+
+.auth-page .content .sign-up .active {
+  background: #3bc93b;
+  color: #fff;
+  cursor: pointer;
+}
+
+.auth-page .content .sign-up .active:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  -webkit-transform: translateX(calc(-50% - 0.75rem));
+          transform: translateX(calc(-50% - 0.75rem));
+  height: 2px;
+  width: calc(27.5% - 0.75rem);
+  background-color: #0ec956;
+}
+
+.auth-page .content .sign-up__step {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: 100%;
+  -webkit-animation: auth-signup-step-fadein 400ms ease;
+          animation: auth-signup-step-fadein 400ms ease;
+}
+
+.auth-page .content .sign-up__step__title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: #333;
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.auth-page .content .sign-up .start-with-email .google {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  margin: 1rem 0;
+}
+
+.auth-page .content .sign-up .start-with-email .google__button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  width: 100%;
+  border-radius: 5px;
+  background: transparent;
+  -webkit-transition: -webkit-box-shadow 200ms ease;
+  transition: -webkit-box-shadow 200ms ease;
+  transition: box-shadow 200ms ease;
+  transition: box-shadow 200ms ease, -webkit-box-shadow 200ms ease;
+  -webkit-box-shadow: -5px -5px 10px #e3e5e7, 5px 5px 10px #bdc2ca;
+          box-shadow: -5px -5px 10px #e3e5e7, 5px 5px 10px #bdc2ca;
+}
+
+.auth-page .content .sign-up .start-with-email .google__button:hover {
+  cursor: pointer;
+  -webkit-box-shadow: -10px -10px 15px #e3e5e7, 10px 10px 15px #bdc2ca;
+          box-shadow: -10px -10px 15px #e3e5e7, 10px 10px 15px #bdc2ca;
+}
+
+.auth-page .content .sign-up .start-with-email .google__icon {
+  height: 3rem;
+  width: 3rem;
+  margin-right: 1rem;
+  border: 1rem solid transparent;
+  background: url("../svg/icons8-google-24.svg") no-repeat center center;
+}
+
+.auth-page .content .sign-up .start-with-email .google__text {
+  display: inline-block;
+  width: 180px;
+  color: #333333cc;
+  font-size: 1rem;
+  font-weight: 600;
+  padding-right: 1rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: transparent;
+}
+
+.auth-page .content .sign-up .define-role__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 100%;
+}
+
+.auth-page .content .sign-up .define-role__select {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 45%;
+  height: 4rem;
+  border-radius: 5px;
+  background: transparent;
+  -webkit-transition: -webkit-box-shadow 200ms ease;
+  transition: -webkit-box-shadow 200ms ease;
+  transition: box-shadow 200ms ease;
+  transition: box-shadow 200ms ease, -webkit-box-shadow 200ms ease;
+  -webkit-box-shadow: -5px -5px 10px #e3e5e7, 5px 5px 10px #bdc2ca;
+          box-shadow: -5px -5px 10px #e3e5e7, 5px 5px 10px #bdc2ca;
+}
+
+.auth-page .content .sign-up .define-role__select:hover {
+  cursor: pointer;
+  -webkit-box-shadow: -10px -10px 15px #e3e5e7, 10px 10px 15px #bdc2ca;
+          box-shadow: -10px -10px 15px #e3e5e7, 10px 10px 15px #bdc2ca;
+}
+
+.auth-page .content .sign-up .confirm__avatar {
+  text-align: center;
+  width: 100%;
+}
+
+.auth-page .content .sign-up .confirm__avatar img {
+  width: 4rem;
+  height: 4rem;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.auth-page .content .sign-up .confirm__form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.auth-page .content .sign-up .confirm__control {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  width: 45%;
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+}
+
+.auth-page .content .sign-up .confirm__input {
+  height: 1.5rem;
+  padding-left: 0.5rem;
+  outline: none;
+  border: 1px solid #0645ad;
+  background: transparent;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.auth-page .content .sign-up .confirm input:disabled {
+  color: #b6adad;
+}
+
+.auth-page .content .sign-up .confirm__note {
+  margin-bottom: 1rem;
+  font-size: 0.8rem;
+  text-align: justify;
+}
+
+.auth-page .content .sign-up .confirm__button {
+  height: 2.5rem;
+  width: 100%;
+  outline: none;
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  cursor: pointer;
+  background: #0645ad;
+}
+
+.auth-page .content .sign-up .verify__fail-icon {
+  color: #d81111;
+  margin-right: 0.5rem;
+}
+
+.auth-page .content .sign-up .verify__success-icon {
+  color: #0ead3e;
+}
+
+.auth-page .content .sign-up__signin-link {
+  width: 100%;
+  font-size: 0.8rem;
+  margin-top: 2rem;
+  color: #333;
+}
+
+.auth-page .content .sign-up__signin-link a {
+  color: #0645ad;
+  text-decoration: none;
+  margin-left: 0.5rem;
+  font-weight: 500;
+  text-underline-offset: 0.2rem;
+}
+
+.auth-page .content .sign-up__signin-link a:hover {
+  text-decoration: underline;
+}
+
+@media all and (max-width: 600px) {
+  .auth-page .content .sign-up {
+    min-width: 268px;
+  }
+  .auth-page .content .sign-up .confirm__avatar {
+    text-align: center;
+    width: 100%;
+  }
+  .auth-page .content .sign-up .confirm__avatar img {
+    width: 4rem;
+    height: 4rem;
+    margin-bottom: 1rem;
+    border-radius: 50%;
+    background: transparent;
+  }
+  .auth-page .content .sign-up .confirm__form {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    width: 100%;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
+  }
+  .auth-page .content .sign-up .confirm__control {
+    width: 100%;
+  }
+}
+
+@-webkit-keyframes auth-signup-step-fadein {
+  from {
+    opacity: 0;
+    -webkit-transform: translate(100px);
+            transform: translate(100px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate(0px);
+            transform: translate(0px);
+  }
+}
+
+@keyframes auth-signup-step-fadein {
+  from {
+    opacity: 0;
+    -webkit-transform: translate(100px);
+            transform: translate(100px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate(0px);
+            transform: translate(0px);
+  }
+}
+
+@-webkit-keyframes auth-signup-showup {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes auth-signup-showup {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(100px);
+            transform: translateY(100px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+/*# sourceMappingURL=signUpContent.css.map */

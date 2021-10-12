@@ -2,6 +2,7 @@
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -10,5 +11,38 @@
   min-width: 300px;
   height: 100%;
   min-height: 100vh;
+  background: url("../svg/Cloudy2.svg") no-repeat center center fixed;
+  background-size: cover;
+}
+
+.auth-page .content {
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  padding-bottom: 2rem;
+}
+
+.auth-page .content .logo {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 5rem;
+  padding: 1rem 0;
+  margin: 1rem auto;
+}
+
+.auth-page .content .logo__img {
+  height: 100%;
+}
+
+.auth-page .content .logo__text {
+  display: none;
 }
 /*# sourceMappingURL=authPage.css.map */

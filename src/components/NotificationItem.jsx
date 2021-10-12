@@ -2,7 +2,7 @@ function NotificationItem(props) {
     return (
         <div className="notification__item">
             <div className="notification__avatar">
-                <img src="https://i.pravatar.cc/100" alt="Sender avatar" height="100" width="100" />
+                <img src={props.avatarUrl} alt="Sender avatar" height="100" width="100" />
             </div>
             <div className="notification__messageWrapper">
                 <h4 className="notification__name">{props.name}</h4>

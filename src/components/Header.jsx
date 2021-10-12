@@ -4,39 +4,9 @@ import Notification from "./Notification";
 import UserInfo from "./UserInfo";
 import "../assets/css/header.css";
 import { useEffect } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import authApi from "../api/authApi";
-import cookieTools from "../utils/cookieTools";
-import { useState } from "react";
 import React from "react";
-import { updateUserInfo } from "../redux/actions/user";
 
-function Header() {
-    const dispatch = useDispatch();
-    const [isSignedIn, setIsSignedIn] = useState(false);
-    (function checkUserAuth() {
-        authApi
-            .getCurrentUserInfo()
-            .then(handleGetInfoSuccess)
-            .catch(handleGetInfoFail);
-    })();
-
-    function handleGetInfoSuccess(fetchedData) {
-        console.log("Dispatch user info: ");
-        console.log(fetchedData);
-
-        const action = updateUserInfo(fetchedData);
-        dispatch(action);
-        setIsSignedIn(true);
-    }
-
-    function handleGetInfoFail(response) {
-        console.log(response.message || response);
-
-        cookieTools.removeAccessToken();
-        setIsSignedIn(false);
-    }
+function Header({ isSignIn }) {
 
     useEffect(() => {
         //Initialization
@@ -54,11 +24,19 @@ function Header() {
         const content = document.querySelector(".content");
 
         //START
-        checkWindowSize();
-
-        //Remove burger animation for the size > mobile size
-        window.addEventListener("resize", checkWindowSize);
-
+        (() => {
+            checkWindowSize();
+            window.addEventListener("resize", checkWindowSize);
+            document.addEventListener("click", handleDomClickEvent);
+            if (notiIcon) {
+                notiIcon.addEventListener("click", handleNotiClickEvent);
+                notiList.style.animation = "header-noti-list-fadein 400ms ease-in";
+            }
+            if (userIcon) {
+                userIcon.addEventListener("click", handleUserInfoClickEvent);
+                userWrapper.style.animation = "header-userinfo-wrapper-fadein 400ms ease-in";
+            }
+        })();
         function checkWindowSize() {
             window.innerWidth < 768 ? addEventForBurger() : clearBurger();
         }
@@ -99,9 +77,6 @@ function Header() {
             })
         }
 
-
-        document.addEventListener("click", handleDomClickEvent);
-
         function handleDomClickEvent(event) {
             if (hiddenList && hiddenList.length !== 0)
                 isClickOnHiddenElm(event.target) || closeAllHidden();
@@ -116,21 +91,6 @@ function Header() {
             closeNotification();
             closeUserInfo();
         }
-
-        //Enable general animation (for all size)
-        (() => {
-            if (notiIcon) {
-                //Notification
-                notiIcon.addEventListener("click", handleNotiClickEvent);
-                notiList.style.animation = "header-noti-list-fadein 400ms ease-in";
-            }
-
-            if (userIcon) {
-                //Userinfo
-                userIcon.addEventListener("click", handleUserInfoClickEvent);
-                userWrapper.style.animation = "header-userinfo-wrapper-fadein 400ms ease-in";
-            }
-        })();
 
         function handleNotiClickEvent() {
             closeBurger();
@@ -157,27 +117,27 @@ function Header() {
         return () => {
             bugger?.removeEventListener("click", handleBurgerClickEvent);
             document?.removeEventListener("click", handleDomClickEvent);
-            userIcon?.addEventListener("click", handleUserInfoClickEvent);
-            notiIcon?.addEventListener("click", handleNotiClickEvent);
+            window?.removeEventListener("resize", checkWindowSize);
+            userIcon?.removeEventListener("click", handleUserInfoClickEvent);
+            notiIcon?.removeEventListener("click", handleNotiClickEvent);
         }
-    }, [])
-
+    }, [isSignIn])
 
     return (
         <header className="header">
             <Logo />
             <Menu />
-            {isSignedIn ?
+            {isSignIn ?
                 <React.Fragment>
                     <Notification />
                     <UserInfo />
                 </React.Fragment>
                 :
-                <Link className="sign-in" to="/auth/sign-in">
+                <a className="sign-in" href="/auth/sign-in">
                     <p className="sign-in__text">Sign in</p>
-                </Link>
+                </a>
             }
-        </header>
+        </header >
     );
 }
 

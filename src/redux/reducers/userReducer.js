@@ -3,7 +3,8 @@ const initialUser = {}
 
 const userReducer = (state = initialUser, action) => {
     function mergePayloadToState(newState, payload) {
-        if (typeof payload !== "object") return newState;
+        if (!payload || typeof payload !== "object")
+            return newState;
 
         for (let propName in payload) {
             newState[propName] = payload[propName];
@@ -13,7 +14,7 @@ const userReducer = (state = initialUser, action) => {
 
     switch (action.type) {
         case "NEW_USER_INFO": {
-            const newState = { ...initialUser };
+            const newState = { ...action.payload } || { ...initialUser };
             return mergePayloadToState(newState, action.payload);
         }
         case "UPDATE_USER_INFO": {

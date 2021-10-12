@@ -1,0 +1,221 @@
+$background-color: #e0e4eb;
+$shadow-left-up: #edeff1;
+$shadow-right-down: #bdc2ca;
+
+.auth-page .content .sign-in {
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+
+    width: calc(100% - 2rem);
+    max-width: 400px;
+    min-width: 268px;
+    border-radius: 6px;
+    padding: 1rem 2rem;
+    margin: 0 auto;
+
+    animation: auth-signin-showup 400ms ease;
+    font-family: "Poppins";
+    background: #fff;
+    box-shadow: -2px -2px 4px rgb(122, 138, 146), 2px 2px 4px rgb(35, 46, 58);
+
+    &__headline {
+        margin-bottom: 1rem;
+        color: #182f5d;
+
+        font-size: 2rem;
+        font-weight: 600;
+        text-align: center;
+    }
+
+    .google {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        margin: 1rem 0;
+
+        &__button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-flow: row nowrap;
+
+            width: 100%;
+            border-radius: 5px;
+
+            background: transparent;
+            transition: box-shadow 200ms ease;
+            box-shadow: -5px -5px 10px $shadow-left-up, 5px 5px 10px $shadow-right-down;
+
+            &:hover {
+                cursor: pointer;
+                box-shadow: -10px -10px 15px $shadow-left-up, 10px 10px 15px $shadow-right-down;
+            }
+        }
+
+        &__icon {
+            height: 3rem;
+            width: 3rem;
+            margin-right: 1rem;
+            border: 1rem solid transparent;
+            background: url("../svg/icons8-google-24.svg") no-repeat center center;
+        }
+
+        &__text {
+            display: inline-block;
+            width: 180px;
+            color: #333333cc;
+            font-size: 1rem;
+            font-weight: 600;
+            padding-right: 1rem;
+
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            background: transparent;
+        }
+    }
+
+    &__signup-link {
+        width: 100%;
+        font-size: 0.8rem;
+        margin-top: 2rem;
+        color: #333;
+        a {
+            color: #0645ad;
+            text-decoration: none;
+            margin-left: 0.5rem;
+            font-weight: 500;
+            text-underline-offset: 0.2rem;
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+
+    &__option {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-top: 0.5rem;
+
+        font-size: 0.8rem;
+        font-weight: 500;
+
+        color: #0645ad;
+        cursor: pointer;
+        i {
+            transition: all 400ms ease;
+        }
+        .rotate {
+            transform: rotate(-180deg);
+        }
+    }
+
+    .local {
+        display: none;
+        opacity: 0;
+        flex-flow: column nowrap;
+        width: 100%;
+        margin-top: 2rem;
+
+        &__control {
+            width: 100%;
+        }
+
+        &__label {
+            position: relative;
+            bottom: 2.25rem;
+            left: 1rem;
+            z-index: 1;
+
+            transition: 0.2s;
+            color: rgba($color: #1c4a86, $alpha: 0.4);
+
+            line-height: 1rem;
+            font-size: 1rem;
+            text-transform: capitalize;
+            text-align: left;
+        }
+
+        &__input {
+            outline: none;
+            border: none;
+            border: 1px solid rgba($color: #3077d4, $alpha: 0.6);
+            border-radius: 0.5rem;
+
+            width: 100%;
+            height: 3rem;
+            padding-left: 1rem;
+
+            font-size: 1rem;
+            background: transparent;
+
+            &:hover,
+            &:focus,
+            &:not(:placeholder-shown) {
+                border: 2px solid #3077d4;
+            }
+        }
+
+        &__input:hover + .local__label,
+        &__input:focus + .local__label,
+        &__input:not(:placeholder-shown) + .local__label {
+            bottom: 3.8rem;
+            left: 0.7rem;
+            padding: 0 0.3rem;
+
+            background: #ffffff;
+            color: #3077d4;
+            font-size: 0.8rem;
+        }
+
+        &__button {
+            width: 40%;
+            margin: 0 auto;
+            height: 3rem;
+            border-radius: 50px;
+
+            outline: none;
+            border: none;
+            color: $shadow-left-up;
+            background: #3077d4;
+            transition: width 400ms ease;
+            &:hover {
+                cursor: pointer;
+                width: 100%;
+            }
+        }
+    }
+
+    .active {
+        display: flex;
+        opacity: 1;
+        animation: authpage-signin-local-showdown 400ms;
+    }
+}
+
+@keyframes authpage-signin-local-showdown {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@keyframes auth-signin-showup {
+    from {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
