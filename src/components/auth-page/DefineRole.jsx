@@ -1,60 +1,39 @@
-import { useEffect } from "react";
+import React from "react";
 import { useDispatch } from "react-redux";
-import { updateSignUpInfo } from "../../redux/actions/signup";
+import { updateRole } from "../../redux/actions/signup";
 
-function DefineRole({ setPosition }) {
+function DefineRole({ setMoreInfoStep }) {
     const dispatch = useDispatch();
 
-    useEffect(() => {
-        //Initialize
-        const studentButton = document.querySelector(".auth-page .sign-up .define-role .define-role__content .define-role__select--student");
-        const lecturerButton = document.querySelector(".auth-page .sign-up .define-role .define-role__content .define-role__select--lecturer");
-        //Start
-        (() => {
-            studentButton?.addEventListener("click", handleRoleButtonClickEvent);
-            lecturerButton?.addEventListener("click", handleRoleButtonClickEvent);
-        })();
 
-        function handleRoleButtonClickEvent(event) {
-            if (!event || !event.target) return;
+    function handleRoleButtonClickEvent(event) {
+        if (!event || !event.target) return;
 
-            if (studentButton.contains(event.target)) {
-                dispatch(updateSignUpInfo({
-                    userInfo: {
-                        role: "STUDENT"
-                    },
-                    processPosition: 3
-                }));
-                setPosition(3);
-                return;
-            }
-
-            if (lecturerButton.contains(event.target)) {
-                dispatch(updateSignUpInfo({
-                    userInfo: { role: "LECTURER" },
-                    processPosition: 3
-                }));
-                setPosition(3);
-                return;
-            }
+        const target = event.target;
+        if (target.classList.contains("student")) {
+            dispatch(updateRole("STUDENT"));
+            setMoreInfoStep(2);
         }
-
-    }, [dispatch, setPosition])
+        if (target.classList.contains("lecturer")) {
+            dispatch(updateRole("LECTURER"));
+            setMoreInfoStep(2);
+        }
+    }
 
     return (
-        <div className="sign-up__step  define-role">
+        <React.Fragment>
             <div className="sign-up__step__title">
                 Your are..
             </div>
-            <div className="define-role__content">
-                <div className="define-role__select define-role__select--student">
+            <div className="sign-up__define-role">
+                <div className="sign-up__define-role__select student" onClick={handleRoleButtonClickEvent}>
                     I am student.
                 </div>
-                <div className="define-role__select define-role__select--lecturer">
+                <div className="sign-up__define-role__select lecturer" onClick={handleRoleButtonClickEvent}>
                     I am lecturer.
                 </div>
             </div>
-        </div>
+        </React.Fragment>
     );
 }
 

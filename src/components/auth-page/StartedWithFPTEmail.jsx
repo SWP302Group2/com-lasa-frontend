@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import authApi from "../../api/authApi";
-// import authApi from "../../api/authApi";
 import { createNetworkError, createUnknownError } from "../../redux/actions/error";
 import { newSignUpInfo } from "../../redux/actions/signup";
 import {
@@ -16,11 +15,13 @@ import {
 
 import googleTools from "../../utils/googleTools";
 import ErrorMessage from "../ErrorMessage";
+import LoadingEffect from "../LoadingEffect";
 
 function StartedWithFPTEmail({ setPosition }) {
     const dispatch = useDispatch();
     const history = useHistory();
     const [errorMessage, setErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         //Start
@@ -29,11 +30,12 @@ function StartedWithFPTEmail({ setPosition }) {
         })();
 
         function onSignIn(googleUser) {
+            setIsLoading(true);
             const id_token = googleUser.getAuthResponse().id_token;
             authApi.checkSignUpEmail(
                 id_token,
-                onVerifyEmailSuccess,
-                onVerifyEmailFailure
+                onValidateEmailSuccess,
+                onValidateEmailFailure
             )
         }
 
@@ -41,7 +43,8 @@ function StartedWithFPTEmail({ setPosition }) {
             console.log({ error });
         }
 
-        function onVerifyEmailSuccess(userInfo) {
+        function onValidateEmailSuccess(userInfo) {
+            setIsLoading(false);
             const signupInfo = {
                 userInfo: {
                     token: userInfo.googleToken,
@@ -55,7 +58,8 @@ function StartedWithFPTEmail({ setPosition }) {
             setPosition(2);
         }
 
-        function onVerifyEmailFailure(response) {
+        function onValidateEmailFailure(response) {
+            setIsLoading(false);
             console.log(response);
             const status = response?.data?.status || response?.status;
             const message = response?.data?.message || response?.message;
@@ -76,7 +80,7 @@ function StartedWithFPTEmail({ setPosition }) {
             history.push(createUnknownError(message));
         }
 
-    }, [dispatch, history, setPosition]);
+    }, [dispatch, history, setPosition, setIsLoading]);
 
     return (
         <div className="sign-up__step  start-with-email">
@@ -95,6 +99,7 @@ function StartedWithFPTEmail({ setPosition }) {
                     :
                     null
             }
+            {isLoading ? <LoadingEffect /> : null}
         </div>
     );
 }

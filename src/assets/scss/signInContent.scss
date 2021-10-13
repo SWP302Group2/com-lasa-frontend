@@ -8,8 +8,8 @@ $shadow-right-down: #bdc2ca;
     align-items: center;
 
     width: calc(100% - 2rem);
-    max-width: 400px;
-    min-width: 268px;
+    max-width: 500px;
+    min-width: 300px;
     border-radius: 6px;
     padding: 1rem 2rem;
     margin: 0 auto;
@@ -79,7 +79,7 @@ $shadow-right-down: #bdc2ca;
 
     &__signup-link {
         width: 100%;
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         margin-top: 2rem;
         color: #333;
         a {
@@ -100,7 +100,7 @@ $shadow-right-down: #bdc2ca;
         width: 100%;
         margin-top: 0.5rem;
 
-        font-size: 0.8rem;
+        font-size: 0.9rem;
         font-weight: 500;
 
         color: #0645ad;

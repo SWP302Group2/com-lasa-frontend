@@ -18,7 +18,7 @@ function UserInfo() {
             <div className="userinfo__wrapper">
                 <div className="userinfo__user">
                     <img
-                        src={user?.avatarURL || DEFAULT_AVATAR_URL}
+                        src={user?.avatarUrl || DEFAULT_AVATAR_URL}
                         alt="Your avatar"
                         height="100" width="100" />
                     <div className="userinfo__info">

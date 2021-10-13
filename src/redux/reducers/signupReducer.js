@@ -3,7 +3,6 @@
 function merge(state, payload) {
     if (!payload || typeof payload !== "object")
         return state;
-
     state.processPosition = payload?.processPosition || state.processPosition;
     state.verifyStatus = payload?.verifyStatus || state.verifyStatus;
 
@@ -14,7 +13,7 @@ function merge(state, payload) {
 }
 
 const initialState = {
-    userInfo: null,
+    userInfo: {},
     processPosition: 1,
 };
 const signupReducer = (state = initialState, action) => {

@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import "../../assets/css/signUpContent.css";
-import DefineRole from "./DefineRole";
+import { AUTH_PAGE_SIGN_UP_TITLE } from "../../utils/constant";
+import MoreInfo from "./MoreInfo";
 import InputAndConfirm from "./InputAndConfirm";
 import StartedWithFPTEmail from "./StartedWithFPTEmail";
 import Verification from "./Verification";
@@ -12,15 +13,17 @@ function SignUpContent() {
 
     useEffect(() => {
         //Init
-        const checkpoints = document.querySelectorAll(".auth-page .sign-up .sign-up__process .sign-up__checkpoint");
+        const checkpoints = document.querySelectorAll(".auth-page .sign-up .sign-up__checkpoint");
 
         //START
         (() => {
+            document.title = AUTH_PAGE_SIGN_UP_TITLE;
             [...checkpoints].forEach((checkpoint) => {
                 checkpoint.addEventListener("click", handleCheckPointClickEvent)
             });
             [...checkpoints].forEach((checkpoint, index) => {
-                index >= position ? checkpoint.classList.remove("active") : checkpoint.classList.add("active");
+                index >= signupInfo.processPosition ?
+                    checkpoint.classList.remove("active") : checkpoint.classList.add("active");
             });
         })();
 
@@ -52,7 +55,7 @@ function SignUpContent() {
             </div>
 
             {position === 1 ? <StartedWithFPTEmail setPosition={setPosition} /> : null}
-            {position === 2 ? <DefineRole setPosition={setPosition} /> : null}
+            {position === 2 ? <MoreInfo setPosition={setPosition} /> : null}
             {position === 3 ? <InputAndConfirm setPosition={setPosition} /> : null}
             {position === 4 ? <Verification /> : null}
             <div className="sign-up__signin-link">

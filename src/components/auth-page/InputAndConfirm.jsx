@@ -1,14 +1,20 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import authApi from "../../api/authApi";
-import { updateMeetUrlToSignupInfo, updateMSSVToSignupInfo, updateNameToSignupInfo, updateProcessPosition, updateVerificationStatus } from "../../redux/actions/signup";
-import cookieTools from "../../utils/cookieTools";
+import {
+    updateNameToSignupInfo,
+    updateProcessPosition,
+    updateVerificationStatus
+} from "../../redux/actions/signup";
+import storageTools from "../../utils/storageTools";
 import ErrorMessage from "../ErrorMessage";
+import LoadingEffect from "../LoadingEffect";
 
 function InputAndConfirm({ setPosition }) {
     const userInfo = useSelector(state => state.signup.userInfo);
     const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
     const [nameError, setNameError] = useState("");
 
     function handleNameChange(event) {
@@ -24,70 +30,51 @@ function InputAndConfirm({ setPosition }) {
         document.getElementById("confirm-name").value = userInfo.name;
     }
 
-    function handleMSSVChange(event) {
-        const newValue = event?.target?.value || "";
-        dispatch(updateMSSVToSignupInfo(newValue));
-        document.getElementById("confirm-mssv").value = userInfo.mssv;
+    function handleFormOnSubmit(event) {
+        event.preventDefault();
+        if (userInfo.name == null || userInfo.name === "") {
+            setNameError("Your name cannot be empty!");
+            return;
+        }
+
+        if (userInfo.role && userInfo.role === "STUDENT") {
+            setIsLoading(true);
+            authApi.signUpStudent(userInfo, handleSignupSuccess, handleSignupFailse);
+            return;
+        }
+        if (userInfo.role && userInfo.role === "LECTURER") {
+            setIsLoading(true);
+            authApi.signUpLecturer(userInfo, handleSignupSuccess, handleSignupFailse);
+        }
     }
 
-    function handleMeetUrlChange(event) {
-        const newValue = event?.target?.value || "";
-        dispatch(updateMeetUrlToSignupInfo(newValue));
-        document.getElementById("confirm-meetUrl").value = userInfo.meetUrl;
+    function handleSignupSuccess(data) {
+        console.log(data);
+        setIsLoading(false);
+        storageTools.saveToken(data.accessToken);
+        dispatch(updateVerificationStatus(true));
+        dispatch(updateProcessPosition(4));
+        setPosition(4);
     }
 
-    useEffect(() => {
-        console.log(userInfo);
-        const form = document.getElementById("sign-up-form");
-
-        //STart
-        (() => {
-            form.addEventListener("submit", handleFormSubmitEvent);
-        })();
-
-        function handleFormSubmitEvent(event) {
-            event.preventDefault();
-            if (userInfo.name == null || userInfo.name === "") {
-                setNameError("Your name cannot be empty!");
-                return;
-            }
-
-            if (userInfo.role && userInfo.role === "STUDENT") {
-                authApi.signUpStudent(userInfo, handleSignupSuccess, handleSignupFailse);
-                return;
-            }
-            if (userInfo.role && userInfo.role === "LECTURER") {
-                authApi.signUpLecturer(userInfo, handleSignupSuccess, handleSignupFailse);
-            }
-        }
-
-        function handleSignupSuccess(cookieData) {
-            cookieTools.saveToken(cookieData);
-            console.log(cookieData);
-            dispatch(updateVerificationStatus(true));
-            dispatch(updateProcessPosition(4));
-            setPosition(4);
-        }
-
-        function handleSignupFailse(response) {
-            console.log(response);
-            dispatch(updateVerificationStatus(false));
-            dispatch(updateProcessPosition(4));
-            setPosition(4);
-        }
-
-        return () => {
-            form?.removeEventListener("submit", handleFormSubmitEvent);
-        }
-
-    }, [userInfo, setPosition, dispatch]);
+    function handleSignupFailse(response, status, message) {
+        console.log(response);
+        setIsLoading(false);
+        dispatch(updateVerificationStatus(false));
+        dispatch(updateProcessPosition(4));
+        setPosition(4);
+    }
 
     return (
         <div className="sign-up__step  confirm">
             <div className="sign-up__step__title">
-                Confirm your infomation.
+                Confirm your profile.
             </div>
-            <form className="confirm__form" id="sign-up-form">
+            <form
+                id="sign-up-form"
+                className="confirm__form"
+                onSubmit={handleFormOnSubmit}
+            >
                 <div className="confirm__avatar">
                     <img
                         src={userInfo.avatarUrl}
@@ -125,38 +112,13 @@ function InputAndConfirm({ setPosition }) {
                         readOnly
                         disabled />
                 </label>
-                {userInfo.role === "STUDENT" ?
-                    <label className="confirm__control">
-                        MSSV (Optional)
-                        <input
-                            id="confirm-mssv"
-                            type="text"
-                            className="confirm__input"
-                            name="name"
-                            defaultValue={userInfo.mssv || ""}
-                            onChange={handleMSSVChange} />
-                    </label>
-                    :
-                    <label className="confirm__control">
-                        Meeting URL (Optional)
-                        <input
-                            id="confirm-meetUrl"
-                            type="text"
-                            className="confirm__input"
-                            name="name"
-                            defaultValue={userInfo.meetUrl || ""}
-                            onChange={handleMeetUrlChange} />
-                    </label>
-                }
                 <p className="confirm__note">
                     By clicking submit you are agreeing to the <a href="/about/terms">Terms and Conditions</a>
                 </p>
                 <button className="confirm__button" type="submit">Submit</button>
 
             </form>
-            <form id="sign-up-lecturer-form">
-
-            </form>
+            {isLoading ? <LoadingEffect /> : null}
         </div>
     );
 }

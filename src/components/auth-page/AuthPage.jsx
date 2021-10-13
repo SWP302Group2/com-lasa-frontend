@@ -1,59 +1,48 @@
-import { useDispatch } from "react-redux";
 import { Switch, Route, Redirect, useHistory } from "react-router-dom";
 import authApi from "../../api/authApi";
-import cookieTools from "../../utils/cookieTools";
 import SignInContent from "./SignInContent";
 import SignUpContent from "./SignUpContent";
 import "../../assets/css/authPage.css";
 import Logo from "../Logo";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import LoadingEffect from "../LoadingEffect.jsx";
-import { useEffect } from "react";
-import { createNetworkError, createUnknownError } from "../../redux/actions/error";
+import { createNetworkError } from "../../redux/actions/error";
+import storageTools from "../../utils/storageTools";
 
 function AuthPage() {
-    const dispatch = useDispatch();
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         //Start
         (() => {
-            checkUserAuth();
+            checkAuth();
         })();
 
-        function checkUserAuth() {
+        function checkAuth() {
             setIsLoading(true);
-            authApi.getCurrentUserInfo(handleGetInfoSuccess, handleGetInfoFail);
+            authApi.checkValidAccessToken(
+                handleValidAccessToken,
+                handleInvalidAccessToken
+            );
         }
 
-        function handleGetInfoSuccess() {
+        function handleValidAccessToken() {
             setIsLoading(false);
             history.push("/home");
         }
 
-        function handleGetInfoFail(response) {
-            const status = response?.data?.status || response?.status;
-            const message = response?.data?.message || response?.message;
-            console.log(`${status}, ${message}`);
-            cookieTools.removeAccessToken();
+        function handleInvalidAccessToken(response, status, message) {
+            console.log(response)
+
+            storageTools.removeAccessToken();
             setIsLoading(false);
 
-            if (message === "ACCESS_TOKEN_NOT_EXIST") {
-                //if not exist we continue lo sign in
-                return;
-            }
             if (message === "Network Error") {
                 history.push(createNetworkError());
-                return
             }
-            history.push(createUnknownError(message));
         }
-
-        return () => {
-            setIsLoading(false);
-        }
-    }, [dispatch, history])
+    }, [history])
 
 
     return (

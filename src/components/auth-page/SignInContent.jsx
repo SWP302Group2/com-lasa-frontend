@@ -8,25 +8,69 @@ import {
     AUTH_PAGE_SIGN_IN_TITLE,
     INVALID_EMAIL_DOMAIN,
     SIGNIN_ACCOUNT_NOT_FOUND_CODE,
-    SIGNIN_INVALID_EMAIL_DOMAIN_CODE
+    SIGNIN_ACCOUNT_NOT_FOUND_ERROR_MESSAGE,
+    SIGNIN_INVALID_EMAIL_DOMAIN_CODE,
+    SIGNIN_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE
 } from "../../utils/constant";
-import cookieTools from "../../utils/cookieTools";
+import storageTool from "../../utils/storageTools";
 import googleTools from "../../utils/googleTools";
 import ErrorMessage from "../ErrorMessage";
 import LoadingEffect from "../LoadingEffect";
 
 function SignInContent() {
     const history = useHistory();
-    const [{
-        googleSignInErrorMessage,
-        localSignInErrorMessage,
-        isLoading
-    }, setState]
-        = useState({
-            googleSignInErrorMessage: "",
-            localSignInErrorMessage: "",
-            isLoading: false
-        });
+    const [googleSignInErrorMessage, setGoogleSignInErrorMessage] = useState("");
+    const [localSignInErrorMessage, setLocalSignInErrorMessage] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+    const [{ username, password }, setLocalSigninValue] = useState({ username: "", password: "" });
+
+    function handleUsernameChange(event) {
+        const value = event?.target?.value || "";
+        setLocalSigninValue({
+            username: value,
+            password: password
+        })
+    }
+
+    function handlePasswordChange(event) {
+        const value = event?.target?.value || "";
+        setLocalSigninValue({
+            username: username,
+            password: value
+        })
+    }
+
+    function handleLocalFormSubmit(event) {
+        setIsLoading(true);
+        event.preventDefault();
+        authApi.signInLocal(
+            username,
+            password,
+            handleSignInLocalSuccess,
+            handleSignInLocalFail
+        );
+    }
+
+    function handleSignInLocalSuccess(data) {
+        console.log(data);
+        setIsLoading(false);
+        storageTool.saveToken(data.accessToken);
+        history.push("/home");
+    }
+
+    function handleSignInLocalFail(response, status, message) {
+        console.log(response);
+        setIsLoading(false);
+        setLocalSigninValue({
+            username: username,
+            password: ""
+        })
+        if (message === "Network Error") {
+            history.push(createNetworkError());
+            return;
+        }
+        setLocalSignInErrorMessage("Username or password is invalid");
+    }
 
     useEffect(() => {
         //Set title
@@ -36,23 +80,16 @@ function SignInContent() {
         const option = document.querySelector(".auth-page .content .sign-in .sign-in__option");
         const optionKeydownIcon = document.querySelector(".auth-page .content .sign-in .sign-in__option i");
         const localSignInForm = document.getElementById("form-sign-in-local");
-        const usernameBox = document.querySelector("#username");
-        const passwordBox = document.querySelector("#password");
 
         //Start
         (() => {
             googleTools.insetGoogleAPIScript("google-signin", onSignIn, onFailure);
             option.addEventListener("click", handleOptionClickEvent);
-            localSignInForm.addEventListener("submit", authenticateUser);
         })();
 
         function onSignIn(googleUser) {
+            setIsLoading(true);
             const id_token = googleUser.getAuthResponse().id_token;
-            setState({
-                googleSignInErrorMessage: "",
-                localSignInErrorMessage: "",
-                isLoading: true
-            });
             authApi.signInGoogle(id_token, handleSignInSuccess, handleSignInFailed);
         }
 
@@ -60,38 +97,30 @@ function SignInContent() {
             console.log(error);
         }
 
-        function handleSignInSuccess(cookieData) {
-            cookieTools.saveToken(cookieData);
+        function handleSignInSuccess(data) {
+            console.log(data);
+            setIsLoading(false);
+            storageTool.saveToken(data.accessToken);
             history.push("/home");
         }
 
-        function handleSignInFailed(response) {
-            const status = response?.data?.status || response?.status;
-            const message = response?.data?.message || response?.message;
-
+        function handleSignInFailed(response, status, message) {
+            setIsLoading(false);
             console.log(response);
 
             if (status === SIGNIN_ACCOUNT_NOT_FOUND_CODE && message === ACCOUNT_NOT_FOUND) {
-                setState({
-                    googleSignInErrorMessage: "Your email has not been signed up.",
-                    localSignInErrorMessage: "",
-                    isLoading: false
-                });
+                setGoogleSignInErrorMessage(SIGNIN_ACCOUNT_NOT_FOUND_ERROR_MESSAGE);
                 return;
             }
-            if (status === SIGNIN_INVALID_EMAIL_DOMAIN_CODE && message.message === INVALID_EMAIL_DOMAIN) {
-                setState({
-                    googleSignInErrorMessage: "Your email is not allowed sign in to the system.",
-                    localSignInErrorMessage: "",
-                    isLoading: false
-                });
+            if (status === SIGNIN_INVALID_EMAIL_DOMAIN_CODE && message === INVALID_EMAIL_DOMAIN) {
+                setGoogleSignInErrorMessage(SIGNIN_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE);
                 return;
             }
-            if (response.message === "Network Error") {
+            if (message === "Network Error") {
                 history.push(createNetworkError());
                 return;
             }
-            history.push(createUnknownError());
+            history.push(createUnknownError(message));
         }
 
         function handleOptionClickEvent() {
@@ -99,44 +128,11 @@ function SignInContent() {
             localSignInForm.classList.toggle("active")
         }
 
-        function authenticateUser(event) {
-            setState({
-                googleSignInErrorMessage: "",
-                localSignInErrorMessage: "",
-                isLoading: true
-            })
-            event.preventDefault();
-            authApi.signInLocal(
-                usernameBox.value,
-                passwordBox.value,
-                handleSignInLocalSuccess,
-                handleSignInLocalFail
-            );
-        }
-
-        function handleSignInLocalSuccess(cookieData) {
-            cookieTools.saveToken(cookieData);
-            history.push("/home");
-        }
-
-        function handleSignInLocalFail(response, username) {
-            usernameBox.value = username;
-            if (response.message === "Network Error") {
-                history.push(createNetworkError());
-                return;
-            }
-            setState({
-                googleSignInErrorMessage: "",
-                localSignInErrorMessage: "Username or password is invalid",
-                isLoading: false
-            })
-        }
-
         return () => {
             option?.removeEventListener("click", handleOptionClickEvent);
-            setState({});
+            setIsLoading(false);
         }
-    }, [history]);
+    }, [history, setIsLoading]);
 
     return (
         <div className="sign-in">
@@ -158,17 +154,21 @@ function SignInContent() {
                 <a href="/auth/sign-up">Sign up </a>
             </div>
             <p className="sign-in__option">
-                Others
+                More
                 <i className="material-icons">keyboard_arrow_down</i>
             </p>
-            <form className="local" id="form-sign-in-local">
+            <form
+                id="form-sign-in-local"
+                className="local"
+                onSubmit={handleLocalFormSubmit}
+            >
                 <div className="local__control">
                     <input
                         className="local__input"
-                        id="username"
                         type="text"
-                        name="username"
                         placeholder=" "
+                        value={username}
+                        onChange={handleUsernameChange}
                     />
                     <label className="local__label" htmlFor="username">
                         Username
@@ -177,10 +177,10 @@ function SignInContent() {
                 <div className="local__control">
                     <input
                         className="local__input"
-                        id="password"
                         type="password"
-                        name="password"
                         placeholder=" "
+                        value={password}
+                        onChange={handlePasswordChange}
                     />
                     <label className="local__label" htmlFor="password">
                         Password

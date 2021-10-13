@@ -13,6 +13,28 @@ export const updateSignUpInfo = (signUpInfo) => {
     }
 }
 
+export const updateRole = (role) => {
+    return {
+        type: "UPDATE_SIGNUP_INFO",
+        payload: {
+            userInfo: {
+                role: role
+            }
+        }
+    }
+}
+
+export const updateSignupTopics = (topics) => {
+    return {
+        type: "UPDATE_SIGNUP_INFO",
+        payload: {
+            userInfo: {
+                topics: topics
+            }
+        }
+    }
+}
+
 export const updateProcessPosition = (position) => {
     return {
         type: "UPDATE_SIGNUP_INFO",

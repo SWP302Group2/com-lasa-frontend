@@ -8,27 +8,31 @@ import { useEffect, useState } from "react";
 import LoadingEffect from "../LoadingEffect";
 import { createNetworkError } from "../../redux/actions/error";
 import { useHistory } from "react-router";
-import cookieTools from "../../utils/cookieTools";
+import storageTools from "../../utils/storageTools";
+import { HOME_PAGE_TITLE } from "../../utils/constant";
 
 
 function HomePage() {
     const dispatch = useDispatch();
     const history = useHistory();
 
-    //Start before render, but could end on mounted
     const [isLoading, setIsLoading] = useState(false);
     const [isSignIn, setIsSignIn] = useState(false)
 
     useEffect(() => {
+        //START
         (() => {
-            checkUserAuth();
+            document.title = HOME_PAGE_TITLE;
+            processUserAuth();
         })();
 
-        function checkUserAuth() {
+        function processUserAuth() {
             setIsLoading(true);
             authApi.getCurrentUserInfo(onGetSuccess, onGetFail);
         }
+
         function onGetSuccess(fetchedData) {
+            console.log(fetchedData);
             const userInfo = {
                 role: fetchedData.role,
                 ...fetchedData.information
@@ -36,15 +40,17 @@ function HomePage() {
             setIsLoading(false);
             setIsSignIn(true);
             dispatch(updateUserInfo(userInfo));
-            console.log(userInfo);
         }
-        function onGetFail(response) {
-            console.log(response.message || response);
-            cookieTools.removeAccessToken();
+
+        function onGetFail(response, status, message) {
+            console.log(response);
+
+            storageTools.removeAccessToken();
             setIsLoading(false);
             setIsSignIn(false);
             dispatch(newUserInfo());
-            if (response.message === "Network Error") {
+
+            if (message === "Network Error") {
                 history.push(createNetworkError());
             }
         }
