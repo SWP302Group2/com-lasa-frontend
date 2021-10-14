@@ -36,6 +36,7 @@ function InputAndConfirm({ setPosition }) {
             setNameError("Your name cannot be empty!");
             return;
         }
+        console.log(userInfo);
 
         if (userInfo.role && userInfo.role === "STUDENT") {
             setIsLoading(true);
@@ -99,16 +100,6 @@ function InputAndConfirm({ setPosition }) {
                         className="confirm__input"
                         name="name"
                         value={userInfo.email}
-                        readOnly
-                        disabled />
-                </label>
-                <label className="confirm__control">
-                    You are
-                    <input
-                        type="text"
-                        className="confirm__input"
-                        name="name"
-                        value={userInfo.role}
                         readOnly
                         disabled />
                 </label>

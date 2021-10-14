@@ -1,10 +1,11 @@
-import { GET_TOPIC_API } from "../utils/constant";
+import { GET_MAJOR_API } from "../utils/constant";
 import axiosClient from "./axiosClient";
 
 
-const topicApi = {
-    getTopics: (onSuccess, onFailure) => {
-        const url = GET_TOPIC_API;
+
+const majorApi = {
+    getMajors: (onSuccess, onFailure) => {
+        const url = GET_MAJOR_API;
         return axiosClient.get(url)
             .then(onSuccess)
             .catch(response => {
@@ -15,4 +16,4 @@ const topicApi = {
     }
 }
 
-export default topicApi;
+export default majorApi;

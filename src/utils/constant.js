@@ -2,9 +2,8 @@ export const CLIENT_ID = "69016056321-5j2fr23vo8oggc3jsqksgu2a4g1s1mhn.apps.goog
 export const AUTH_PAGE_SIGN_IN_TITLE = "Sign in to Lasa";
 export const AUTH_PAGE_SIGN_UP_TITLE = "Sign up to Lasa";
 export const HOME_PAGE_TITLE = "Home - Lecturer Appoinment Schedule";
-
 export const DEFAULT_AVATAR_URL = "https://i.postimg.cc/ZKJv2rf0/default-user-unknown-icon.png";
-export const DEVELOP_BASE_URL = "http://localhost:8080/las/api/v1";
+export const ACCESS_TOKEN_NOT_EXIST = "ACCESS_TOKEN_NOT_EXIST";
 
 export const AWS_ACCESS_KEY_ID = "AKIA2UVUUNPTZMZMEB67";
 export const AWS_SECRET_KEY = "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";
@@ -24,3 +23,19 @@ export const SIGNUP_EMAIL_ALREADY_EXIST_ERROR_MESSAGE = "This email has been sig
 
 export const SIGNUP_INVALID_EMAIL_DOMAIN_CODE = 406;
 export const SIGNUP_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE = "This email is not FPT email domain. Please try again.";
+
+
+//API CONSTANT
+export const DEVELOP_BASE_URL = "http://localhost:8080/las/api/v1";
+export const SIGN_IN_GOOGLE_API = "/authentication/google";
+export const SIGN_IN_LOCAL_API = "/authentication";
+
+export const SIGN_UP_STUDENT_GOOGLE_API = "/authentication/google/student";
+export const SIGN_UP_LECTURER_GOOGLE_API = "/authentication/google/lecturer";
+
+export const GET_USER_INFO_API = "/home/information";
+export const CHECK_VALID_ACCESS_TOKEN = "/home/information";
+export const CHECK_VALID_SIGN_UP_EMAIL = "/authentication/email";
+
+export const GET_MAJOR_API = "/majors";
+export const GET_TOPIC_API = "/topics";

@@ -66,6 +66,17 @@ export const updateMSSVToSignupInfo = (mssv) => {
     }
 }
 
+export const updateMajorIdToSignupInfo = (majorId) => {
+    return {
+        type: "UPDATE_SIGNUP_INFO",
+        payload: {
+            userInfo: {
+                majorId: majorId
+            }
+        }
+    }
+}
+
 export const updateVerificationStatus = (status) => {
     return {
         type: "UPDATE_SIGNUP_INFO",
