@@ -1,9 +1,15 @@
 import axios from "axios";
-import { DEVELOP_BASE_URL } from "../utils/constant";
+import {
+    // DEVELOP_BASE_URL,
+    PRODUCT_BASE_URL
+} from "../utils/constant";
 import queryString from "query-string";
 
+const BASE_URL = PRODUCT_BASE_URL;
+// const BASE_URL = DEVELOP_BASE_URL;
+
 const axiosClient = axios.create({
-    baseURL: DEVELOP_BASE_URL,
+    baseURL: BASE_URL,
     headers: {
         "Content-Type": "application/json",
     },
@@ -13,6 +19,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(async (config) => {
     return config;
 });
+
 
 axiosClient.interceptors.response.use(
     (response) => {

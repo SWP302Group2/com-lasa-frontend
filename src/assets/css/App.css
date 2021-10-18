@@ -6,7 +6,9 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0.6rem;
+  overflow: overlay;
+  width: 0rem;
+  height: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -14,7 +16,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-radius: 10px;
   background-clip: content-box;
   background-color: #353535;

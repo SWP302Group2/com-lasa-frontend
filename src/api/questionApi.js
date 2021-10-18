@@ -1,13 +1,11 @@
-import cookieTools from "../utils/cookieTools";
 import axiosClient from "./axiosClient";
-
+import storageTools from "../"
 
 const questionApi = {
-    getQuestions: () => {
+    getQuestions: (onSuccess, onFailure) => {
         const url = "/questions";
-        const accessToken = cookieTools.getAccessToken();
-        console.log("GET access token in cookie: ");
-        console.log(accessToken);
+        const accessToken = storageTools.getAccessToken();
+
         const params = {
             headers: {
                 Authorization: accessToken,

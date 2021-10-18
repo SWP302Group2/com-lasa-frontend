@@ -1,52 +1,50 @@
+import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import "../../assets/css/signInContent.css";
+import { AUTH_PAGE_SIGN_IN_TITLE } from "../../utils/constant";
+import LoadingEffect from "../LoadingEffect";
+import { useDispatch } from "react-redux";
+import GoogleSignin from "./GoogleSignin";
+import LocalSignin from "./LocalSignin";
 
 function SignInContent() {
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        //Initialization
+        const option = document.querySelector(".auth-page .content .sign-in .sign-in__option");
+        const optionKeydownIcon = document.querySelector(".auth-page .content .sign-in .sign-in__option i");
+        const localSignInForm = document.getElementById("form-sign-in-local");
+
+        document.title = AUTH_PAGE_SIGN_IN_TITLE;
+        option.addEventListener("click", handleOptionClickEvent);
+
+        function handleOptionClickEvent() {
+            optionKeydownIcon.classList.toggle("rotate");
+            localSignInForm.classList.toggle("active")
+        }
+
+        return () => {
+            option?.removeEventListener("click", handleOptionClickEvent);
+            setIsLoading(false);
+        }
+    }, [history, setIsLoading, dispatch]);
+
     return (
         <div className="sign-in">
-            <h2 className="sign-in__title">Welcome Back</h2>
-            <div className="google">
-                <div className="google__button">
-                    <div id="google-signin">
-                        <span className="icon"></span>
-                        <span className="text">Sign in with Google</span>
-                    </div>
-                </div>
+            <GoogleSignin setIsLoading={setIsLoading} />
+            <div className="sign-in__signup-link">
+                Do not sign up yet?
+                <a href="/auth/sign-up">Sign up </a>
             </div>
-
-            <div className="local">
-                <form className="local__form" id="form-sign-in-local">
-                    <div className="local__control">
-                        <input
-                            className="local__input"
-                            id="username"
-                            type="text"
-                            name="username"
-                            placeholder=" "
-                        />
-                        <label className="local__label" htmlFor="username">
-                            Username
-                        </label>
-                    </div>
-                    <div className="local__control">
-                        <input
-                            className="local__input"
-                            id="password"
-                            type="password"
-                            name="password"
-                            placeholder=" "
-                        />
-                        <label className="local__label" htmlFor="password">
-                            Password
-                        </label>
-                    </div>
-                    <button
-                        className="local__button"
-                        type="submit"
-                    >
-                        Submit
-                    </button>
-                </form>
-            </div>
+            <p className="sign-in__option">
+                More
+                <i className="material-icons">keyboard_arrow_down</i>
+            </p>
+            <LocalSignin setIsLoading={setIsLoading} />
+            {isLoading ? <LoadingEffect /> : null}
         </div>
     );
 }

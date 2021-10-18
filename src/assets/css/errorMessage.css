@@ -1,0 +1,22 @@
+#error-message {
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border: 1px solid #eb1313;
+}
+
+#error-message .message-content {
+  text-align: justify;
+  font-size: 0.8rem;
+  color: #d31a1a;
+}
+/*# sourceMappingURL=errorMessage.css.map */

@@ -1,47 +1,120 @@
-import cookieTools from "../utils/cookieTools";
+import { ACCESS_TOKEN_NOT_EXIST, CHECK_VALID_ACCESS_TOKEN, CHECK_VALID_SIGN_UP_EMAIL, GET_USER_INFO_API, SIGN_IN_GOOGLE_API, SIGN_IN_LOCAL_API, SIGN_UP_LECTURER_GOOGLE_API, SIGN_UP_STUDENT_GOOGLE_API } from "../utils/constant";
+import storageTool from "../utils/storageTools";
 import axiosClient from "./axiosClient";
 
 const authApi = {
-    signInGoogle: (id_token) => {
-        const url = "/authentication/google";
+    signInGoogle: (id_token, onSignin, onFailure) => {
+        const url = SIGN_IN_GOOGLE_API;
         const params = { token: id_token };
-        return axiosClient.post(url, params);
+        axiosClient.post(url, params)
+            .then(onSignin)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     },
 
-    signInLocal: (username, password) => {
-        const url = "/authentication";
+    signInLocal: (username, password, onSignin, onFailure) => {
+        const url = SIGN_IN_LOCAL_API;
         const params = {
             username,
             password
         };
-        return axiosClient.post(url, params);
+        axiosClient.post(url, params)
+            .then(onSignin)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     },
 
-    signUpStudent: (id_token) => {
-        const url = "/authentication/google/student";
-        const params = { token: id_token };
-        return axiosClient.post(url, params);
+    signUpStudent: (userInfo, onSuccess, onFailure) => {
+        const url = SIGN_UP_STUDENT_GOOGLE_API;
+        const params = { ...userInfo };
+        return axiosClient.post(url, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     },
 
-    signUpLecturer: (id_token) => {
-        const url = "/authentication/google/lecturer";
-        const params = { token: id_token };
-        return axiosClient.post(url, params);
+    signUpLecturer: (userInfo, onSuccess, onFailure) => {
+        const url = SIGN_UP_LECTURER_GOOGLE_API;
+        const params = { ...userInfo };
+        return axiosClient.post(url, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     },
 
-    getCurrentUserInfo: () => {
-        const url = "/home/information";
-        const accessToken = cookieTools.getAccessToken();
+    getCurrentUserInfo: (onSuccess, onFailure) => {
+        const url = GET_USER_INFO_API;
+        const accessToken = storageTool.getAccessToken();
 
-        if (!accessToken)
-            return Promise.reject(new Error("ACCESS_TOKEN_NOT_EXIST"));
+        if (!accessToken) {
+            Promise
+                .reject(new Error(ACCESS_TOKEN_NOT_EXIST))
+                .catch(onFailure);
+            return;
+        }
 
         const params = {
             headers: {
                 Authorization: accessToken,
             }
         };
-        return axiosClient.get(url, params);
+        axiosClient.get(url, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    //Same url as getCurrentUserInfo but we could change it
+    checkValidAccessToken: (onSuccess, onFailure) => {
+        const url = CHECK_VALID_ACCESS_TOKEN;
+        const accessToken = storageTool.getAccessToken();
+
+        if (!accessToken) {
+            Promise
+                .reject(new Error("ACCESS_TOKEN_NOT_EXIST"))
+                .catch(onFailure);
+            return;
+        }
+
+        const params = {
+            headers: {
+                Authorization: accessToken,
+            }
+        };
+        axiosClient.get(url, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    checkSignUpEmail: (id_token, onSuccess, onFailure) => {
+        const url = CHECK_VALID_SIGN_UP_EMAIL;
+        const params = { token: id_token };
+        axiosClient.post(url, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     }
 }
 

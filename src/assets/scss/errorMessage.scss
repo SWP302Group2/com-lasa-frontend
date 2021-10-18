@@ -1,0 +1,15 @@
+#error-message {
+    width: 100%;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgb(235, 19, 19);
+
+    .message-content {
+        text-align: justify;
+        font-size: 0.8rem;
+        color: rgb(211, 26, 26);
+    }
+}

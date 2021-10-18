@@ -2,6 +2,7 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 0;
 
     display: flex;
     overflow-x: hidden;
@@ -9,7 +10,30 @@
     min-width: 300px;
     height: 100%;
     min-height: 100vh;
-
+    background: url("../svg/Cloudy2.svg") no-repeat center center;
+    background-size: cover;
     .content {
+        width: 100%;
+        height: fit-content;
+        padding-bottom: 2rem;
+
+        .logo {
+            display: flex;
+            justify-content: center;
+
+            width: fit-content;
+            height: 5rem;
+            padding: 1rem 0;
+            margin: 1rem auto;
+
+            &__img {
+                height: 100%;
+            }
+            &__text {
+                display: none;
+            }
+        }
     }
 }
+// edeff1
+//cacfd8

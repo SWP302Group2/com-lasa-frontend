@@ -1,19 +1,24 @@
-import { Redirect, Route } from "react-router-dom";
-import cookieTools from "./cookieTools";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { Redirect, useHistory } from "react-router-dom";
+import { createUnknownError } from "../redux/actions/error";
+import { newUserInfo } from "../redux/actions/user";
+import storageTools from "./storageTools";
 
-function SignOutRoute({ ...rest }) {
-    (function processSignOut() {
-        cookieTools.removeAccessToken();
-    })();
+function SignOutRoute() {
+    const dispatch = useDispatch();
+    const history = useHistory()
+    useEffect(() => {
+        (function processSignOut() {
+            storageTools.removeAccessToken();
+            if (storageTools.getAccessToken()) {
+                dispatch(createUnknownError("Cannot sign out"));
+            }
+            dispatch(newUserInfo());
+        })();
+    }, [dispatch, history]);
 
-    return (
-        <Route
-            {...rest}
-            render={() => {
-                return <Redirect to="/auth" />;
-            }}
-        />
-    );
+    return <Redirect to="/auth" />
 }
 
 export default SignOutRoute;
