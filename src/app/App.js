@@ -13,22 +13,36 @@ function App() {
       <Switch>
         <Route
           exact path="/"
-          component={HomePage} />
+          component={HomePage}
+        />
         <Route
           exact path="/home"
-          component={HomePage} />
+          component={HomePage}
+        />
+        <Route
+          exact path="/welcome"
+          component={HomePage}
+        />
+        <Route
+          exact path="/search"
+          component={HomePage}
+        />
         <Route
           path="/auth"
-          component={AuthPage} />
+          component={AuthPage}
+        />
         <Route
           exact path="/sign-out"
-          component={SignOutRoute} />
+          component={SignOutRoute}
+        />
         <Route
           exact path="/error"
-          component={ErrorPage} />
+          component={ErrorPage}
+        />
         <Route
           exact path="/page-not-found"
-          component={PageNotFound} />
+          component={PageNotFound}
+        />
 
         <Redirect to={"/page-not-found"} />
       </Switch>

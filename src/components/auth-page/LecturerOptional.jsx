@@ -51,11 +51,16 @@ function LecturerOptional({ userInfo }) {
     }
 
     function handleSearchItemClick(event) {
-        const target = event?.target;
-        if (!target) return;
+        if (!event.target) return;
 
+        let target = event.target;
+        if (target.classList.contains("material-icons")) {
+            target = target.parentNode;
+        }
+
+        const notExist = -1;
         const selectedTopic = topics.find(topic =>
-            topic?.id === Number.parseInt(target.getAttribute("data") || -1)
+            topic?.id === Number.parseInt(target.getAttribute("data") || notExist)
         );
         if (!selectedTopic) return;
 
@@ -65,6 +70,8 @@ function LecturerOptional({ userInfo }) {
 
         signupTopics.push(selectedTopic);
         dispatch(updateSignupTopics(signupTopics));
+        target.style.animation = "auth-signup-searchItem-added 150ms ease";
+        setTimeout(() => target.style.animation = null, 150);
     }
 
     function handleCancleItemClick(event) {
@@ -171,7 +178,11 @@ function LecturerOptional({ userInfo }) {
                             data={topic?.id}
                             onClick={handleSearchItemClick}
                         >
-                            <i className="material-icons">add_box</i>
+                            <i
+                                className="material-icons"
+                                data={topic?.id}
+                                onClick={handleSearchItemClick}
+                            >add_box</i>
                             {`Topic: ${(topic?.courseId || topic.name)} Major: ${topic.majorId}`}
                         </p>
                     )}

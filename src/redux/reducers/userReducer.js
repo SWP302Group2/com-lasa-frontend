@@ -15,11 +15,11 @@ const userReducer = (state = initialUser, action) => {
     switch (action.type) {
         case "NEW_USER_INFO": {
             const newState = { ...action.payload } || { ...initialUser };
-            return mergePayloadToState(newState, action.payload);
+            return newState;
         }
         case "UPDATE_USER_INFO": {
             const newState = { ...state };
-            return mergePayloadToState(newState, action.payload);
+            return { ...mergePayloadToState(newState, action.payload) };
         }
         default:
             return state;

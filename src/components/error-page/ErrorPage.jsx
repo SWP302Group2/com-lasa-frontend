@@ -1,4 +1,5 @@
 import { useLocation } from "react-router";
+import { Link } from "react-router-dom";
 
 function ErrorPage() {
     const location = useLocation();
@@ -12,6 +13,7 @@ function ErrorPage() {
             <div className="error__content">
                 {message}
             </div>
+            <Link to="/home">Back to home page!</Link>
         </div>
     );
 }

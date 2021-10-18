@@ -1,65 +1,93 @@
 import Header from "../Header";
-import Content from "./Content";
 import "../../assets/css/homePage.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import authApi from "../../api/authApi";
 import { newUserInfo, updateUserInfo } from "../../redux/actions/user";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoadingEffect from "../LoadingEffect";
 import { createNetworkError } from "../../redux/actions/error";
-import { useHistory } from "react-router";
+import { useHistory, Switch, Route, Redirect } from "react-router-dom";
 import storageTools from "../../utils/storageTools";
 import { HOME_PAGE_TITLE } from "../../utils/constant";
+import WelcomeContent from "./WelcomeContent";
+import SearchContent from "../search-page/SearchContent";
 
 
 function HomePage() {
     const dispatch = useDispatch();
     const history = useHistory();
-
     const [isLoading, setIsLoading] = useState(false);
-    const [isSignIn, setIsSignIn] = useState(false)
+    const role = useSelector(state => state.user.role);
+    const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
 
     useEffect(() => {
-        //START
-        (() => {
-            document.title = HOME_PAGE_TITLE;
-            processUserAuth();
-        })();
+        let isMounted = true;
+        document.title = HOME_PAGE_TITLE;
+        processUserAuth();
 
         function processUserAuth() {
+            if (!isMounted) return;
+
             setIsLoading(true);
             authApi.getCurrentUserInfo(onGetSuccess, onGetFail);
         }
 
         function onGetSuccess(fetchedData) {
+            if (!isMounted) return;
+            console.log("Homepage - get userinfo success:");
             console.log(fetchedData);
-            const userInfo = {
+            dispatch(updateUserInfo({
                 role: fetchedData.role,
                 ...fetchedData.information
-            };
+            }));
             setIsLoading(false);
-            setIsSignIn(true);
-            dispatch(updateUserInfo(userInfo));
         }
 
         function onGetFail(response, status, message) {
-            console.log(response);
+            if (!isMounted) return;
+            console.log("HOmepage get userinfo has failed: ");
+            console.log(message);
 
+            setAccessToken("");
             storageTools.removeAccessToken();
-            setIsLoading(false);
-            setIsSignIn(false);
             dispatch(newUserInfo());
+            setIsLoading(false);
 
             if (message === "Network Error") {
                 history.push(createNetworkError());
             }
         }
-    }, [dispatch, history]);
+
+        return () => {
+            isMounted = false;
+        }
+    }, [dispatch, history, role, setAccessToken]);
 
     return (
         <section id="home-page">
-            <Header isSignIn={isSignIn} />
-            <Content></Content>
+            <Header />
+            <Switch>
+                <Route
+                    exact path="/"
+                    component={WelcomeContent}
+                />
+                <Route
+                    exact path="/home"
+                    component={WelcomeContent}
+                />
+                <Route
+                    exact path="/welcome"
+                    component={WelcomeContent}
+                />
+                {role && accessToken ?
+                    <Route
+                        exact path="/search"
+                        component={SearchContent}
+                    />
+                    :
+                    <Redirect to="/auth" />
+                }
+            </Switch>
             {isLoading ? <LoadingEffect /> : null}
         </section>
     );

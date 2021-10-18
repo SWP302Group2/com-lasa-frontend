@@ -18,7 +18,8 @@ function Verification() {
                         You have signed up successfully
                     </div>
                     <div className="verify__message">
-                        Please check your email for activation. <a className="verify__link" href="/home">Go schedule now</a>
+                        If you are a lecturer, please wait for us to verify your email. Results will be sent to the email
+                        you used to sign up. <a className="verify__link" href="/home">Go schedule now</a>
                     </div>
                 </>
                 :

@@ -274,7 +274,7 @@ $shadow-right-down: #bdc2ca;
 
             display: none;
             flex-flow: column nowrap;
-            overflow: scroll;
+            overflow: auto;
             width: 100%;
             height: 200px;
             border-radius: 0 0 6px 6px;
@@ -291,7 +291,7 @@ $shadow-right-down: #bdc2ca;
 
             &:hover {
                 cursor: pointer;
-                background: $shadow-right-down;
+                background: #eee;
             }
             i {
                 margin-right: 0.5rem;
@@ -306,23 +306,23 @@ $shadow-right-down: #bdc2ca;
             display: flex;
             flex-flow: row wrap;
             align-items: center;
+            justify-content: space-evenly;
             width: 100%;
         }
 
         &__selected-item {
             display: flex;
             align-items: center;
+            flex-wrap: nowrap;
             justify-content: space-between;
 
             width: fit-content;
-            min-width: 21%;
-            padding: 0.3rem 0.5rem;
-            margin-right: 1rem;
+            padding: 0.2rem 0.5rem;
             margin-bottom: 0.5rem;
             border-radius: 6px;
 
             font-size: 0.8rem;
-            background: rgb(98, 224, 203);
+            background: #62e0cb;
             i {
                 border-radius: 50%;
                 font-size: 0.8rem;
@@ -473,5 +473,19 @@ $shadow-right-down: #bdc2ca;
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+@keyframes auth-signup-searchItem-added {
+    from {
+        background: #ccc;
+    }
+
+    10% {
+        background: #62e0cb;
+    }
+
+    to {
+        background: #62e0cb;
     }
 }

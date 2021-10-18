@@ -1,22 +1,28 @@
-import cookieTools from "../utils/cookieTools";
+import { GET_LECTURER_API } from "../utils/constant";
 import axiosClient from "./axiosClient";
 
 
 const lecturerApi = {
-    getLecturers: () => {
-        const url = "/lecturers";
-        const accessToken = cookieTools.getAccessToken();
-        console.log("GET access token in cookie: ");
-        console.log(accessToken);
-        const params = {
-            headers: {
-                Authorization: accessToken,
-            }
-        };
-        return axiosClient.get(url, params);
+    getLecturers: (onSuccess, onFailure) => {
+        const url = GET_LECTURER_API;
+        return axiosClient.get(url)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+    getAllLecturers: (onSuccess, onFailure) => {
+        const url = GET_LECTURER_API + "?paging=false";
+        return axiosClient.get(url)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     }
-
-
 }
 
 export default lecturerApi;

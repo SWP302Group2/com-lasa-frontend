@@ -160,8 +160,9 @@ $shadow-right-down: #bdc2ca;
         }
 
         &__input:hover + .local__label,
-        &__input:focus + .local__label,
-        &__input:not(:placeholder-shown) + .local__label {
+        &__input:focus-within + .local__label,
+        &__input:not(:placeholder-shown) + .local__label,
+        .local__label:hover {
             bottom: 3.8rem;
             left: 0.7rem;
             padding: 0 0.3rem;

@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect, useHistory } from "react-router-dom";
+import { Switch, Route, useHistory } from "react-router-dom";
 import authApi from "../../api/authApi";
 import SignInContent from "./SignInContent";
 import SignUpContent from "./SignUpContent";
@@ -8,41 +8,48 @@ import { useState, useEffect } from "react";
 import LoadingEffect from "../LoadingEffect.jsx";
 import { createNetworkError } from "../../redux/actions/error";
 import storageTools from "../../utils/storageTools";
+import { newUserInfo } from "../../redux/actions/user";
+import { useDispatch } from "react-redux";
 
 function AuthPage() {
+    const dispatch = useDispatch();
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         //Start
-        (() => {
-            checkAuth();
-        })();
+        checkAuth();
 
         function checkAuth() {
             setIsLoading(true);
-            authApi.checkValidAccessToken(
-                handleValidAccessToken,
-                handleInvalidAccessToken
+            authApi.getCurrentUserInfo(
+                handleAutoSigninSuccess,
+                handleAutoSigninFailed
             );
         }
 
-        function handleValidAccessToken() {
+        function handleAutoSigninSuccess(data) {
+            dispatch(newUserInfo({
+                role: data.role,
+                ...data.information
+            }))
             setIsLoading(false);
             history.push("/home");
         }
 
-        function handleInvalidAccessToken(response, status, message) {
-            console.log(response)
+        function handleAutoSigninFailed(response, status, message) {
+            console.log("Auto signin has failed:")
+            console.log(message)
 
             storageTools.removeAccessToken();
+            dispatch(newUserInfo());
             setIsLoading(false);
 
-            if (message === "Network Error") {
+            if (status >= 500 && message === "Network Error") {
                 history.push(createNetworkError());
             }
         }
-    }, [history])
+    }, [history, dispatch])
 
 
     return (
@@ -59,8 +66,6 @@ function AuthPage() {
                     <Route
                         exact path="/auth/sign-up"
                         component={SignUpContent} />
-
-                    <Redirect to="/page-not-found" />
                 </Switch>
             </div>
             {isLoading ? <LoadingEffect /> : null}

@@ -23,7 +23,7 @@ const googleTools = {
         });
     },
 
-    insetGoogleAPIScript(buttonId, onSignIn, onFailure) {
+    insetGoogleApiScript(buttonId, onSignIn, onFailure) {
         const script = this.addGapiScriptToDOM();
         script.addEventListener("load", () => {
             window.gapi.load("auth2", () => {

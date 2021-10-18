@@ -38,15 +38,29 @@ function InputAndConfirm({ setPosition }) {
         }
         console.log(userInfo);
 
-        if (userInfo.role && userInfo.role === "STUDENT") {
+        const sendingData = prepareSendingSignupData();
+
+        if (sendingData.role && sendingData.role === "STUDENT") {
             setIsLoading(true);
-            authApi.signUpStudent(userInfo, handleSignupSuccess, handleSignupFailse);
+            authApi.signUpStudent(sendingData, handleSignupSuccess, handleSignupFailse);
             return;
         }
-        if (userInfo.role && userInfo.role === "LECTURER") {
+        if (sendingData.role && sendingData.role === "LECTURER") {
             setIsLoading(true);
-            authApi.signUpLecturer(userInfo, handleSignupSuccess, handleSignupFailse);
+            authApi.signUpLecturer(sendingData, handleSignupSuccess, handleSignupFailse);
         }
+    }
+
+    function prepareSendingSignupData() {
+
+        let sendingData = { ...userInfo };
+        if (Array.isArray(userInfo.topics)) {
+            const listIdTopic = Array.isArray(userInfo.topics) && [...userInfo.topics].map(topic => topic.id);
+            sendingData.topics = listIdTopic;
+        }
+        console.log("Sending data:")
+        console.log(sendingData);
+        return { ...sendingData };
     }
 
     function handleSignupSuccess(data) {

@@ -26,12 +26,19 @@ function StartedWithFPTEmail({ setPosition }) {
     useEffect(() => {
         //Start
         (() => {
-            googleTools.insetGoogleAPIScript("google-signup", onSignIn, onFailure);
+            googleTools.insetGoogleApiScript("google-signup", onSignIn, onFailure);
         })();
 
         function onSignIn(googleUser) {
             setIsLoading(true);
             const id_token = googleUser.getAuthResponse().id_token;
+
+            //Time expired
+            if (!id_token) {
+                setIsLoading(false);
+                history.push("/auth/sign-up")
+            }
+
             authApi.checkSignUpEmail(
                 id_token,
                 onValidateEmailSuccess,
@@ -44,7 +51,9 @@ function StartedWithFPTEmail({ setPosition }) {
         }
 
         function onValidateEmailSuccess(userInfo) {
-            setIsLoading(false);
+            console.log("Email for sign up is valid:");
+            console.log(userInfo);
+
             const signupInfo = {
                 userInfo: {
                     token: userInfo.googleToken,
@@ -56,14 +65,14 @@ function StartedWithFPTEmail({ setPosition }) {
             }
             dispatch(newSignUpInfo(signupInfo));
             setPosition(2);
+            setIsLoading(false);
         }
 
-        function onValidateEmailFailure(response) {
-            setIsLoading(false);
+        function onValidateEmailFailure(response, status, message) {
+            console.log("Email is invalid:");
             console.log(response);
-            const status = response?.data?.status || response?.status;
-            const message = response?.data?.message || response?.message;
 
+            setIsLoading(false);
             if (status === SIGNUP_INVALID_EMAIL_DOMAIN_CODE && message === INVALID_EMAIL_DOMAIN) {
                 setErrorMessage(SIGNUP_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE);
                 return;

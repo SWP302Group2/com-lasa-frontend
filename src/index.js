@@ -2,12 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import App from "./app/App.js";
-import store from "./redux/store.js";
+import storeConfig from "./redux/store.js";
 import reportWebVitals from './reportWebVitals';
+import { PersistGate } from 'redux-persist/integration/react'
 
 const app = (
-  <Provider store={store}>
-    <App />
+  <Provider store={storeConfig().store}>
+    <PersistGate loading={null} persistor={storeConfig().persistor}>
+      <App />
+    </PersistGate>
   </Provider>
 );
 

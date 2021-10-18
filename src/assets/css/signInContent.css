@@ -187,8 +187,9 @@
 }
 
 .auth-page .content .sign-in .local__input:hover + .local__label,
-.auth-page .content .sign-in .local__input:focus + .local__label,
-.auth-page .content .sign-in .local__input:not(:placeholder-shown) + .local__label {
+.auth-page .content .sign-in .local__input:focus-within + .local__label,
+.auth-page .content .sign-in .local__input:not(:placeholder-shown) + .local__label,
+.auth-page .content .sign-in .local .local__label:hover {
   bottom: 3.8rem;
   left: 0.7rem;
   padding: 0 0.3rem;

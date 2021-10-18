@@ -1,0 +1,102 @@
+#home-page .welcome-content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  width: 100%;
+  margin-top: 4rem;
+  min-height: calc(100vh - 4rem);
+}
+
+#home-page .welcome-content__headline {
+  width: 100%;
+  margin-top: 4rem;
+  color: #fef4f5;
+  text-align: center;
+  font-size: 8vw;
+}
+
+#home-page .welcome-content__appname {
+  color: #6fecb2;
+  width: 80%;
+  margin-top: 0.5rem;
+  font-size: 4vw;
+  text-align: center;
+  font-family: "Montserrat";
+}
+
+#home-page .welcome-content__button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 200px;
+  height: 3.5rem;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 50px;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  cursor: pointer;
+  color: #fff;
+  background-size: 300% 100%;
+  background-image: -webkit-gradient(linear, left top, right top, from(#e0588e), color-stop(#ec8c69), color-stop(#f7186a), to(#fbb03b));
+  background-image: linear-gradient(to right, #e0588e, #ec8c69, #f7186a, #fbb03b);
+  -webkit-box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+          box-shadow: 0 4px 15px 0 rgba(236, 116, 149, 0.75);
+}
+
+#home-page .welcome-content__button:hover, #home-page .welcome-content__button:focus {
+  outline: none;
+  background-position: 100% 0;
+  -webkit-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+}
+
+.hide-content {
+  -webkit-transform: translateX(100%);
+          transform: translateX(100%);
+}
+
+@media all and (max-width: 1023.5px) {
+  #home-page .welcome-content {
+    -webkit-transition: -webkit-transform 400ms ease;
+    transition: -webkit-transform 400ms ease;
+    transition: transform 400ms ease;
+    transition: transform 400ms ease, -webkit-transform 400ms ease;
+  }
+  #home-page .welcome-content__headline {
+    font-size: 7vw;
+  }
+  #home-page .welcome-content__appname {
+    font-size: 4vw;
+  }
+}
+
+@media all and (min-width: 1024px) {
+  #home-page .welcome-content__headline {
+    font-size: 5.2rem;
+  }
+  #home-page .welcome-content__appname {
+    font-size: 3rem;
+    max-width: 1000px;
+  }
+}
+/*# sourceMappingURL=welcomeContent.css.map */

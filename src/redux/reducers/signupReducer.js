@@ -19,12 +19,12 @@ const initialState = {
 const signupReducer = (state = initialState, action) => {
     switch (action.type) {
         case "NEW_SIGNUP_INFO": {
-            const newState = action.payload ? { ...action.payload } : initialState;
+            const newState = action.payload ? { ...action.payload } : { ...initialState };
             return newState;
         }
         case "UPDATE_SIGNUP_INFO": {
             const newState = { ...state };
-            return merge(newState, action.payload);
+            return { ...merge(newState, action.payload) };
         }
         default:
             return state;

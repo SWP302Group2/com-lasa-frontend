@@ -3,78 +3,51 @@ import Menu from "./Menu";
 import Notification from "./Notification";
 import UserInfo from "./UserInfo";
 import "../assets/css/header.css";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
+import storageTools from "../utils/storageTools";
+import { useSelector } from "react-redux";
 
-function Header({ isSignIn }) {
+function Header() {
+
+    const [isSignin, setIsSignin] = useState(false);
+    const role = useSelector(state => state.user.role);
+
+    function closeBurger() {
+        const bugger = document.querySelector(".header .menu__burger");
+        const nav = document.querySelector(".header .menu__nav");
+        const navItem = document.querySelectorAll(".menu .menu__nav .menu__navItem");
+        const content = document.querySelector("#home-page .welcome-content");
+
+        bugger?.classList?.remove("toggle");
+        nav?.classList?.remove("active");
+        content?.classList?.remove("hide-content");
+        navItem.forEach((item) => {
+            item?.classList.toggle(".active-navItem")
+            if (item)
+                item.style.animation = "";
+        })
+    }
+
+    function closeNotification() {
+        const notiList = document.querySelector(".header .notification__list");
+        notiList?.classList?.remove("active");
+    }
+
+    function closeUserInfo() {
+        const userWrapper = document.querySelector(".header .userinfo__wrapper");
+        userWrapper?.classList?.remove("active");
+    }
 
     useEffect(() => {
         //Initialization
-        const bugger = document.querySelector(".header .menu .menu__burger");
-        const nav = document.querySelector(".header .menu .menu__nav");
-        const navItem = document.querySelectorAll(".header .menu .menu__nav .menu__navItem");
-
-        const notiIcon = document.querySelector(".header .notification .notification__icon");
-        const notiList = document.querySelector(".header .notification .notification__list");
-
-        const userIcon = document.querySelector(".header .userinfo .userinfo__icon");
-        const userWrapper = document.querySelector(".header .userinfo .userinfo__wrapper");
-
+        checkSignInStatus();
+        document.addEventListener("click", handleDomClickEvent);
         const hiddenList = document.querySelectorAll(".hidden");
-        const content = document.querySelector(".content");
 
-        //START
-        (() => {
-            checkWindowSize();
-            window.addEventListener("resize", checkWindowSize);
-            document.addEventListener("click", handleDomClickEvent);
-            if (notiIcon) {
-                notiIcon.addEventListener("click", handleNotiClickEvent);
-                notiList.style.animation = "header-noti-list-fadein 400ms ease-in";
-            }
-            if (userIcon) {
-                userIcon.addEventListener("click", handleUserInfoClickEvent);
-                userWrapper.style.animation = "header-userinfo-wrapper-fadein 400ms ease-in";
-            }
-        })();
-        function checkWindowSize() {
-            window.innerWidth < 768 ? addEventForBurger() : clearBurger();
-        }
-
-        function addEventForBurger() {
-            bugger.addEventListener("click", handleBurgerClickEvent)
-        }
-
-        function clearBurger() {
-            bugger.removeEventListener("click", handleBurgerClickEvent);
-            closeBurger();
-        }
-
-        function handleBurgerClickEvent() {
-            closeNotification();
-            closeUserInfo();
-
-            bugger.classList.toggle("toggle");
-            nav.classList.toggle("active");
-            content.classList.toggle("hide-content");
-            navItem.forEach(handleNavItemAnimation)
-        }
-
-        function closeNotification() {
-            notiList?.classList.remove("active");
-        }
-
-        function closeUserInfo() {
-            userWrapper?.classList.remove("active");
-        }
-
-        function closeBurger() {
-            bugger.classList.remove("toggle");
-            nav.classList.remove("active");
-            content.classList.remove("hide-content");
-            navItem.forEach((item) => {
-                item.style.animation = "";
-            })
+        function checkSignInStatus() {
+            const accessToken = storageTools.getAccessToken();
+            setIsSignin(accessToken != null && role != null);
         }
 
         function handleDomClickEvent(event) {
@@ -92,45 +65,31 @@ function Header({ isSignIn }) {
             closeUserInfo();
         }
 
-        function handleNotiClickEvent() {
-            closeBurger();
-            closeUserInfo();
-            notiList.classList.toggle("active");
-            notiList.scrollTop = 0;
-        }
-
-        function handleUserInfoClickEvent() {
-            closeBurger();
-            closeNotification();
-            userWrapper.classList.toggle("active");
-        }
-
-        function handleNavItemAnimation(item, index) {
-            if (item.style.animation) {
-                item.style.animation = "";
-                return;
-            }
-            item.style.animation =
-                `header-menu-navItem-fadein 400ms ease-in forwards ${index / 10 + 0.2}s`;
-        }
-
         return () => {
-            bugger?.removeEventListener("click", handleBurgerClickEvent);
             document?.removeEventListener("click", handleDomClickEvent);
-            window?.removeEventListener("resize", checkWindowSize);
-            userIcon?.removeEventListener("click", handleUserInfoClickEvent);
-            notiIcon?.removeEventListener("click", handleNotiClickEvent);
         }
-    }, [isSignIn])
+    }, [isSignin, role])
 
     return (
         <header className="header">
             <Logo />
-            <Menu />
-            {isSignIn ?
+            <Menu
+                closeBurger={closeBurger}
+                closeNotification={closeNotification}
+                closeUserInfo={closeUserInfo}
+            />
+            {isSignin ?
                 <React.Fragment>
-                    <Notification />
-                    <UserInfo />
+                    <Notification
+                        closeBurger={closeBurger}
+                        closeNotification={closeNotification}
+                        closeUserInfo={closeUserInfo}
+                    />
+                    <UserInfo
+                        closeBurger={closeBurger}
+                        closeNotification={closeNotification}
+                        closeUserInfo={closeUserInfo}
+                    />
                 </React.Fragment>
                 :
                 <a className="sign-in" href="/auth/sign-in">
