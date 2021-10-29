@@ -1,10 +1,20 @@
 
 
+
+export const newSearchCriteria = (props) => {
+    return {
+        type: "NEW_SEARCH_CRITERIA",
+        payload: {
+            ...props || null,
+        }
+    }
+}
+
 export const updateSearchValueToSearchCriteria = (searchValue) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            searchValue: searchValue
+            searchValue: searchValue || ""
         }
     }
 }
@@ -28,20 +38,20 @@ export const updateTopicsToSearchCriteria = (topics) => {
     }
 }
 
-export const updateQuantityToSearchCriteria = (quantity) => {
+export const updateUUIDToSearchCriteria = (uuid) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            quantity: quantity
+            uuid
         }
     }
 }
 
-export const updateUnitToSearchCriteria = (unit) => {
+export const updateNumberOfDateToSearchCriteria = (days) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            unit: unit
+            days
         }
     }
 }

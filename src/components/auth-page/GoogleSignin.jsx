@@ -59,7 +59,7 @@ function GoogleSignin({ setIsLoading }) {
                 ...data.information
             }))
             setIsLoading(false);
-            history.push("/home");
+            history.push("/search");
         }
 
         function onGetFailure(response, status, message) {

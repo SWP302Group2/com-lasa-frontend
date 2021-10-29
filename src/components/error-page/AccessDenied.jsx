@@ -1,6 +1,6 @@
 function AccessDenied() {
     return (
-        <div>Access Denied
+        <div >Access Denied
             <a href="/home">Back to home page!</a>
         </div>
     );

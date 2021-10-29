@@ -5,12 +5,11 @@
     flex-flow: column;
 
     width: 100%;
-    margin-top: 4rem;
-    min-height: calc(100vh - 4rem);
+    min-height: 100vh;
 
     &__headline {
         width: 100%;
-        margin-top: 4rem;
+        margin-top: 8rem;
         color: #fef4f5;
         text-align: center;
         font-size: 8vw;

@@ -2,118 +2,88 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
     updateLecturersToSearchCriteria,
-    updateSearchValueToSearchCriteria
+    updateSearchValueToSearchCriteria,
+    updateTopicsToSearchCriteria
 } from "../../redux/actions/search";
+import algorithm from "../../utils/algorithm";
 
-function SearchBar({ startSearching, lecturers }) {
+function SearchBar({ lecturers, topics, invokeSearch, buttonContent, ...props }) {
+    const [searchBarValue, setSearchBarValue] = useState("");
+    const [isSearching, setIsSearching] = useState(false);
+
+    const searchCriteria = useSelector(state => state.search)
     const dispatch = useDispatch();
-    const [lecturerPrompt, setLecturerPrompt] = useState([]);
-    const searchValue = useSelector(state => state.search.searchValue);
 
-    function handleSearchInputChange(event) {
-        const input = event?.target?.value || "";
-        dispatch(updateSearchValueToSearchCriteria(input));
-        processLecturerPrompt(input);
+    function handleSearchBarOnChange(event) {
+        const newValue = event.target.value || "";
+        setSearchBarValue(newValue);
     }
 
-    function processLecturerPrompt(input) {
-        if (!input) {
-            setLecturerPrompt([]);
-            disableLecturerPromptWithSearchBox()
-            dispatch(updateLecturersToSearchCriteria([]));
-            return;
-        };
+    function handleSearchBarOnSubmit(event) {
+        event.preventDefault();
+        scrollToSearchContent();
+        if (searchBarValue.trim() === "") return;
 
-        const matchedLecuturers = [...lecturers].filter(lecturer => {
-            if (!lecturer.name) return false;
-            //nml : nomalize
-            const nmlLecturerName = lecturer.name.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-            const nmlInput = input.normalize('NFD').replace(/[\u0300-\u036f]/g, "").toLowerCase();
-            return nmlLecturerName.includes(nmlInput) || nmlInput.includes(nmlLecturerName);
-        });
+        const matchedLecturers = analysisMatchedLecturer() || [];
+        const topics = analysisMatchedTopics() || [];
 
-        if (!Array.isArray(matchedLecuturers) || matchedLecuturers.length === 0) {
-            dispatch(updateLecturersToSearchCriteria([]));
-            disableLecturerPromptWithSearchBox()
+        setIsSearching(true);
+        dispatch(updateLecturersToSearchCriteria(matchedLecturers));
+
+        if (matchedLecturers.length === 0 && topics.length === 0) {
+            dispatch(updateSearchValueToSearchCriteria(searchBarValue));
             return;
         }
 
-        setLecturerPrompt(matchedLecuturers.slice(0, 10));
-        activeLecturerPromptWithSearchBox();
-        dispatch(updateLecturersToSearchCriteria(matchedLecuturers));
+        dispatch(updateSearchValueToSearchCriteria(""));
+        dispatch(updateTopicsToSearchCriteria(topics));
     }
 
-    function activeLecturerPromptWithSearchBox() {
-        const searchBox = document.querySelector(".search-content .search-box");
-        const prompt = document.querySelector(".search-content .search-box__prompt");
-        searchBox?.classList.add("active-search-box-with-prompt");
-        prompt?.classList.add("active-search-box-prompt");
+    function analysisMatchedLecturer() {
+        return algorithm.getMatchedListBySearchValue(lecturers, searchBarValue, "name");
     }
 
-    function disableLecturerPromptWithSearchBox() {
-        const searchBox = document.querySelector(".search-content .search-box");
-        const prompt = document.querySelector(".search-content .search-box__prompt");
-        searchBox?.classList.remove("active-search-box-with-prompt");
-        prompt?.classList.remove("active-search-box-prompt");
+    function analysisMatchedTopics() {
+        if (searchBarValue.length < 2) return;
+        return [...topics].filter(topic => {
+            console.log(searchBarValue);
+            console.log(topic);
+            if (topic.majorId.toLowerCase().includes(searchBarValue.toLowerCase())) return true;
+            if (searchBarValue.toLowerCase().includes(topic.majorId.toLowerCase())) return true;
+
+            if (searchBarValue.length < 3) return false;
+
+            if (topic.courseId.toLowerCase().includes(searchBarValue.toLowerCase())) return true;
+            if (searchBarValue.toLowerCase().includes(topic.courseId.toLowerCase())) return true;
+            return false;
+        }).concat(searchCriteria.topics);
     }
 
-    function handleSearchInputKeyDown(event) {
-        if (event.code !== "Enter") return;
-        disableLecturerPromptWithSearchBox();
-        startSearching();
-    }
-
-    function handleSearchIconOnClick(event) {
-        disableLecturerPromptWithSearchBox();
-        startSearching();
+    function scrollToSearchContent() {
+        const searchPageBody = document.querySelector(".search-content__body");
+        searchPageBody?.scrollIntoView({ behavior: "smooth" });
     }
 
     useEffect(() => {
-        //Init
-        const searchBox = document.querySelector(".search-content .search-box");
-        const prompt = document.querySelector(".search-content .search-box__prompt");
-        document.addEventListener("click", handleDomClickForSearchBox)
-
-        function handleDomClickForSearchBox(event) {
-            if (searchBox.contains(event.target) || prompt.contains(event.target))
-                return;
-            disableLecturerPromptWithSearchBox();
+        if (isSearching) {
+            invokeSearch();
+            setIsSearching(false);
+            scrollToSearchContent();
         }
-
-    }, [searchValue, lecturerPrompt]);
+    }, [isSearching, invokeSearch])
 
     return (
         <div className="search-bar">
-            <div className="search-box">
-                <div className="search-box__icon">
-                    <i
-                        className="material-icons"
-                        onClick={handleSearchIconOnClick}
-                    >search</i>
-                </div>
+            <form onSubmit={handleSearchBarOnSubmit}>
                 <input
                     type="search"
-                    className="search-box__input"
-                    placeholder="Filter your search with lecturer name..."
-                    value={searchValue}
-                    onChange={handleSearchInputChange}
-                    onFocus={handleSearchInputChange}
-                    onKeyDown={handleSearchInputKeyDown}
+                    value={searchBarValue}
+                    placeholder="Search name, topic, major..."
+                    onChange={handleSearchBarOnChange}
                 />
-                <div className="search-box__prompt">
-                    <div className="search-box__item-area">
-                        {lecturerPrompt && [...lecturerPrompt].map(lecturer =>
-                            <div
-                                className="search-box__prompt-item"
-                                key={`promptItem_${lecturer.id}`}
-                            >
-                                {lecturer.name}
-                            </div>
-                        )}
-                    </div>
-                    <div className="search-box__prompt-bottom"></div>
-                </div>
-            </div>
+                <button type="submit">{buttonContent || <i className="material-icons">search</i>}</button>
+            </form>
+            {props.children}
         </div>
     );
 }

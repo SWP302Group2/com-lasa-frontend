@@ -3,11 +3,11 @@ import "../../assets/css/welcomeContent.css";
 function WelcomeContent() {
 
     useEffect(() => {
-        const homeNavLink = document.querySelector(".navLink-home");
-        homeNavLink.classList.add("active-navItem");
+        const welcomeNavLink = document.querySelector(".navLink-home");
+        welcomeNavLink.classList.add("active-navItem");
 
         return () => {
-            homeNavLink.classList.remove("active-navItem");
+            welcomeNavLink.classList.remove("active-navItem");
         }
     }, [])
 

@@ -5,8 +5,7 @@
 }
 
 ::-webkit-scrollbar {
-    overflow: overlay;
-    width: 0rem;
+    width: 0.5rem;
     height: 0px;
 }
 
@@ -18,7 +17,7 @@
     border: 2px solid transparent;
     border-radius: 10px;
     background-clip: content-box;
-    background-color: rgb(53, 53, 53);
+    background-color: #878d91;
 }
 
 html {
@@ -26,9 +25,10 @@ html {
     background: transparent;
     scroll-behavior: smooth;
 }
+
 body {
     height: fit-content;
     min-height: 100vh;
     background: transparent;
-    font-family: "Montserrat", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    font-family: "Segoe UI", "Poppins", "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
 }

@@ -6,6 +6,7 @@ import HomePage from "../components/home-page/HomePage";
 import AuthPage from "../components/auth-page/AuthPage";
 import ErrorPage from "../components/error-page/ErrorPage";
 import SignOutRoute from "../utils/SignOutRoute";
+import AccessDenied from "../components/error-page/AccessDenied";
 
 function App() {
   return (
@@ -28,6 +29,10 @@ function App() {
           component={HomePage}
         />
         <Route
+          path="/dashboard"
+          component={HomePage}
+        />
+        <Route
           path="/auth"
           component={AuthPage}
         />
@@ -42,6 +47,10 @@ function App() {
         <Route
           exact path="/page-not-found"
           component={PageNotFound}
+        />
+        <Route
+          exact path="/access-denied"
+          component={AccessDenied}
         />
 
         <Redirect to={"/page-not-found"} />

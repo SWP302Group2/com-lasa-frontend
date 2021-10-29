@@ -20,7 +20,7 @@ $color-violet-blue: rgba(
     width: 100%;
     height: 4rem;
     font-family: "Poppins";
-    background: rgba($color: #131212, $alpha: 0.4);
+    background: #1d2233;
 
     .logo {
         display: flex;
@@ -124,7 +124,7 @@ $color-violet-blue: rgba(
         .active-notiList {
             display: flex;
             opacity: 1;
-            background: #fbfcff;
+            background: #fff;
         }
 
         &__headline {
@@ -267,7 +267,7 @@ $color-violet-blue: rgba(
         .active {
             display: flex;
             opacity: 1;
-            background: #fbfcff;
+            background: #fff;
         }
 
         &__user {
@@ -339,7 +339,7 @@ $color-violet-blue: rgba(
     }
 }
 
-@media all and (max-width: 767.5px) {
+@media all and (max-width: 1023.5px) {
     .header {
         min-width: 300px;
 
@@ -449,53 +449,6 @@ $color-violet-blue: rgba(
     }
 }
 
-@media all and (min-width: 768px) and (max-width: 1023.5px) {
-    .header {
-        .logo {
-            &__text {
-                display: none;
-            }
-        }
-
-        .menu {
-            height: 3rem;
-            margin: 0 auto;
-
-            &__burger {
-                display: none;
-            }
-
-            &__nav {
-                display: flex;
-                flex-flow: row nowrap;
-
-                height: 100%;
-                list-style-type: none;
-            }
-
-            &__navItem {
-                margin: 0 0.2rem;
-                a {
-                    display: flex;
-                    align-items: center;
-                    height: 100%;
-                    padding: 1rem;
-
-                    color: #f4f5fa;
-                    font-size: 0.9rem;
-                    text-decoration: none;
-                }
-            }
-
-            &__navItem:hover,
-            &__navItem:focus-within,
-            &__navItem.active-navItem {
-                box-shadow: 0 1px 0 #fff;
-            }
-        }
-    }
-}
-
 @media all and (min-width: 1024px) {
     .header {
         .logo {
@@ -537,7 +490,11 @@ $color-violet-blue: rgba(
             &__navItem:hover,
             &__navItem:focus-within,
             &__navItem.active-navItem {
-                box-shadow: 0 1px 0 #fff;
+                a {
+                    font-weight: 600;
+                    padding-top: calc(1rem + 2px);
+                }
+                border-bottom: 2px solid #0ebde9;
             }
         }
     }

@@ -16,8 +16,8 @@ function Header() {
     function closeBurger() {
         const bugger = document.querySelector(".header .menu__burger");
         const nav = document.querySelector(".header .menu__nav");
-        const navItem = document.querySelectorAll(".menu .menu__nav .menu__navItem");
-        const content = document.querySelector("#home-page .welcome-content");
+        const navItem = document.querySelectorAll(".header .menu__navItem");
+        const content = document.querySelector("#home-page .root-content");
 
         bugger?.classList?.remove("toggle");
         nav?.classList?.remove("active");
@@ -31,7 +31,7 @@ function Header() {
 
     function closeNotification() {
         const notiList = document.querySelector(".header .notification__list");
-        notiList?.classList?.remove("active");
+        notiList?.classList?.remove("active-notiList");
     }
 
     function closeUserInfo() {
@@ -42,7 +42,7 @@ function Header() {
     useEffect(() => {
         //Initialization
         checkSignInStatus();
-        document.addEventListener("click", handleDomClickEvent);
+        document.addEventListener("click", handleDomClickEventForHeader);
         const hiddenList = document.querySelectorAll(".hidden");
 
         function checkSignInStatus() {
@@ -50,7 +50,7 @@ function Header() {
             setIsSignin(accessToken != null && role != null);
         }
 
-        function handleDomClickEvent(event) {
+        function handleDomClickEventForHeader(event) {
             if (hiddenList && hiddenList.length !== 0)
                 isClickOnHiddenElm(event.target) || closeAllHidden();
         }
@@ -66,7 +66,7 @@ function Header() {
         }
 
         return () => {
-            document?.removeEventListener("click", handleDomClickEvent);
+            document?.removeEventListener("click", handleDomClickEventForHeader);
         }
     }, [isSignin, role])
 

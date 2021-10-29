@@ -67,17 +67,9 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
                         Search
                     </a>
                 </li>
-                <li className="menu__navItem">
+                <li className="menu__navItem navLink-dashboard">
                     <a
-                        href="/home"
-                        onClick={handleLinkOnClick}
-                    >
-                        Schedule
-                    </a>
-                </li>
-                <li className="menu__navItem">
-                    <a
-                        href="/home"
+                        href="/dashboard"
                         onClick={handleLinkOnClick}
                     >
                         Dashboard

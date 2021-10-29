@@ -1,0 +1,39 @@
+.loader {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.loader__content {
+  margin-top: 2rem;
+}
+
+.loader__circle {
+  border-radius: 50%;
+  border-top: 0.2rem solid #33a7f5;
+  border-right: 0.2rem solid #33a7f5;
+  border-bottom: 0.2rem solid #33a7f5;
+  border-left: 0.2rem solid transparent;
+  width: 2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+  -webkit-animation: loader-spin 1s linear infinite;
+          animation: loader-spin 1s linear infinite;
+}
+
+.loader__message {
+  color: #0c1e58;
+}
+/*# sourceMappingURL=loader.css.map */

@@ -27,14 +27,14 @@ function StudentOptional({ userInfo }) {
     }
 
     useEffect(() => {
-        //Start
-        majorApi.getMajors(onGetSuccess, onGetFailure);
+        majorApi.getMajorsWithoutPaging(onGetSuccess, onGetFailure);
 
         function onGetSuccess(data) {
             const majorData = data?.map(item => {
                 delete item["@id"];
                 return item;
             })
+            console.log(data);
             setMajors(majorData);
         }
 

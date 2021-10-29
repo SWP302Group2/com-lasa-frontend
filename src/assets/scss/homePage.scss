@@ -4,12 +4,16 @@
     left: 0;
 
     display: flex;
-    overflow-x: hidden;
+    overflow: overlay;
     width: 100%;
-    min-width: 300px;
+    min-width: fit-content;
     height: 100%;
     min-height: 100vh;
 
     background: url("../svg/Cloudy.svg") no-repeat center center fixed;
     background-size: cover;
+
+    &::-webkit-scrollbar {
+        width: 0;
+    }
 }

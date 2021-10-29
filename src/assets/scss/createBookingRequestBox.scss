@@ -1,0 +1,242 @@
+.create-booking-request-box {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 300px;
+
+    opacity: 0;
+    transform: translateY(-100vh);
+    transition: opacity 200ms ease, transform 400ms ease-in-out;
+    background: rgba($color: #000000, $alpha: 0.4);
+
+    .box {
+        display: flex;
+        flex-flow: column nowrap;
+        overflow: overlay;
+
+        width: 100%;
+        max-width: 600px;
+        min-width: calc(300px - 2rem);
+        height: fit-content;
+        max-height: 70vh;
+        overflow: auto;
+        margin: 0 auto;
+        border-radius: 6px;
+
+        background: #fff;
+        box-shadow: 0 0 10px rgba($color: #000000, $alpha: 0.4);
+        &::-webkit-scrollbar {
+            width: 0.4rem;
+        }
+
+        &__headline {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 4rem;
+            width: 100%;
+
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: 0.2rem;
+            color: #fff;
+            background: #0190a3;
+
+            i.book {
+                font-size: 2rem;
+                margin-right: 1rem;
+            }
+            i.close {
+                position: absolute;
+                top: 0.2rem;
+                right: 0.2rem;
+
+                padding: 0.2rem;
+                border-radius: 50%;
+                cursor: pointer;
+                &:hover {
+                    background: rgba($color: #000000, $alpha: 0.4);
+                }
+            }
+        }
+
+        &__content {
+            display: flex;
+            flex-flow: column nowrap;
+            width: 100%;
+            padding: 0 1rem;
+            overflow-y: auto;
+        }
+
+        &__from,
+        &__to,
+        &__title {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 2.5rem;
+            border-bottom: 1px solid #a7a7a7;
+            p {
+                width: 50px;
+                font-size: 0.9rem;
+                margin-bottom: 3px;
+            }
+            input {
+                display: inline-block;
+                overflow: hidden;
+                width: calc(100% - 50px);
+                height: 2rem;
+                padding: 0.5rem;
+
+                outline: none;
+                border: none;
+                font-size: 0.9rem;
+                white-space: normal;
+                text-overflow: ellipsis;
+                background: transparent;
+            }
+        }
+
+        &__title {
+            input {
+                background: #eeeeee;
+            }
+        }
+
+        &__select-topic {
+            margin-top: 0.5rem;
+            min-height: 2rem;
+            outline: none;
+            border: 1px solid #777;
+        }
+
+        &__question-area {
+            display: flex;
+            flex-flow: column nowrap;
+            margin-top: 0.5rem;
+            height: 250px;
+
+            &__add-button {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: fit-content;
+                cursor: pointer;
+                margin-top: 0.5rem;
+                padding: 0.2rem;
+                border-radius: 50%;
+                color: #fff;
+                background: #0190a3;
+            }
+        }
+
+        &__question {
+            width: 100%;
+            height: 2rem;
+
+            border: 1px solid #999;
+            &:hover,
+            &:focus-within {
+                box-shadow: -2px -2px 3px #cad2d3, 2px 2px 3px #b3b6b9;
+            }
+
+            &:not(:nth-child(1)) {
+                margin-top: 0.5rem;
+            }
+
+            &__headline {
+                display: flex;
+                align-items: center;
+                flex-wrap: nowrap;
+                width: 100%;
+                height: 100%;
+
+                font-size: 0.9rem;
+
+                i {
+                    cursor: pointer;
+                    transition: transform 400ms ease-in-out;
+                }
+
+                i.rotate-180 {
+                    transform: rotate(-180deg);
+                }
+            }
+
+            &__cn {
+                display: flex;
+                justify-content: center;
+                width: 40px;
+            }
+
+            &__minimal-content {
+                display: inline-block;
+                width: 100%;
+                padding-right: 1rem;
+
+                cursor: pointer;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            &__content {
+                width: calc(100% + 2px);
+                margin-left: -1px;
+                height: 0px;
+                padding: 0.5rem;
+
+                opacity: 0;
+                border: none;
+                outline: none;
+                background: #fff;
+                transition: transform 400ms ease-in-out, height 400ms ease;
+
+                &:hover,
+                &:focus-within {
+                    box-shadow: -1px 1px 2px #cad2d3, 1px 1px 2px #b3b6b9;
+                }
+            }
+
+            .active-question-textarea {
+                height: 100px;
+                opacity: 1;
+                border: 1px solid #999;
+            }
+        }
+
+        &__bottom {
+            width: 100%;
+            padding: 1rem;
+
+            button {
+                width: 100%;
+                height: 3rem;
+                border: none;
+                outline: none;
+
+                color: #fff;
+                cursor: pointer;
+                background: #0190a3;
+
+                &:hover {
+                    background: #03bbd3;
+                }
+            }
+        }
+    }
+}
+
+.active-create-booking-request-box {
+    opacity: 1;
+    transform: translateY(0px);
+}

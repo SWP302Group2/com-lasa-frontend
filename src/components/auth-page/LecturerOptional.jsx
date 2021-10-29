@@ -70,7 +70,7 @@ function LecturerOptional({ userInfo }) {
 
         signupTopics.push(selectedTopic);
         dispatch(updateSignupTopics(signupTopics));
-        target.style.animation = "auth-signup-searchItem-added 150ms ease";
+        target.style.animation = "auth-signup-searchItem-added 250ms ease";
         setTimeout(() => target.style.animation = null, 150);
     }
 
@@ -105,11 +105,12 @@ function LecturerOptional({ userInfo }) {
         const searchResultBox = document.querySelector(".auth-page .sign-up__topic__search-result");
 
         //Start
-        topicApi.getTopics(onGetSuccess, onGetFailure);
+        topicApi.getTopicsNoPaging(onGetSuccess, onGetFailure);
         document.addEventListener("click", handleDomClickEvent);
         document.addEventListener("keydown", handleKeyDownEvent);
 
         function onGetSuccess(data) {
+            console.log(data)
             const topicData = data?.map(item => {
                 delete item["@id"];
                 return item;

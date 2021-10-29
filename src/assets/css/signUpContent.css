@@ -405,9 +405,6 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: space-evenly;
-      -ms-flex-pack: space-evenly;
-          justify-content: space-evenly;
   width: 100%;
 }
 
@@ -423,10 +420,9 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
-  width: -webkit-fit-content;
-  width: -moz-fit-content;
-  width: fit-content;
+  width: 120px;
   padding: 0.2rem 0.5rem;
+  margin-right: 0.5rem;
   margin-bottom: 0.5rem;
   border-radius: 6px;
   font-size: 0.8rem;
@@ -636,10 +632,10 @@
     background: #ccc;
   }
   10% {
-    background: #62e0cb;
+    background: #1180a1;
   }
   to {
-    background: #62e0cb;
+    background: #0893b6;
   }
 }
 
@@ -648,10 +644,10 @@
     background: #ccc;
   }
   10% {
-    background: #62e0cb;
+    background: #1180a1;
   }
   to {
-    background: #62e0cb;
+    background: #0893b6;
   }
 }
 /*# sourceMappingURL=signUpContent.css.map */

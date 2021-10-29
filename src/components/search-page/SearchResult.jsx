@@ -1,94 +1,44 @@
-import { useEffect, useState } from "react";
-import { RANDOM_IMG_API } from "../../utils/constant";
-import SearchResultLoadingEffect from "./SearchResultLoadingEffect";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { newBookingRequest } from "../../redux/actions/booking";
+import { STUDENT_ROLE } from "../../utils/constant";
+import CreateBookingRequestBox from "./CreateBookingRequestBox";
+import SlotItem from "./SlotItem";
+import SlotList from "./SlotList";
 
-function SearchResult({
-    matchedSlots,
-    isFilterWithTopic,
-    isLoading,
-    setIsLoading,
-    lecturers,
-    isSearchNotMatched
-}) {
-    const [resultItems, setResultItems] = useState([]);
+function SearchResult({ matchedSlots, ...props }) {
+    const [isStartToBooking, setIsStartToBooking] = useState(false);
 
-    useEffect(() => {
-        if (
-            Array.isArray(matchedSlots) &&
-            matchedSlots.length !== 0 &&
-            isFilterWithTopic &&
-            lecturers.length !== 0
-        ) {
-            createResultItems();
-        }
+    const user = useSelector(state => state.user)
+    const dispatch = useDispatch();
 
-        function createResultItems() {
-            const resultItems = matchedSlots.map(slot => {
-                slot.lecturer = getLecturerById(slot.lecturerId);
-                return slot;
-            })
-            console.log("Result Items")
-            console.log(resultItems)
-            setResultItems(resultItems);
-            setIsLoading(false);
-        }
-
-        function getLecturerById(id) {
-            const result = [...lecturers].find(lecturer => lecturer.id === id);
-            if (!result) {
-                console.log("Update slot info fail, Id: " + id);
-            }
-            return result;
-        }
-
-    }, [matchedSlots, isFilterWithTopic, lecturers, setIsLoading]);
+    function openCreateBookingRequest(event, slot) {
+        if (user.role !== STUDENT_ROLE) return;
+        dispatch(newBookingRequest({ slot }));
+        setIsStartToBooking(true);
+    }
 
     return (
         <div className="search-result">
-            {isLoading ? <SearchResultLoadingEffect /> : null}
-            {isSearchNotMatched ?
-                <div className="search-result__notMatch">
-                    Your search does not match anything.
-                </div> : null
+            {matchedSlots === null &&
+                <div className="not-match">
+                    There was no slot matching with your search.
+                </div>
             }
-            <div className="search-result__subject search-result__content ">
-                {
-                    !isSearchNotMatched &&
-                    Array.isArray(resultItems) &&
-                    resultItems.length !== 0 &&
-                    isFilterWithTopic &&
-                    [...resultItems].map(slot =>
-                        <div
-                            className="search-result__slot"
-                            key={"slot_" + slot.id}
-                        >
-                            <div className="search-result__slot__avatar">
-                                <img src={slot.lecturer.avatarUrl || RANDOM_IMG_API} alt="" />
-                            </div>
-                            <div className="search-result__slot__info">
-                                <div className="search-result__slot__host">
-                                    <div className="search-result__slot__name">
-                                        {slot.lecturer.name || "Annonymus"}
-                                    </div>
-                                    <div className="search-result__slot__topic">
-                                        Slot's topic:
-                                        {slot.topics && [...slot.topics].map(topic =>
-                                            <div key={`topic_${topic.id}`} className="search-result__slot__topic-item">{topic.courseId}</div>
-                                        )}
-                                    </div>
-                                    <div className="search-result__slot__time">
-                                        Starting from {slot.timeStart || ""} to {slot.timeStart || ""}
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
+            <SlotList>
+                {Array.isArray(matchedSlots) && matchedSlots.length > 0 &&
+                    [...matchedSlots].map(slot =>
+                        <SlotItem
+                            slot={slot}
+                            key={"slot__" + slot.id}
+                            openCreateBookingRequest={openCreateBookingRequest}
+                        />
                     )
                 }
-            </div>
-            <div className="search-result__subject up-coming"></div>
-            <div className="search-result__subject top-rating-list"></div>
-        </div>
+            </SlotList>
+            {isStartToBooking && <CreateBookingRequestBox setIsStartToBooking={setIsStartToBooking} />}
+            {props.children}
+        </div >
     );
 }
 

@@ -1,0 +1,99 @@
+#home-page .dashboard-content .student-dashboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  width: 100%;
+  height: calc(100vh - 4rem);
+}
+
+#home-page .dashboard-content .student-dashboard__content {
+  background: #fff;
+  padding: 1rem;
+  overflow-x: auto;
+  width: 100%;
+}
+
+#home-page .dashboard-content .student-dashboard__content__headline {
+  color: #2581be;
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__headline {
+  color: #2581be;
+  margin-top: 2rem;
+  padding-left: 1rem;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list--waiting h3 {
+  color: #18693d;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list--ready h3 {
+  color: #28c56f;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list--denied h3 {
+  color: #da5521;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list--canceled h3 {
+  color: #9d9d9d;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list--finish-meeting h3 {
+  color: #6a9b9c;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  width: 30%;
+  min-width: 268px;
+  -webkit-box-shadow: -5px -5px 10px #d9e1e4, 5px 5px 10px #d5dbdd;
+          box-shadow: -5px -5px 10px #d9e1e4, 5px 5px 10px #d5dbdd;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request > * {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request > * p {
+  font-size: 600;
+  width: 80px;
+}
+/*# sourceMappingURL=studentDashboard.css.map */
