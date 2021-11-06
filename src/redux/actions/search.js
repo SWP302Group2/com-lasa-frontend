@@ -10,11 +10,22 @@ export const newSearchCriteria = (props) => {
     }
 }
 
-export const updateSearchValueToSearchCriteria = (searchValue) => {
+
+export const updateSearchBarValueToSearchCriteria = (value) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            searchValue: searchValue || ""
+            searchBarValue: value || ""
+        }
+    }
+}
+
+
+export const updateSearchLecturerValueToSearchCriteria = (value) => {
+    return {
+        type: "UPDATE_SEARCH_CRITERIA",
+        payload: {
+            searchLecturerValue: value || ""
         }
     }
 }
@@ -47,11 +58,29 @@ export const updateUUIDToSearchCriteria = (uuid) => {
     }
 }
 
-export const updateNumberOfDateToSearchCriteria = (days) => {
+export const updateTimeToSearchCriteria = (time) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            days
+            time
+        }
+    }
+}
+
+export const updateSortByToSearchCriteria = (sortBy) => {
+    return {
+        type: "UPDATE_SEARCH_CRITERIA",
+        payload: {
+            sortBy
+        }
+    }
+}
+
+export const updateOrderByToSearchCriteria = (orderBy) => {
+    return {
+        type: "UPDATE_SEARCH_CRITERIA",
+        payload: {
+            orderBy
         }
     }
 }

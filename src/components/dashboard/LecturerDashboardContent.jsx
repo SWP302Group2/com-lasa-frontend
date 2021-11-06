@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from "react-router-dom";
+import LecturerDashboardSchedule from "./LecturerDashboardSchedule";
 import LecturerDashboardSlot from "./LecturerDashboardSlot";
 
 function LecturerDashboardContent() {
@@ -6,7 +7,11 @@ function LecturerDashboardContent() {
         <Switch>
             <Route
                 exact path="/dashboard"
-                component={LecturerDashboardSlot}
+                component={LecturerDashboardSchedule}
+            />
+            <Route
+                exact path="/dashboard/schedule"
+                component={LecturerDashboardSchedule}
             />
             <Route
                 exact path="/dashboard/slots"

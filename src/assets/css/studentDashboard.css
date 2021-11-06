@@ -11,9 +11,9 @@
 }
 
 #home-page .dashboard-content .student-dashboard__content {
-  background: #fff;
-  padding: 1rem;
-  overflow-x: auto;
+  display: inline-block;
+  background: #eff1f3;
+  overflow: overlay;
   width: 100%;
 }
 
@@ -25,36 +25,160 @@
   letter-spacing: 0.2rem;
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list__headline {
-  color: #2581be;
-  margin-top: 2rem;
-  padding-left: 1rem;
-  font-size: 1.2rem;
-  letter-spacing: 0.1rem;
+#home-page .dashboard-content .student-dashboard__content .booking-list {
+  display: inline-block;
+  width: 100%;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  padding: 0 1rem;
   text-transform: uppercase;
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list--waiting h3 {
-  color: #18693d;
+#home-page .dashboard-content .student-dashboard__content .booking-list__title {
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list--ready h3 {
-  color: #28c56f;
-}
-
-#home-page .dashboard-content .student-dashboard__content .booking-list--denied h3 {
-  color: #da5521;
-}
-
-#home-page .dashboard-content .student-dashboard__content .booking-list--canceled h3 {
+#home-page .dashboard-content .student-dashboard__content .booking-list__title--1 {
   color: #9d9d9d;
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list--finish-meeting h3 {
+#home-page .dashboard-content .student-dashboard__content .booking-list__title--2 {
+  color: #0bad54;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__title---1 {
+  color: #da5521;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__title--0 {
+  color: #4e4e4e;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__title--4 {
   color: #6a9b9c;
 }
 
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel {
+  margin-left: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .refresh,
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .expand-more {
+  border-radius: 50%;
+  padding: 0.2rem;
+  font-size: 2rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .refresh:hover, #home-page .dashboard-content .student-dashboard__content .booking-list__panel .refresh:active,
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .expand-more:hover,
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .expand-more:active {
+  cursor: pointer;
+  background: #ccc;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .refresh {
+  margin-right: 0.5rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .expand-more {
+  -webkit-transition: -webkit-transform 400ms ease-in-out;
+  transition: -webkit-transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__panel .rotate-180 {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
 #home-page .dashboard-content .student-dashboard__content .booking-list__content {
+  position: relative;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(200px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 2rem;
+  padding: 1rem;
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: 200px;
+  -webkit-transition: all 200ms linear;
+  transition: all 200ms linear;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request {
+  display: -ms-grid;
+  display: grid;
+  grid-gap: 1rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  opacity: 0;
+  -webkit-transform: translateY(50px);
+          transform: translateY(50px);
+  border: 1px solid #e7e7e7;
+  background: #fff;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request:hover {
+  border: 1 solid transparent;
+  -webkit-box-shadow: -4px -4px 8px #d9e1e4, 4px 4px 8px #d5dbdd;
+          box-shadow: -4px -4px 8px #d9e1e4, 4px 4px 8px #d5dbdd;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__more-detail {
+  position: absolute;
+  top: -1px;
+  right: -1px;
+  padding: 0 0.5rem;
+  font-size: 1.5rem;
+  color: #fff;
+  background-color: #3a8ad4;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-transition: -webkit-transform 200ms ease;
+  transition: -webkit-transform 200ms ease;
+  transition: transform 200ms ease;
+  transition: transform 200ms ease, -webkit-transform 200ms ease;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__more-detail:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.5);
+          transform: scale(1.5);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__more-detail:active {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__lecturer-name, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__topic, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-start, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__create-time, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-end {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -62,14 +186,87 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: row wrap;
           flex-flow: row wrap;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  padding: 1rem;
-  width: 100%;
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request {
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__lecturer-name > p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__topic > p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-start > p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url > p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__create-time > p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-end > p {
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__lecturer-name > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__topic > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-start > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__create-time > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-end > div {
+  display: inline-block;
+  width: 100%;
+  padding: 0.4rem 0;
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  border-bottom: 1px solid #2c5570;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__lecturer-name > div > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__topic > div > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-start > div > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url > div > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__create-time > div > div, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-end > div > div {
+  display: inline-block;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__lecturer-name > div > div:first-child, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__topic > div > div:first-child, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-start > div > div:first-child, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url > div > div:first-child, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__create-time > div > div:first-child, #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__time-end > div > div:first-child {
+  margin-right: 0.5rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url a {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 3px;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: #10866d;
+  text-decoration: none;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url a:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 2;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  min-width: 300px;
+  opacity: 0;
+  -webkit-transition: opacity 300ms ease-in-out;
+  transition: opacity 300ms ease-in-out;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -77,23 +274,416 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  width: 30%;
-  min-width: 268px;
-  -webkit-box-shadow: -5px -5px 10px #d9e1e4, 5px 5px 10px #d5dbdd;
-          box-shadow: -5px -5px 10px #d9e1e4, 5px 5px 10px #d5dbdd;
+  overflow: overlay;
+  position: relative;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  min-width: calc(300px - 2rem);
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: 70vh;
+  overflow: auto;
+  margin: 0 auto;
+  border-radius: 6px;
+  background: #fff;
+  -webkit-transform: translateY(-50vh);
+          transform: translateY(-50vh);
+  -webkit-transition: -webkit-transform 400ms ease-in-out;
+  transition: -webkit-transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
+  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request > * {
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box::-webkit-scrollbar {
+  width: 0.4rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__headline {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  height: 4rem;
   width: 100%;
+  text-align: center;
+  font-size: 1.6rem;
+  font-weight: 500;
+  letter-spacing: 0.2rem;
+  color: #fff;
+  background: #3a8ad4;
 }
 
-#home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request > * p {
-  font-size: 600;
-  width: 80px;
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__headline i.book {
+  font-size: 2rem;
+  margin-right: 1rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__headline i.close {
+  position: absolute;
+  top: 0.2rem;
+  right: 0.2rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__headline i.close:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: 100%;
+  padding: 0 1rem;
+  overflow-y: overlay;
+  margin-bottom: 1rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__from, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__to, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__title {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 100%;
+  height: 2.5rem;
+  border-bottom: 1px solid #a7a7a7;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__from p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__to p, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__title p {
+  width: 50px;
+  font-size: 0.9rem;
+  margin-bottom: 3px;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__from input, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__to input, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__title input {
+  display: inline-block;
+  overflow: hidden;
+  width: calc(100% - 50px);
+  height: 2rem;
+  padding: 0.5rem;
+  outline: none;
+  border: none;
+  font-size: 0.9rem;
+  white-space: normal;
+  text-overflow: ellipsis;
+  background: transparent;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__title input {
+  background: #eeeeee;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__select-topic {
+  margin-top: 0.5rem;
+  min-height: 2rem;
+  outline: none;
+  border: 1px solid #777;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  margin-top: 0.5rem;
+  max-height: 250px;
+  min-height: 150px;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question-area__add-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  color: #fff;
+  background: #3a8ad4;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question {
+  width: 100%;
+  height: 2rem;
+  border: 1px solid #999;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question:hover, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question:focus-within {
+  -webkit-box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
+          box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question:not(:nth-child(1)) {
+  margin-top: 0.5rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__headline {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  width: 100%;
+  height: 100%;
+  font-size: 0.9rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__headline i {
+  cursor: pointer;
+  -webkit-transition: -webkit-transform 400ms ease-in-out;
+  transition: -webkit-transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__headline i.rotate-180 {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__cn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 40px;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__minimal-content {
+  display: inline-block;
+  width: 100%;
+  padding-right: 1rem;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__content {
+  width: calc(100% + 2px);
+  margin-left: -1px;
+  height: 0px;
+  padding: 0.5rem;
+  opacity: 0;
+  border: none;
+  outline: none;
+  background: #fff;
+  -webkit-transition: height 400ms ease, -webkit-transform 400ms ease-in-out;
+  transition: height 400ms ease, -webkit-transform 400ms ease-in-out;
+  transition: transform 400ms ease-in-out, height 400ms ease;
+  transition: transform 400ms ease-in-out, height 400ms ease, -webkit-transform 400ms ease-in-out;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__content:hover, #home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question__content:focus-within {
+  -webkit-box-shadow: -1px 1px 2px #cad2d3, 1px 1px 2px #b3b6b9;
+          box-shadow: -1px 1px 2px #cad2d3, 1px 1px 2px #b3b6b9;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__question .active-question-textarea {
+  height: 100px;
+  opacity: 1;
+  border: 1px solid #999;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: space-evenly;
+      -ms-flex-pack: space-evenly;
+          justify-content: space-evenly;
+  width: 100%;
+  text-align: center;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 140px;
+  height: 40px;
+  border-radius: 3px;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  -webkit-transition: -webkit-transform 300ms ease-in-out;
+  transition: -webkit-transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button--update {
+  color: #fff;
+  background: #3a8ad4;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button--update:hover {
+  background: #34bee0;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button--remove {
+  color: #fff;
+  background: #dd3d3d;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button--remove:hover {
+  background: #f74d4d;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button--cancel {
+  color: #686868;
+  background: #fff;
+  border: 1px solid #999;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom__button--cancel:hover {
+  color: #fff;
+  background: #686868;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .edit-box .box__bottom-message {
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 600;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .active-edit-booking-request-box {
+  opacity: 1;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list__content .active-edit-booking-request-box .box {
+  -webkit-transform: translateY(0px);
+          transform: translateY(0px);
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list .hide-booking-list-content {
+  height: 0;
+  opacity: 0;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#home-page .dashboard-content .student-dashboard__content .booking-list .hide-booking-list-content * {
+  opacity: 0;
+  border: 0;
+  overflow: hidden;
+}
+
+@media all and (max-width: 500.5px) {
+  #home-page .dashboard-content .student-dashboard {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+    width: 100%;
+    height: calc(100vh - 4rem);
+  }
+  #home-page .dashboard-content .student-dashboard__content {
+    padding: 1rem 0;
+  }
+}
+
+@media all and (min-width: 501px) {
+  #home-page .dashboard-content .student-dashboard {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row nowrap;
+            flex-flow: row nowrap;
+    width: 100%;
+    height: calc(100vh - 4rem);
+  }
+  #home-page .dashboard-content .student-dashboard__content {
+    padding: 1rem;
+  }
+}
+
+@-webkit-keyframes dashboard-booking-item-fadein {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+            transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+@keyframes dashboard-booking-item-fadein {
+  from {
+    opacity: 0;
+    -webkit-transform: translateY(50px);
+            transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
 }
 /*# sourceMappingURL=studentDashboard.css.map */

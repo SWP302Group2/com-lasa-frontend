@@ -6,23 +6,26 @@ import AdminDashboard from "./AdminDashBoard";
 import LecturerDashboard from "./LecturerDashboard";
 import StudentDashboard from "./StudentDashboard";
 
-function DashboardContent() {
+function DashboardContent({ setIsCheckedAuth }) {
     const role = useSelector(state => state.user.role)
 
-    useEffect(() => {
-        const start = () => {
-            const dashboardNavLink = document.querySelector(".navLink-dashboard");
-            dashboardNavLink.classList.add("active-navItem");
-            document.title = DASHBOARD_PAGE_TITLE;
+    useEffect(checkAuthentication, [setIsCheckedAuth]);
+    useEffect(displayTitleAndActiveNavLink, []);
+
+    function checkAuthentication() {
+        setIsCheckedAuth(false);
+    }
+
+    function displayTitleAndActiveNavLink() {
+        document.title = DASHBOARD_PAGE_TITLE;
+        const dashboardNavLink = document.querySelector(".navLink-dashboard");
+        dashboardNavLink?.classList.add("active-navItem");
+
+        return () => {
+            dashboardNavLink?.classList.remove("active-navItem");
         }
-        start();
+    }
 
-        const end = () => {
-
-        }
-
-        return end;
-    }, [role])
     return (
         <div className="dashboard-content root-content">
             {role && role === STUDENT_ROLE &&

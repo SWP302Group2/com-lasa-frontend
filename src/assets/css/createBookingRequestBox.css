@@ -16,12 +16,8 @@
           justify-content: center;
   min-width: 300px;
   opacity: 0;
-  -webkit-transform: translateY(-100vh);
-          transform: translateY(-100vh);
-  -webkit-transition: opacity 200ms ease, -webkit-transform 400ms ease-in-out;
-  transition: opacity 200ms ease, -webkit-transform 400ms ease-in-out;
-  transition: opacity 200ms ease, transform 400ms ease-in-out;
-  transition: opacity 200ms ease, transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
+  -webkit-transition: opacity 0.3s ease-in-out;
+  transition: opacity 0.3s ease-in-out;
   background: rgba(0, 0, 0, 0.4);
 }
 
@@ -102,7 +98,8 @@
           flex-flow: column nowrap;
   width: 100%;
   padding: 0 1rem;
-  overflow-y: auto;
+  overflow-y: overlay;
+  margin-bottom: 1rem;
 }
 
 .create-booking-request-box .box__from, .create-booking-request-box .box__to, .create-booking-request-box .box__title {
@@ -157,7 +154,8 @@
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
   margin-top: 0.5rem;
-  height: 250px;
+  max-height: 250px;
+  min-height: 150px;
 }
 
 .create-booking-request-box .box__question-area__add-button {
@@ -188,8 +186,8 @@
 }
 
 .create-booking-request-box .box__question:hover, .create-booking-request-box .box__question:focus-within {
-  -webkit-box-shadow: -2px -2px 3px #cad2d3, 2px 2px 3px #b3b6b9;
-          box-shadow: -2px -2px 3px #cad2d3, 2px 2px 3px #b3b6b9;
+  -webkit-box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
+          box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
 }
 
 .create-booking-request-box .box__question:not(:nth-child(1)) {
@@ -212,10 +210,10 @@
 
 .create-booking-request-box .box__question__headline i {
   cursor: pointer;
-  -webkit-transition: -webkit-transform 400ms ease-in-out;
-  transition: -webkit-transform 400ms ease-in-out;
-  transition: transform 400ms ease-in-out;
-  transition: transform 400ms ease-in-out, -webkit-transform 400ms ease-in-out;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
 }
 
 .create-booking-request-box .box__question__headline i.rotate-180 {
@@ -252,10 +250,10 @@
   border: none;
   outline: none;
   background: #fff;
-  -webkit-transition: height 400ms ease, -webkit-transform 400ms ease-in-out;
-  transition: height 400ms ease, -webkit-transform 400ms ease-in-out;
-  transition: transform 400ms ease-in-out, height 400ms ease;
-  transition: transform 400ms ease-in-out, height 400ms ease, -webkit-transform 400ms ease-in-out;
+  -webkit-transition: height 0.3s ease, -webkit-transform 0.3s ease-in-out;
+  transition: height 0.3s ease, -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, height 0.3s ease;
+  transition: transform 0.3s ease-in-out, height 0.3s ease, -webkit-transform 0.3s ease-in-out;
 }
 
 .create-booking-request-box .box__question__content:hover, .create-booking-request-box .box__question__content:focus-within {
@@ -271,16 +269,17 @@
 
 .create-booking-request-box .box__bottom {
   width: 100%;
-  padding: 1rem;
 }
 
 .create-booking-request-box .box__bottom button {
   width: 100%;
-  height: 3rem;
+  height: 4rem;
   border: none;
   outline: none;
+  border-radius: 0;
   color: #fff;
   cursor: pointer;
+  font-size: 1.2rem;
   background: #0190a3;
 }
 

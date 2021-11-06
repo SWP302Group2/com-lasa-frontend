@@ -2,10 +2,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  overflow: overlay;
+  overflow: auto;
   width: 100%;
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;

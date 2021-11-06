@@ -2,49 +2,40 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { timeList } from "../../data/timeList";
-import { updateNumberOfDateToSearchCriteria } from "../../redux/actions/search";
+import { updateTimeToSearchCriteria } from "../../redux/actions/search";
+import TimeOption from "./TimeOption";
 
 
 
 function TimeFilter({ invokeSearch }) {
-    const [isUpdateDays, setIsUpdateDays] = useState(false);
-    const days = useSelector(state => state.search.days)
+    const [isUpdateTime, setIsUpdateTime] = useState(false);
+    const time = useSelector(state => state.search.time)
     const dispatch = useDispatch();
 
-    function handleSelectTimeOnChange(event) {
-        const value = Number.parseInt(event.target?.value) || 1;
-        dispatch(updateNumberOfDateToSearchCriteria(value));
-        setIsUpdateDays(true);
+    function handleOptionTimeOnChange(event, item) {
+        dispatch(updateTimeToSearchCriteria(item));
+        setIsUpdateTime(true);
     }
 
     useEffect(() => {
-        const start = () => {
-            if (isUpdateDays) {
-                invokeSearch();
-                setIsUpdateDays(false);
-            }
-        }
-        start();
-    }, [dispatch, isUpdateDays, invokeSearch]);
+        if (!isUpdateTime) return;
+
+        invokeSearch();
+        setIsUpdateTime(false);
+    }, [dispatch, isUpdateTime, invokeSearch]);
 
     return (
         <div className="time-filter">
-            <h3 className="time-filter__header">START TIME</h3>
+            <h3 className="time-filter__header">TIME</h3>
             <div className="time-filter__content">
-                <select
-                    title="Choose period of time"
-                    onChange={handleSelectTimeOnChange}
-                    value={days}
-                >
-                    {[...timeList].map(item =>
-                        <option
-                            key={`time_${item.value}`}
-                            value={item.value}
-                        >
-                            {item.name}
-                        </option>
-                    )}
-                </select>
+                {[...timeList].map((item, index) =>
+                    <TimeOption
+                        key={`time__${item.id}`}
+                        item={item}
+                        selectedTime={time}
+                        onClickCallback={handleOptionTimeOnChange}
+                    />
+                )}
             </div>
         </div>
     );

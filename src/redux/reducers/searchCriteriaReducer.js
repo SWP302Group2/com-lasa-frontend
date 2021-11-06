@@ -1,9 +1,15 @@
+import orderByList from "../../data/orderByList";
+import sortByList from "../../data/sortByList";
+import { timeList } from "../../data/timeList";
 
 const initialState = {
-    searchValue: "",
+    searchBarValue: "",
+    searchLecturerValue: "",
     lecturers: [],
     topics: [],
-    days: 7,
+    time: timeList[0],
+    sortBy: sortByList[0],
+    orderBy: orderByList[0],
     uuid: ""
 }
 

@@ -1,10 +1,15 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTopicsToSearchCriteria } from "../redux/actions/search";
 import Prompt from "./Prompt";
 import PromptItem from "./PromptItem";
 
-function TopicPicker({ topics, value, onChange }) {
+function TopicPicker({ topics, invokeSearch }) {
     const [searchValue, setSearchValue] = useState("");
     const [prompt, setPrompt] = useState([]);
+
+    const searchCriteria = useSelector(state => state.search)
+    const dispatch = useDispatch();
 
     function handleSearchTopicChange(event) {
         const input = event.target.value || "";
@@ -14,6 +19,7 @@ function TopicPicker({ topics, value, onChange }) {
 
     function handleTopicPickerOnKeyDown(event) {
         const key = event.key;
+        event.stopPropagation();
 
         if (event.key === "Escape") {
             hidePrompt();
@@ -70,20 +76,21 @@ function TopicPicker({ topics, value, onChange }) {
         if (!selectedTopic) return;
         if (isExistInValue(selectedTopic)) return;
 
-        if (event.target) {
-            event.target.style.animation = `prompt-topic-click 50ms ease-in-out`;
-            setTimeout(() => {
-                if (event.target) {
-                    event.target.style.animation = null;
-                }
-            }, 200);
+        const activeItem = document.querySelector(".prompt__topic-active");
+        activeItem?.classList.remove("prompt__topic-active");
+
+        const newTopics = Array.isArray(searchCriteria.topics) ?
+            searchCriteria.topics : [];
+        newTopics.push(selectedTopic);
+        dispatch(updateTopicsToSearchCriteria([...newTopics]));
+        if (invokeSearch) {
+            invokeSearch();
         }
-        value.push(selectedTopic);
-        onChange(value);
+        hidePrompt();
     }
 
     function isExistInValue(selectedTopic) {
-        return value?.find(topic => selectedTopic.id === topic.id);
+        return searchCriteria.topics?.find(topic => selectedTopic.id === topic.id);
     }
 
     function hidePrompt() {

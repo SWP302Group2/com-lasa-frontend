@@ -6,99 +6,21 @@
 
     &__content {
         background: #fff;
-        padding: 1rem;
+        padding: 1rem 2rem;
         overflow-x: auto;
         width: 100%;
 
         &__headline {
-            color: #2581be;
+            display: flex;
+            flex-flow: wrap;
+            align-items: center;
             margin-bottom: 1rem;
-            padding-left: 1rem;
+            &__title {
+                width: 100%;
+                color: #2581be;
 
-            font-size: 2rem;
-            letter-spacing: 0.2rem;
-        }
-
-        // .schedule-container {
-        //     box-shadow: -3px -3px 6px #bec3c4, 3px 3px 6px #b0b9bd;
-        // }
-
-        .create-slot-box {
-            position: relative;
-
-            .box {
-                &__topics {
-                    position: relative;
-                }
-
-                &__time-end {
-                    display: flex;
-                    flex-flow: row wrap;
-                    margin: 1rem 0;
-                }
-
-                &__search-topics {
-                    width: 300px;
-                    height: 2rem;
-                    outline: none;
-                    border: none;
-                    background: #fff;
-                    padding: 1rem;
-                    box-shadow: -3px -3px 6px #d3dbdd, 3px 3px 6px #d5dde0;
-                }
-
-                &__search-topics:hover + .prompt,
-                &__search-topics:focus-within + .prompt,
-                .prompt:hover {
-                    display: block;
-                }
-                .prompt {
-                    position: absolute;
-                    top: 2rem;
-                    width: 300px;
-                    display: none;
-                    background: #fff;
-                    box-shadow: -3px 3px 6px #bec3c4, 3px 3px 6px #b0b9bd;
-
-                    &__item {
-                        display: flex;
-                        padding: 0.5rem;
-                        &:hover {
-                            cursor: pointer;
-                            background: #eee;
-                        }
-                        i {
-                            margin-right: 0.5rem;
-                        }
-                    }
-                }
-
-                &__selected {
-                    display: flex;
-                    flex-flow: row wrap;
-                }
-
-                &__item {
-                    display: flex;
-                    margin-left: 0.5rem;
-                    margin-top: 0.5rem;
-                    border-radius: 6px;
-                    padding: 0.5rem;
-                    background: #eee;
-                    i {
-                        display: none;
-                    }
-
-                    &--selected {
-                        color: rgb(23, 46, 119);
-                        background: #37f1c3;
-
-                        i {
-                            display: inline;
-                            cursor: pointer;
-                        }
-                    }
-                }
+                font-size: 2rem;
+                letter-spacing: 0.2rem;
             }
         }
     }

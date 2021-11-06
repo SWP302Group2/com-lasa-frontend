@@ -1,0 +1,77 @@
+.ask-confirm-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  padding: 1rem;
+  width: 240px;
+  background: #fff;
+  -webkit-box-shadow: 4px 4px 8px #2a4d69;
+          box-shadow: 4px 4px 8px #2a4d69;
+}
+
+.ask-confirm-box__icon-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  height: 1rem;
+  width: 1rem;
+  font-size: 1rem;
+  color: #fff;
+  background: #dd3d3d;
+}
+
+.ask-confirm-box__icon-close:hover {
+  background: #f74d4d;
+}
+
+.ask-confirm-box__message {
+  display: inline-block;
+  width: 100%;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.ask-confirm-box__buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  width: 100%;
+  margin-top: 1.2rem;
+}
+
+.ask-confirm-box__confirm, .ask-confirm-box__cancel {
+  width: 80px;
+  padding: 0.3rem 0;
+  text-align: center;
+  border-radius: 3px;
+  font-size: 0.9rem;
+}
+
+.ask-confirm-box__confirm:hover, .ask-confirm-box__cancel:hover {
+  cursor: pointer;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.ask-confirm-box__confirm:active, .ask-confirm-box__cancel:active {
+  -webkit-transform: scale(1);
+          transform: scale(1);
+}
+
+.ask-confirm-box__confirm {
+  color: #fff;
+  background: #0d960d;
+}
+
+.ask-confirm-box__cancel {
+  color: #333;
+  background: #ddd;
+}
+/*# sourceMappingURL=askConfirmBox.css.map */

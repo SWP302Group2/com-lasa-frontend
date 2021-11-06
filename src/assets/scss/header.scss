@@ -48,24 +48,45 @@ $color-violet-blue: rgba(
     }
 
     .sign-in {
+        position: relative;
         display: flex;
         align-items: center;
+        justify-content: center;
 
+        width: 100px;
         height: 2.5rem;
         margin-left: auto;
         margin-right: 1rem;
-        padding: 0 2rem;
-        border-radius: 25px;
+        border-radius: 3px;
 
         outline: none;
-        border: none;
+        border: 2px solid #0382bd;
+        font-weight: 600;
         text-decoration: none;
 
-        color: #ffffff;
-        background: #50a5eb;
+        &:after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            overflow: hidden;
+            right: 0;
+
+            width: 0;
+            height: 100%;
+            transition: width 400ms ease-in-out;
+        }
+
+        color: #fff;
         &:hover,
         &:focus {
             box-shadow: 0 0 1rem rgba($color: rgb(6, 39, 83), $alpha: 1);
+
+            &:after {
+                content: "";
+                width: 100%;
+                height: 100%;
+                background: #0382bd;
+            }
         }
 
         &__text {

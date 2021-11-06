@@ -4,48 +4,43 @@ import algorithm from "../../utils/algorithm";
 import InputPrompt from "./InputPrompt";
 import {
     updateLecturersToSearchCriteria,
-    updateSearchValueToSearchCriteria
+    updateSearchLecturerValueToSearchCriteria
 } from "../../redux/actions/search";
 
 function LecturerFilter({ lecturers, invokeSearch }) {
     const [isInvokingSearch, setIsInvokingSearch] = useState(false);
     const [prompt, setPrompt] = useState([]);
 
-    const searchValue = useSelector(state => state.search.searchValue);
+    const searchLecturerValue = useSelector(state => state.search.searchLecturerValue);
     const dispatch = useDispatch();
 
     function handleSearchInputChange(event) {
         const input = event.target.value || "";
         showPrompt();
         calculateMatchedLecturer(input.trim());
-        dispatch(updateSearchValueToSearchCriteria(input));
+        dispatch(updateSearchLecturerValueToSearchCriteria(input));
     }
 
     function handlePromptItemOnClick(event) {
         const itemValue = event.target.getAttribute("data") || "";
         calculateMatchedLecturer(itemValue);
-        dispatch(updateSearchValueToSearchCriteria(itemValue));
+        dispatch(updateSearchLecturerValueToSearchCriteria(itemValue));
         setIsInvokingSearch(true);
         hidePrompt();
         document.querySelector(".lecturer-filter__input").focus();
     }
 
     function calculateMatchedLecturer(input) {
-        let matchedLecturers = [];
-        if (input !== "") {
-            matchedLecturers =
-                algorithm.getMatchedListBySearchValue(lecturers, input, "name");
-        };
+        let matchedLecturers = input === "" ? [] :
+            algorithm.getMatchedListBySearchValue(lecturers, input, "name");
 
-        dispatch(updateLecturersToSearchCriteria(
-            Array.isArray(matchedLecturers) ? matchedLecturers : []
-        ));
+        dispatch(updateLecturersToSearchCriteria(matchedLecturers));
         setPrompt(matchedLecturers.slice(0, 10));
     }
 
     function handleSearchBoxOnSubmit(event) {
         event.preventDefault();
-        calculateMatchedLecturer(searchValue);
+        calculateMatchedLecturer(searchLecturerValue.trim());
         hidePrompt();
         setIsInvokingSearch(true);
     }
@@ -98,7 +93,7 @@ function LecturerFilter({ lecturers, invokeSearch }) {
     }
 
     function updateSearchCriterial(value) {
-        dispatch(updateSearchValueToSearchCriteria(value));
+        dispatch(updateSearchLecturerValueToSearchCriteria(value));
         let matchedLecturers = [];
         if (value !== "") {
             matchedLecturers = algorithm.getMatchedListBySearchValue(
@@ -146,10 +141,9 @@ function LecturerFilter({ lecturers, invokeSearch }) {
                 <input
                     className="lecturer-filter__input"
                     type="search"
-                    value={searchValue}
-                    placeholder="All lecturers"
+                    value={searchLecturerValue}
+                    placeholder="Enter name.."
                     onChange={handleSearchInputChange}
-                    onFocus={showPrompt}
                 />
                 <button
                     className="lecturer-filter__submit"

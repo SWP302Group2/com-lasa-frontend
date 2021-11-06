@@ -56,27 +56,50 @@
 }
 
 .header .sign-in {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100px;
   height: 2.5rem;
   margin-left: auto;
   margin-right: 1rem;
-  padding: 0 2rem;
-  border-radius: 25px;
+  border-radius: 3px;
   outline: none;
-  border: none;
+  border: 2px solid #0382bd;
+  font-weight: 600;
   text-decoration: none;
-  color: #ffffff;
-  background: #50a5eb;
+  color: #fff;
+}
+
+.header .sign-in:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  overflow: hidden;
+  right: 0;
+  width: 0;
+  height: 100%;
+  -webkit-transition: width 400ms ease-in-out;
+  transition: width 400ms ease-in-out;
 }
 
 .header .sign-in:hover, .header .sign-in:focus {
   -webkit-box-shadow: 0 0 1rem #062753;
           box-shadow: 0 0 1rem #062753;
+}
+
+.header .sign-in:hover:after, .header .sign-in:focus:after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  background: #0382bd;
 }
 
 .header .sign-in__text {

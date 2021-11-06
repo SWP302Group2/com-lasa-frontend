@@ -1,73 +1,41 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import BookingRequestList from "./BookingRequestList";
+import { BOOKING_REQUEST_STATUS_CANCELED, BOOKING_REQUEST_STATUS_DENIED, BOOKING_REQUEST_STATUS_FINISHED, BOOKING_REQUEST_STATUS_NOTIFIED, BOOKING_REQUEST_STATUS_READY, BOOKING_REQUEST_STATUS_WAITING } from "../../utils/constant";
 import bookingApi from "../../api/bookingApi";
-import slotApi from "../../api/slotApi";
-import dateTools from "../../utils/dateTools";
-import StudentBookingRequest from "./StudentBookingRequest";
+import { useSelector } from "react-redux";
+
 function StudentDashboardBookingRequest() {
-    const [bookingRequests, setBookingRequests] = useState([]);
-    const [preparedBookingRequest, setPreparedBookingRequest] = useState([]);
-    // const [editingBookingRequest, setEditingBookingRequest] = useState([]);
-    const userId = useSelector(state => state.user.id);
+    const [notifiedBookingRequests, setNotifiedBookingRequests] = useState([]);
+    const [isRefresh, setIsRefresh] = useState(true);
 
+    const userId = useSelector(state => state.user.id)
     useEffect(() => {
-        callGetCurrentUserBookingRequests();
+        if (isRefresh) {
+            callGetNotifiedBookingRequest();
+            setIsRefresh(false);
+        }
 
-        function callGetCurrentUserBookingRequests() {
+        function callGetNotifiedBookingRequest() {
             const onGetSuccess = (data) => {
-                console.log("Student dashboard get bookings success:");
+                console.log(`Get current user notified requests success:`);
                 console.log(data);
-
-                setBookingRequests(data);
+                if (!data || data.lenght <= 0) {
+                    setNotifiedBookingRequests(null);
+                    return;
+                }
+                setNotifiedBookingRequests(data);
             }
 
             const onGetFailure = (response, status, message) => {
-                console.log("Student dashboard get bookings fail:");
+                console.log(`Get current user notified requests false`);
                 console.log(response);
-                setBookingRequests(null);
+                setNotifiedBookingRequests(null);
             }
 
-            bookingApi.getCurrentUserBookingsWithoutPaging(userId, 0, onGetSuccess, onGetFailure);
+            bookingApi.getCurrentUserBookingsWithoutPaging(onGetSuccess, onGetFailure,
+                userId, BOOKING_REQUEST_STATUS_NOTIFIED);
         }
-    }, [userId]);
-
-    useEffect(() => {
-        if (bookingRequests && bookingRequests.length > 0) {
-            callGetBookingRequestSlotInfo();
-        }
-
-        function callGetBookingRequestSlotInfo() {
-            const onGetSuccess = (data) => {
-                console.log("Get slot info of booking request succeed:");
-                console.log(data);
-
-                let preparingBookingRequests = [...bookingRequests];
-                //Add lecturer
-                preparingBookingRequests = [...bookingRequests].map(request => {
-                    const slot = [...data].find(slot => request.slotId === slot.id);
-                    if (slot) {
-                        request.topic = [...slot.topics].find(topic => topic.id === request.topicId);
-                        request.slot = slot;
-                        request.createTime = dateTools.convertLocalDateTimeStringToObject(request.createTime);
-                        request.slot.timeStart = dateTools.convertLocalDateTimeStringToObject(request.slot.timeStart);
-                    }
-                    return request;
-                })
-                console.log(preparingBookingRequests);
-                setPreparedBookingRequest(preparingBookingRequests);
-            }
-
-            const onGetFailure = (response, status, message) => {
-                console.log("Get slot info of booking request failed:");
-                console.log(response);
-                setPreparedBookingRequest(null);
-            }
-
-
-            const slotIds = [...bookingRequests].map(request => request.slotId);
-            slotApi.getSlotsBySlotIdWithoutPaging(slotIds, onGetSuccess, onGetFailure);
-        }
-    }, [bookingRequests])
+    }, [isRefresh, userId]);
 
     useEffect(() => {
         const bookingDashboard = document.querySelector(".student-dashboard .sidebar__link-booking");
@@ -81,125 +49,30 @@ function StudentDashboardBookingRequest() {
     return (
         <div className="student-dashboard__content student-dashboard__booking">
             <h2 className="student-dashboard__content__headline">Booking requests</h2>
-            <div className="booking-list booking-list--waiting">
-                <h3 className="booking-list__headline">
-                    Waiting for accept
-                </h3>
-                <div className="booking-list__content">
-                    {preparedBookingRequest && preparedBookingRequest.length > 0 && [...preparedBookingRequest]
-                        .filter(bookingRequest => bookingRequest.status === 1)
-                        .map(bookingRequest =>
-                            <StudentBookingRequest
-                                key={bookingRequest.id}
-                                bookingRequest={bookingRequest}
-                            >
-                                <div className="booking-request__panel">
-                                    <i className="material-icons edit">
-                                        edit
-                                    </i>
-                                    <i className="material-icons clear">
-                                        highlight_off
-                                    </i>
-                                </div>
-                            </StudentBookingRequest>
-                        )
-                    }
-                </div>
-            </div>
-            <div className="booking-list booking-list--ready">
-                <h3 className="booking-list__headline">
-                    Ready for meeting
-                </h3>
-                <div className="booking-list__content">
-                    {preparedBookingRequest && preparedBookingRequest.length > 0 && [...preparedBookingRequest]
-                        .filter(bookingRequest => bookingRequest.status === 2)
-                        .map(bookingRequest =>
-                            <StudentBookingRequest
-                                key={bookingRequest.id}
-                                bookingRequest={bookingRequest}
-                            >
-                            </StudentBookingRequest>
-                        )
-                    }
-                </div>
-            </div>
-            <div className="booking-list booking-list--denied">
-                <h3 className="booking-list__headline">
-                    Was denied
-                </h3>
-                <div className="booking-list__content">
-                    {preparedBookingRequest && preparedBookingRequest.length > 0 && [...preparedBookingRequest]
-                        .filter(bookingRequest => bookingRequest.status === -1)
-                        .map(bookingRequest =>
-                            <StudentBookingRequest
-                                key={bookingRequest.id}
-                                bookingRequest={bookingRequest}
-                            >
-                                <div className="booking-request__panel">
-                                    <i className="material-icons edit">
-                                        edit
-                                    </i>
-                                    <i className="material-icons clear">
-                                        highlight_off
-                                    </i>
-                                </div>
-                            </StudentBookingRequest>
-                        )
-                    }
-                </div>
-            </div>
-            <div className="booking-list booking-list--canceled">
-                <h3 className="booking-list__headline">
-                    Canceled
-                </h3>
-                <div className="booking-list__content">
-                    {preparedBookingRequest && preparedBookingRequest.length > 0 && [...preparedBookingRequest]
-                        .filter(bookingRequest => bookingRequest.status === 0)
-                        .map(bookingRequest =>
-                            <StudentBookingRequest
-                                key={bookingRequest.id}
-                                bookingRequest={bookingRequest}
-                            >
-                                <div className="booking-request__panel">
-                                    <i className="material-icons edit">
-                                        visibility
-                                    </i>
-                                    <i className="material-icons clear">
-                                        highlight_off
-                                    </i>
-                                </div>
-                            </StudentBookingRequest>
-                        )
-                    }
-                </div>
-            </div>
-            <div className="booking-list booking-list--finish-meeting">
-                <h3 className="booking-list__headline">
-                    Finished
-                </h3>
-                <div className="booking-list__content">
-                    {preparedBookingRequest && preparedBookingRequest.length > 0 && [...preparedBookingRequest]
-                        .filter(bookingRequest => bookingRequest.status === 3)
-                        .map(bookingRequest =>
-                            <StudentBookingRequest
-                                key={bookingRequest.id}
-                                bookingRequest={bookingRequest}
-                            >
-                                <div className="booking-request__panel">
-                                    <i className="material-icons edit">
-                                        visibility
-                                    </i>
-                                    <i className="material-icons clear">
-                                        highlight_off
-                                    </i>
-                                </div>
-                            </StudentBookingRequest>
-                        )
-                    }
-                </div>
-            </div>
-
-
+            <BookingRequestList
+                status={BOOKING_REQUEST_STATUS_WAITING}
+                title={"Waiting for approval"}
+            />
+            {notifiedBookingRequests &&
+                <BookingRequestList
+                    status={BOOKING_REQUEST_STATUS_READY}
+                    title={"Ready for meeting"}
+                    additionalBks={notifiedBookingRequests}
+                    setIsRefreshAdditionalBks={setIsRefresh}
+                />
+            }
+            <BookingRequestList
+                status={BOOKING_REQUEST_STATUS_DENIED}
+                title={"Denied"}
+            />
+            <BookingRequestList
+                status={BOOKING_REQUEST_STATUS_CANCELED}
+                title={"Canceled"}
+            />
+            <BookingRequestList
+                status={BOOKING_REQUEST_STATUS_FINISHED}
+                title={"Finished"}
+            />
         </div >
     );
 }

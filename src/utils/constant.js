@@ -27,6 +27,25 @@ export const SIGNUP_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE = "This email is not FPT 
 export const SIGNIN_ACCOUNT_NOT_ENABLE_CODE = 403;
 export const SIGNIN_ACCOUNT_NOT_ENABLE_ERROR_MESSAGE = "Your account has not been activated. Please wait for our email response. Thank you.";
 
+//Booking Status
+export const BOOKING_STATUS_DELETED = -2;
+export const BOOKING_REQUEST_STATUS_DENIED = -1;
+export const BOOKING_REQUEST_STATUS_CANCELED = 0;
+export const BOOKING_REQUEST_STATUS_WAITING = 1;
+export const BOOKING_REQUEST_STATUS_READY = 2;
+export const BOOKING_REQUEST_STATUS_NOTIFIED = 3;
+export const BOOKING_REQUEST_STATUS_FINISHED = 4;
+
+
+//Slot Status
+export const SLOT_STATUS_DELETED = -1;
+export const SLOT_STATUS_CANCELED = 0;
+export const SLOT_STATUS_WAITING = 1;
+export const SLOT_STATUS_READY = 2;
+export const SLOT_STATUS_NOTIFIED = 3;
+export const SLOT_STATUS_FINISHED = 4;
+
+
 //Page title
 export const AUTH_PAGE_SIGN_UP_TITLE = "Sign up to Lasa";
 export const AUTH_PAGE_SIGN_IN_TITLE = "Sign in to Lasa";
@@ -46,7 +65,10 @@ export const ADMIN_ROLE = "ROLE_ADMIN";
 
 //API url
 export const DEVELOP_BASE_URL = "http://localhost:8080/las/api/v1";
-export const PRODUCT_BASE_URL = "http://34.87.119.36:8080/las/api/v1";
+export const PRODUCT_BASE_URL = "https://lasfpt.online/api/v1";
+export const BASE_URL = PRODUCT_BASE_URL;
+// export const BASE_URL = DEVELOP_BASE_URL;
+
 
 export const SIGN_IN_GOOGLE_API = "/authentication/google";
 export const SIGN_IN_LOCAL_API = "/authentication";
@@ -66,3 +88,13 @@ export const BOOKING_REQUEST_API = "/booking-requests"
 export const GET_SLOT_TOPIC_DETAIL_API = "/slot-topic-details";
 export const GET_LECTURER_API = "/lecturers";
 export const GET_STUDENT_API = "/students";
+
+//Slot api sort by
+export const SORT_BY_TIME_START = "timeStart";
+export const SORT_BY_TIME_END = "timeEnd";
+export const SORT_BY_LECTURERID = "lecturerId";
+export const SORT_BY_SLOTID = "id";
+
+//Order by 
+export const ORDER_BY_ASC = "ASC"
+export const ORDER_BY_DESC = "DESC";

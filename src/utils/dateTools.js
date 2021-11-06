@@ -3,10 +3,12 @@ const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep",
 const dayOfWeek = ["Monday", "Tueday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
 const dateTools = {
-    getTimeStartAndTimeEndInISOFormat: (days) => {
+    getTimeStartAndTimeEndInISOFormat: (time) => {
         const now = new Date();
         const timeStart = dateTools.convertDateToISOStringWithTimeZoneOffset(now);
-        now.setDate(now.getDate() + days);
+        now.setTime(now.getTime() + time.getValue() * 60 * 60 * 1000);
+        console.log(time.getValue());
+        console.log(now);
         const timeEnd = dateTools.convertDateToISOStringWithTimeZoneOffset(now);
 
         return {
@@ -26,6 +28,8 @@ const dateTools = {
     },
 
     convertDateToISOStringWithTimeZoneOffset: (date) => {
+        if (!date) return null;
+        console.log(date);
         var tzoffset = new Date().getTimezoneOffset();
         return new Date(date.getTime() - tzoffset * 60000).toISOString().split(".")[0];
     },
@@ -37,7 +41,6 @@ const dateTools = {
     },
 
     convertLocalDateTimeStringToObject: (localDateTime) => {
-        // const date = dateTools.convertISOStringToDateWithTimeZoneOffset(localDateTime);
         const date = new Date(localDateTime);
         return {
             year: { value: date.getFullYear() },

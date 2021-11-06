@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 
 function Menu({ closeBurger, closeNotification, closeUserInfo }) {
 
@@ -52,37 +53,37 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
             </div>
             <ul className="menu__nav">
                 <li className="menu__navItem navLink-home">
-                    <a
-                        href="/home"
+                    <Link
+                        to="/home"
                         onClick={handleLinkOnClick}
                     >
                         Home
-                    </a>
+                    </Link>
                 </li>
                 <li className="menu__navItem navLink-search">
-                    <a
-                        href="/search"
+                    <Link
+                        to="/search"
                         onClick={handleLinkOnClick}
                     >
                         Search
-                    </a>
+                    </Link>
                 </li>
                 <li className="menu__navItem navLink-dashboard">
-                    <a
-                        href="/dashboard"
+                    <Link
+                        to="/dashboard"
                         onClick={handleLinkOnClick}
                     >
                         Dashboard
-                    </a>
+                    </Link>
                 </li>
                 <li className="menu__navItem">
-                    <a
-                        href="/home"
+                    <Link
+                        to="/home"
                         onClick={handleLinkOnClick}
                     >
                         More
                         <i className="material-icons">expand_more</i>
-                    </a>
+                    </Link>
                 </li>
             </ul>
         </section>

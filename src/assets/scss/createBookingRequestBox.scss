@@ -12,8 +12,7 @@
     min-width: 300px;
 
     opacity: 0;
-    transform: translateY(-100vh);
-    transition: opacity 200ms ease, transform 400ms ease-in-out;
+    transition: opacity 0.3s ease-in-out;
     background: rgba($color: #000000, $alpha: 0.4);
 
     .box {
@@ -74,7 +73,8 @@
             flex-flow: column nowrap;
             width: 100%;
             padding: 0 1rem;
-            overflow-y: auto;
+            overflow-y: overlay;
+            margin-bottom: 1rem;
         }
 
         &__from,
@@ -123,7 +123,8 @@
             display: flex;
             flex-flow: column nowrap;
             margin-top: 0.5rem;
-            height: 250px;
+            max-height: 250px;
+            min-height: 150px;
 
             &__add-button {
                 display: flex;
@@ -146,7 +147,7 @@
             border: 1px solid #999;
             &:hover,
             &:focus-within {
-                box-shadow: -2px -2px 3px #cad2d3, 2px 2px 3px #b3b6b9;
+                box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
             }
 
             &:not(:nth-child(1)) {
@@ -164,7 +165,7 @@
 
                 i {
                     cursor: pointer;
-                    transition: transform 400ms ease-in-out;
+                    transition: transform 0.3s ease-in-out;
                 }
 
                 i.rotate-180 {
@@ -199,7 +200,7 @@
                 border: none;
                 outline: none;
                 background: #fff;
-                transition: transform 400ms ease-in-out, height 400ms ease;
+                transition: transform 0.3s ease-in-out, height 0.3s ease;
 
                 &:hover,
                 &:focus-within {
@@ -216,16 +217,17 @@
 
         &__bottom {
             width: 100%;
-            padding: 1rem;
 
             button {
                 width: 100%;
-                height: 3rem;
+                height: 4rem;
                 border: none;
                 outline: none;
+                border-radius: 0;
 
                 color: #fff;
                 cursor: pointer;
+                font-size: 1.2rem;
                 background: #0190a3;
 
                 &:hover {

@@ -14,7 +14,7 @@ function SlotItem({ slot, openCreateBookingRequest }) {
 
             <div className="slot__info-area">
                 <div className="slot__name">
-                    {slot.lecturer?.name || "Annonymus"}
+                    {`Mx. ${slot.lecturer?.name || "Annonymus"}`}
                 </div>
                 <div className="slot__datetime">
                     <div className="slot__datetime__date">{slot.timeStart.getDateString()}</div>

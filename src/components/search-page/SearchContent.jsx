@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import lecturerApi from "../../api/lecturerApi";
 import slotApi from "../../api/slotApi";
 import "../../assets/css/searchContent.css";
-import { newSearchCriteria, updateUUIDToSearchCriteria } from "../../redux/actions/search";
+import {
+    newSearchCriteria,
+    updateUUIDToSearchCriteria
+} from "../../redux/actions/search";
 import { SEARCH_PAGE_TITLE } from "../../utils/constant";
 import LecturerFilter from "./LecturerFilter";
 import SearchFilter from "./SearchFilter";
@@ -16,8 +19,15 @@ import { v4 as uuidv4 } from 'uuid';
 import SearchContentHeader from "./SearchContentHeader";
 import SearchBar from "./SearchBar";
 import topicApi from "../../api/topicApi";
+import SearchContentBody from "./SearchContentBody";
+import SearchContentSearchNav from "./SearchContentSearchNav";
+import SortFilter from "./SortFilter";
+import OrderFilter from "./OrderFilter";
 
-function SearchContent() {
+
+const numberSlotEachPage = 12;
+function SearchContent({ setIsCheckedAuth }) {
+    const [isInitialSearchCriteria, setIsInitialSearchCriteria] = useState(false);
     const [totalPages, setTotalPages] = useState(1);
     const [page, setPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
@@ -29,39 +39,112 @@ function SearchContent() {
     const searchCriteria = useSelector(state => state.search);
     const dispatch = useDispatch();
 
-    function handleOnClickChangePage(pageIndex) {
-        invokeSearch(pageIndex);
+    useEffect(checkAuthentication, [setIsCheckedAuth]);
+    useEffect(displayTitleAndActiveLinkForSearchPage, []);
+    useEffect(initialNewSearchScriteria, [dispatch, isInitialSearchCriteria]);
+    useEffect(getNecessaryResource, [lecturers, topics]); //Lecturers, topics for search
+    useEffect(processSearching, [page, searchCriteria, isSearching])
+
+    function checkAuthentication() {
+        setIsCheckedAuth(false);
     }
 
-    function invokeSearch(newPageIndex) {
-        setPage(newPageIndex || 0);
-        setIsSearching(true);
-        setMatchedSlots([]);
-        dispatch(updateUUIDToSearchCriteria(uuidv4()));
+    function displayTitleAndActiveLinkForSearchPage() {
+        document.title = SEARCH_PAGE_TITLE;
+        const searchNavLink = document.querySelector(".header .navLink-search");
+        searchNavLink.classList.add("active-navItem");
+        return () => searchNavLink.classList.remove("active-navItem");
     }
 
-    useEffect(() => {
+    function initialNewSearchScriteria() {
+        if (isInitialSearchCriteria) return;
+        dispatch(newSearchCriteria());
+        setIsInitialSearchCriteria(true);
+    }
+
+    function getNecessaryResource() {
+        if (!lecturers || lecturers.length <= 0) {
+            callGetLecturersApi();
+        }
+        if (!topics || topics.length <= 0) {
+            callGetTopics();
+        }
+        // if (lecturers && topics && lecturers.length > 0 && topics.length > 0) {
+        //     setIsSearching(true);
+        // }
+
+        function callGetLecturersApi() {
+            const onGetSuccess = data => {
+                console.log("Get lecturer success:");
+                console.log(data);
+                setLecturers(data);
+            }
+            const onGetFailure = (response, state, message) => {
+                console.log("Get lecturer failed:");
+                console.log(response);
+            }
+            lecturerApi.getLecturersWithoutPaging(onGetSuccess, onGetFailure);
+        }
+
+        function callGetTopics() {
+            const onGetSuccess = data => {
+                console.log("Get topics success:");
+                console.log(data);
+                setTopics(data);
+            }
+            const onGetFailure = (response, state, message) => {
+                console.log(response);
+                setTopics(null);
+            }
+            topicApi.getTopicsNoPaging(onGetSuccess, onGetFailure);
+        }
+    }
+
+    function processSearching() {
         if (!isSearching) return;
         setIsSearching(false);
+        setIsLoading(true);
 
-        function searchSlots() {
-            console.log("Search criteria");
-            console.log(searchCriteria);
-
-            const noLecturerMatchedSearchValue = () =>
-                searchCriteria.searchValue &&
-                (!Array.isArray(searchCriteria.lecturers) ||
-                    searchCriteria.lecturers.length === 0)
-
-            if (noLecturerMatchedSearchValue()) {
-                setMatchedSlots(null);
-                return;
-            }
+        const isValid = validBeforeSearch();
+        if (!isValid) {
+            setTimeout(() => setIsLoading(false), 500);
+            setMatchedSlots(null);
+            return;
+        }
+        if (isValid) {
             callSearchSlotApi();
         }
 
+        function validBeforeSearch() {
+            console.log("Search criteria");
+            console.log(searchCriteria);
+
+            if (!searchCriteria.searchBarValue) {
+                if (!searchCriteria.searchLecturerValue)
+                    return;
+            }
+            //If has search by search bar
+            if (searchCriteria.searchBarValue) {
+                if (!Array.isArray(searchCriteria.lecturers)
+                    && !Array.isArray(searchCriteria.topics)) {
+                    return false;
+                }
+                if (Array.isArray(searchCriteria.lecturers)
+                    && searchCriteria.lecturers.length === 0) {
+                    if (Array.isArray(searchCriteria.topics)
+                        && searchCriteria.topics.lenght === 0) {
+                        return false;
+                    }
+                }
+            }
+            if (searchCriteria.searchLecturerValue) {
+                if (!Array.isArray(searchCriteria.lecturers)) return false;
+                if (searchCriteria.lecturers.length === 0) return false;
+            }
+            return true;
+        }
+
         function callSearchSlotApi() {
-            setIsLoading(true);
             const onSuccess = (data, headers, response) => {
                 console.log("Search slot success:");
                 console.log(response);
@@ -69,19 +152,18 @@ function SearchContent() {
 
                 if (headers.uuid !== searchCriteria.uuid) return;
 
-                let slots = data.content;
+                const slots = data.content;
                 if (!Array.isArray(slots) || slots.length === 0) {
                     setMatchedSlots(null);
                     return;
                 }
 
-                const prepareSlotsDatetime = (slots) => [...slots].map(slot => {
+                const result = [...slots].map(slot => {
                     slot.timeStart = dateTools.convertLocalDateTimeStringToObject(slot.timeStart);
                     slot.timeEnd = dateTools.convertLocalDateTimeStringToObject(slot.timeEnd);
                     return slot;
                 });
 
-                const result = prepareSlotsDatetime(slots);
                 setMatchedSlots(result);
                 setTotalPages(data.totalPages);
             }
@@ -92,77 +174,33 @@ function SearchContent() {
                 setIsLoading(false);
             }
 
-            slotApi.searchAllSlotsWithPaging(
-                page, searchCriteria, onSuccess, onFailure, 12
+            setIsLoading(true);
+            slotApi.searchAllSlotsWithPaging(onSuccess, onFailure,
+                page, searchCriteria, numberSlotEachPage
             );
         }
+    }
 
-        searchSlots();
-    }, [page, searchCriteria, isSearching])
+    function invokeSearch(newPageIndex) {
+        scrollToSearchContent();
+        setPage(newPageIndex || 0);
+        setIsSearching(true);
+        dispatch(updateUUIDToSearchCriteria(uuidv4()));
+    }
 
-    useEffect(() => {
-        let flag = 0;
+    function handleOnClickChangePage(pageIndex) {
+        invokeSearch(pageIndex);
+    }
 
-        function callGetLecturersApi() {
-            const onGetSuccess = data => {
-                console.log("Get lecturer success:");
-                console.log(data);
-                setLecturers(data);
+    function scrollToSearchContent() {
+        const searchPageBody = document.querySelector(".search-content__body");
+        searchPageBody.scrollIntoView({ top: 0, behavior: "smooth" });
+    }
 
-                if (flag === 1) {
-                    setIsSearching(true);
-                }
-                flag++;
-            }
+    function isRequiredToDisplayChangePageBar() {
+        return matchedSlots && matchedSlots.length > 0 && totalPages && totalPages > 1
+    }
 
-            const onGetFailure = (response, state, message) => {
-                console.log(response);
-            }
-
-            lecturerApi.getLecturersWithoutPaging(
-                onGetSuccess,
-                onGetFailure
-            );
-        }
-
-        function callGetTopics() {
-            const onGetSuccess = data => {
-                console.log("Get topics success:");
-                console.log(data);
-                setTopics(data);
-
-                if (flag === 1) {
-                    setIsSearching(true);
-                }
-                flag++;
-            }
-
-            const onGetFailure = (response, state, message) => {
-                console.log(response);
-                setTopics(null);
-            }
-
-            topicApi.getTopicsNoPaging(onGetSuccess, onGetFailure);
-        }
-
-        callGetLecturersApi();
-        callGetTopics();
-        document.querySelector(".search-content .search-bar input")?.focus();
-    }, [])
-
-    useEffect(() => {
-        const searchNavLink = document.querySelector(".header .menu .navLink-search");
-        const start = () => {
-            document.title = SEARCH_PAGE_TITLE;
-            searchNavLink.classList.add("active-navItem");
-            dispatch(newSearchCriteria());
-        }
-        start();
-
-        return () => {
-            searchNavLink.classList.remove("active-navItem");
-        };
-    }, [dispatch]);
 
     return (
         <div className="search-content root-content">
@@ -173,13 +211,15 @@ function SearchContent() {
                     invokeSearch={invokeSearch}
                 />
             </SearchContentHeader>
-            <div className="search-content__body">
-                <SearchFilter
+            <SearchContentBody>
+                <SearchContentSearchNav
                     lecturers={lecturers}
                     topics={topics}
                     invokeSearch={invokeSearch}
                     isLoading={isLoading}
-                >
+                />
+                <div className="filter-overlay"></div>
+                <SearchFilter>
                     <LecturerFilter
                         lecturers={lecturers}
                         invokeSearch={invokeSearch}
@@ -191,14 +231,18 @@ function SearchContent() {
                     <TimeFilter
                         invokeSearch={invokeSearch}
                     />
+                    <SortFilter
+                        invokeSearch={invokeSearch}
+                    />
+                    <OrderFilter
+                        invokeSearch={invokeSearch}
+                    />
                 </SearchFilter>
-
-
                 <SearchResult
                     matchedSlots={matchedSlots}
                     invokeSearch={invokeSearch}
                 >
-                    {matchedSlots && matchedSlots.length > 0 && totalPages && totalPages > 0 &&
+                    {isRequiredToDisplayChangePageBar() &&
                         <PageBar
                             currentPage={page}
                             totalPages={totalPages}
@@ -206,7 +250,7 @@ function SearchContent() {
                         />
                     }
                 </SearchResult>
-            </div>
+            </SearchContentBody>
 
         </div>
     );

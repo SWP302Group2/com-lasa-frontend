@@ -1,11 +1,18 @@
 import axios from "axios";
-import { DEVELOP_BASE_URL, GET_SLOT_API } from "../utils/constant";
+import {
+    BASE_URL,
+    GET_SLOT_API,
+    ORDER_BY_ASC,
+    SLOT_STATUS_CANCELED,
+    SLOT_STATUS_WAITING,
+    SORT_BY_TIME_START
+} from "../utils/constant";
 import axiosClient from "./axiosClient";
 import storageTools from "../utils/storageTools";
 import { paramsTools } from "./paramsTools";
 import dateTools from "../utils/dateTools";
 
-const BASE_URL = DEVELOP_BASE_URL;
+const USING_BASE_URL = BASE_URL;
 
 const slotApi = {
     getSlots: (onSuccess, onFailure) => {
@@ -25,7 +32,7 @@ const slotApi = {
             });
     },
 
-    getSlotsBySlotIdWithoutPaging: (slotIds, onSuccess, onFailure) => {
+    getSlotsBySlotIdWithoutPaging: (onSuccess, onFailure, slotIds) => {
         const noPaging = `paging=false`;
         const withLecturer = `getLecturer=true`;
         const withTopic = `getTopic=true`;
@@ -60,13 +67,13 @@ const slotApi = {
             .catch(onFailure);
     },
 
-    getCurrentUserSlot: (userId, onSuccess, onFailure) => {
+    getCurrentUserSlot: (onSuccess, onFailure, userId) => {
         const noPaging = "paging=false";
         const lecturerId = `lecId=${userId}`;
         const isGetTopic = `getTopic=true`;
-        const sortByStartTime = "sortBy=timeStart"
+        const sortBy = "sortBy=timeStart";
 
-        const apiUrl = GET_SLOT_API + `?${noPaging}&${lecturerId}&${isGetTopic}&${sortByStartTime}`;
+        const apiUrl = GET_SLOT_API + `?${noPaging}&${lecturerId}&${isGetTopic}&${sortBy}`;
         const params = paramsTools.getParamsWithAccessToken();
 
         return axiosClient.get(apiUrl, params)
@@ -101,7 +108,7 @@ const slotApi = {
         const params = paramsTools.getParamsWithAccessToken();
 
         //Add time start and time end of slot
-        const { timeStart, timeEnd } = dateTools.getTimeStartAndTimeEndInISOFormat(searchCriteria.days);
+        const { timeStart, timeEnd } = dateTools.getTimeStartAndTimeEndInISOFormat(searchCriteria.time);
         apiUrl += `&timeStart=${timeStart}&timeEnd=${timeEnd}`;
 
         const requests = [];
@@ -131,25 +138,34 @@ const slotApi = {
             .catch(onFailure);
     },
 
-    searchAllSlotsWithPaging: (pageIndex, searchCriteria, onSuccess, onFailure, numOfElements) => {
+    searchAllSlotsWithPaging: async (onSuccess, onFailure, pageIndex, searchCriteria, numOfElements) => {
         const paging = `paging=true`;
-        const size = numOfElements > 0 ? numOfElements : 10;
-        const pageNum = `page=${pageIndex}`;
+        const size = `size=${Number.isInteger(numOfElements) && numOfElements > 0 ? numOfElements : 10}`;
+        const pageNum = `page=${Number.isInteger(pageIndex) && pageIndex >= 0 ? pageIndex : 0}`;
         const withLecturer = `getLecturer=true`;
         const withTopic = `getTopic=true`;
-        const sortByStartTime = "sortBy=timeStart";
-        const { timeStart, timeEnd } = dateTools.getTimeStartAndTimeEndInISOFormat(searchCriteria.days);
+        const sortBy = `sortBy=${searchCriteria.sortBy?.value || SORT_BY_TIME_START}`;
+        const orderBy = `orderBy=${searchCriteria.orderBy?.value || ORDER_BY_ASC}`;
+        const status = `status=${SLOT_STATUS_WAITING}`;
+
+        let apiUrl = GET_SLOT_API + `?${paging}&${pageNum}&${withLecturer}&${withTopic}&${sortBy}&${size}&${orderBy}&${status}`;
+
+        if (searchCriteria.time?.getValue()) {
+            const time = dateTools.getTimeStartAndTimeEndInISOFormat(searchCriteria.time);
+            const timeStart = `timeStart=${time.timeStart}`;
+            const timeEnd = `timeEnd=${time.timeEnd}`;
+            apiUrl += `&${timeStart}&${timeEnd}`;
+        }
 
         let lecturerIdParamString = "";
         searchCriteria.lecturers?.forEach(lecturer => lecturerIdParamString += `&lecId=${lecturer.id}`);
         let topicIdParamString = "";
-        searchCriteria.topics?.forEach(topic => topicIdParamString += `&topicId=${topic.id}`);
+        searchCriteria.topics?.forEach(topic => topicIdParamString += `&topicId=${topic?.id}`);
 
-        const apiUrl = GET_SLOT_API + `?${paging}&${pageNum}&${withLecturer}&${withTopic}&${sortByStartTime}`
-            + `&timeStart=${timeStart}&timeEnd=${timeEnd}&size=${size}` + lecturerIdParamString + topicIdParamString;
+        apiUrl += lecturerIdParamString + topicIdParamString;
 
         const params = {
-            baseURL: BASE_URL,
+            baseURL: USING_BASE_URL,
             headers: {
                 "Content-Type": "application/json",
                 uuid: searchCriteria.uuid,
@@ -157,8 +173,34 @@ const slotApi = {
             }
         }
 
-        return axios.get(apiUrl, params)
-            .then(response => onSuccess(response.data, response.headers, response))
+        try {
+            const response = await axios.get(apiUrl, params);
+            return onSuccess(response.data, response.headers, response);
+        } catch (response) {
+            const status = response?.data?.status || response?.status;
+            const message = response?.data?.message || response?.message;
+            return onFailure(response, status, message);
+        }
+    },
+
+    createSlot: (onSuccess, onFailure, lecturerId, slotInfo) => {
+        const url = GET_SLOT_API;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        const timeStartString = dateTools.convertDateToISOStringWithTimeZoneOffset(slotInfo.timeStart);
+        const timeEndString = dateTools.convertDateToISOStringWithTimeZoneOffset(slotInfo.timeEnd);
+        const data = {
+            lecturerId,
+            timeStart: timeStartString,
+            timeEnd: timeEndString,
+            topics: slotInfo.selectedTopics?.map(topic => topic.id)
+        };
+
+        console.log("Create slot data");
+        console.log(data);
+
+        return axiosClient.post(url, data, params)
+            .then(onSuccess)
             .catch(response => {
                 const status = response?.data?.status || response?.status;
                 const message = response?.data?.message || response?.message;
@@ -166,23 +208,68 @@ const slotApi = {
             });
     },
 
-    createSlot: (timeStart, period, topics, onSuccess, onFailure) => {
+    updateSlot: (onSuccess, onFailure, lecturerId, slotId, topics) => {
         const url = GET_SLOT_API;
         const params = paramsTools.getParamsWithAccessToken();
 
-        let timeEnd = new Date(timeStart);
-        timeEnd.setMinutes(timeEnd.getMinutes() + period);
-        timeEnd = dateTools.convertDateToISOStringWithTimeZoneOffset(timeEnd);
         const data = {
-            timeStart,
-            timeEnd: timeEnd,
-            topics: topics.map(topic => topic.id)
+            lecturerId,
+            id: slotId,
+            topics: topics?.map(topic => topic.id)
         };
 
-        console.log("Create slot data");
+        console.log("Update slot data");
         console.log(data);
 
-        return axiosClient.post(url, data, params)
+        return axiosClient.put(url, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    cancelSlot: (onSuccess, onFailure, lecturerId, slotId) => {
+        const url = GET_SLOT_API;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        const data = {
+            lecturerId,
+            id: slotId,
+            status: SLOT_STATUS_CANCELED
+        };
+
+        console.log("Cancel slot data");
+        console.log(data);
+
+        return axiosClient.put(url, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    removeSlot: (onSuccess, onFailure, slotId) => {
+        const url = GET_SLOT_API + `?id=${slotId}`;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        return axiosClient.delete(url, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    getBookingRequestOfASlot: (onSuccess, onFailure, slotId) => {
+        const url = GET_SLOT_API + `/${slotId}/booking-requests`;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        return axiosClient.get(url, params)
             .then(onSuccess)
             .catch(response => {
                 const status = response?.data?.status || response?.status;

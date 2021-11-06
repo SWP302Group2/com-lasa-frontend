@@ -31,7 +31,7 @@ body {
   height: -webkit-fit-content;
   height: -moz-fit-content;
   height: fit-content;
-  min-height: 100vh;
+  height: 100%;
   background: transparent;
   font-family: "Segoe UI", "Poppins", "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
 }

@@ -1,7 +1,7 @@
 function Question({ question, index, changeContentCallBack, removeQuestionCallBack }) {
 
     function handleChangeContent(event) {
-        changeContentCallBack(event, index);
+        changeContentCallBack(event, index, question);
     }
 
     function handleRemoveQuestion(event) {
@@ -10,6 +10,7 @@ function Question({ question, index, changeContentCallBack, removeQuestionCallBa
 
     function handleMinimalContentOnClick() {
         toggleTextArea();
+        document.querySelector(".box__question .question-expand").classList.toggle("rotate-180");
     }
 
     function handleExpandIconOnClick(event) {

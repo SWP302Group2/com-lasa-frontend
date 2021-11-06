@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,gBAAgB,CAAC;EACb,QAAQ,EAAE,QAAQ;EAClB,GAAG,EAAE,GAAG;EACR,IAAI,EAAE,GAAG;EACT,SAAS,EAAE,qBAAqB;EAEhC,KAAK,EAAE,KAAK;CACf",
+    "sources": [
+        "../scss/AskConformBox.scss"
+    ],
+    "names": [],
+    "file": "AskConformBox.css"
+}

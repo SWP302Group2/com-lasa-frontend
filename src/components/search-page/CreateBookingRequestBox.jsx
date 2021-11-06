@@ -97,8 +97,9 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
         const createTime = dateTools.getISODatetimeOfNow();
         console.log("Create time");
         console.log(createTime);
-        bookingApi.createBooking(createTime, bookingInfo.slot.id, topicId, questions, title,
-            onCreateSuccess, onCreateFailure);
+        bookingApi.createBooking(onCreateSuccess, onCreateFailure,
+            user.id, createTime, bookingInfo.slot.id, topicId, questions, title
+        );
     }
 
     function disableAllControlOnForm() {
@@ -162,6 +163,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
     }
 
     function handleAddQuestion(event) {
+        closeTextArea();
         if (questions.length >= 5) {
             const message = "You could have only 5 questions within one request."
             dispatch(updateInvalidMessageToBookingRequest({
@@ -178,6 +180,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
     }
 
     function handleRemoveQuestion(event, index) {
+        closeTextArea();
         if (index < 0) return;
         if (questions.length <= 1) {
             const message = "You must have at least one question."
@@ -204,9 +207,6 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
             bookingRequestBox.classList.remove("active-create-booking-request-box");
         }
     }, [])
-
-    useEffect(() => {
-    }, [bookingInfo])
 
     return (
         <div
@@ -274,9 +274,9 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
                     </BookingQuestionsArea>
                 </div>
                 <div className="box__bottom">
-                    <button type="submit">Send request</button>
                     {status === true && <SuccessfulMessage message={message} />}
                     {status === false && <ErrorMessage message={message} />}
+                    <button type="submit">Send request</button>
                 </div>
             </form>
         </div>

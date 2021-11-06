@@ -1,4 +1,5 @@
-import { BOOKING_REQUEST_API } from "../utils/constant";
+import axios from "axios";
+import { BOOKING_REQUEST_API, BOOKING_REQUEST_STATUS_CANCELED, BOOKING_REQUEST_STATUS_WAITING } from "../utils/constant";
 import storageTools from "../utils/storageTools";
 import axiosClient from "./axiosClient";
 import { paramsTools } from "./paramsTools";
@@ -39,13 +40,13 @@ const bookingApi = {
             });
     },
 
-    getCurrentUserBookingsWithoutPaging: (userId, pageIndex, onSuccess, onFailure) => {
-        const paging = `paging=false`;
-        const pageNum = `page=${pageIndex || 0}`;
+    getCurrentUserBookingsWithoutPaging: (onSuccess, onFailure, userId, status) => {
+        const noPaging = `paging=false`;
         const withStudent = `getStudent=true`;
         const studentId = `studentId=${userId}`;
+        const statusParam = status != null ? `status=${status}` : "";
 
-        const apiUrl = BOOKING_REQUEST_API + `?${paging}&${pageNum}&${withStudent}&${studentId}`;
+        const apiUrl = BOOKING_REQUEST_API + `?${noPaging}&${statusParam}&${withStudent}&${studentId}`;
         const params = paramsTools.getParamsWithAccessToken();
 
         return axiosClient.get(apiUrl, params)
@@ -57,11 +58,12 @@ const bookingApi = {
             });
     },
 
-    createBooking: (createTime, slotId, topicId, questions, title, onSuccess, onFailure) => {
+    createBooking: (onSuccess, onFailure, studentId, createTime, slotId, topicId, questions, title,) => {
         const url = BOOKING_REQUEST_API
         const params = paramsTools.getParamsWithAccessToken();
 
         const data = {
+            studentId,
             slotId: slotId.toString(),
             topicId: topicId.toString(),
             questions,
@@ -73,6 +75,138 @@ const bookingApi = {
         console.log(data);
 
         return axiosClient.post(url, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    getQuestions: (onSuccess, onFailure, bookingRequestId) => {
+        const apiUrl = BOOKING_REQUEST_API + `/${bookingRequestId}/questions`;
+        return axiosClient.get(apiUrl)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });;
+    },
+
+    updateBookingRequest: (onSuccess, onFailure, studentId, bookingId, slotId, title, topicId, questions) => {
+        const apiUrl = BOOKING_REQUEST_API;
+        const data = {
+            studentId,
+            id: bookingId,
+            slotId,
+            title,
+            topicId,
+            questions
+        }
+        const params = paramsTools.getParamsWithAccessToken();
+        return axiosClient.put(apiUrl, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    cancelBookingRequest: (onSuccess, onFailure, studentId, bookingId) => {
+        const apiUrl = BOOKING_REQUEST_API;
+        const data = {
+            id: bookingId,
+            studentId,
+            status: BOOKING_REQUEST_STATUS_CANCELED
+        }
+        const params = paramsTools.getParamsWithAccessToken();
+        return axiosClient.put(apiUrl, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    removeBookingRequest: (onSuccess, onFailure, studentId, bookingId) => {
+        const apiUrl = BOOKING_REQUEST_API;
+        const data = {
+            id: bookingId,
+            studentId
+        }
+        const params = paramsTools.getParamsWithAccessToken();
+        return axiosClient.delete(apiUrl, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    updateAndRemoveQuestionsForBookingRequest: (onSuccess, onFailure,
+        studentId, bookingId, newQuestions, oldQuestions) => {
+        const apiUrl = BOOKING_REQUEST_API + `/${bookingId}/questions`;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        if (!newQuestions && !oldQuestions) {
+            return Promise.resolve("No new question or removed question").then(onSuccess);
+        }
+
+        const dataForCreateNew = {
+            studentId,
+            id: bookingId,
+            questions: newQuestions
+        }
+
+        const oldQuestionIds = oldQuestions ? oldQuestions.map(question => question.id) : [];
+        const dataForRemoveOld = {
+            studentId,
+            questionIds: oldQuestionIds
+        }
+
+        console.log(dataForCreateNew)
+        console.log(dataForRemoveOld)
+
+        const requests = [];
+        if (Array.isArray(newQuestions) && newQuestions.length > 0) {
+            requests.push(axios.post(apiUrl, dataForCreateNew, params));
+        }
+
+        if (Array.isArray(oldQuestions) && oldQuestions.length > 0) {
+            requests.push(axios.delete(apiUrl, {
+                ...params,
+                data: dataForRemoveOld
+            }));
+        }
+
+        console.log(params);
+        if (requests.length <= 0) {
+            return Promise.resolve("No new question nor removed question").then(onSuccess);
+        }
+
+        return axios.all(requests)
+            .then(axios.spread(onSuccess))
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    getCurrentSlotBookingRequest: (onSuccess, onFailure, slotId) => {
+        const noPaging = `paging=false`;
+        const withStudent = `getStudent=true`;
+        const slotIdParam = `slotId=${slotId}`;
+        const statusParam = `status=${BOOKING_REQUEST_STATUS_WAITING}`;
+
+        const apiUrl = BOOKING_REQUEST_API + `?${noPaging}&${statusParam}&${withStudent}&${slotIdParam}`;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        return axiosClient.get(apiUrl, params)
             .then(onSuccess)
             .catch(response => {
                 const status = response?.data?.status || response?.status;

@@ -1,81 +1,69 @@
 import { useEffect } from "react";
-import Loader from "../Loader";
-import SearchBar from "./SearchBar";
+import "../../assets/css/nprogress.css";
 
 function SearchFilter({ lecturers, topics, invokeSearch, isLoading, ...props }) {
 
-    function handleFilterOnClick(event) {
-        const filterContent = document.querySelector(".search-filter__content");
-        filterContent?.classList.toggle("hide-filter-content");
+    useEffect(handleFilterShowAndHide, [])
 
-        const overlay = document.querySelector(".search-filter__overlay");
-        overlay?.classList.toggle("active-overlay");
-
-        const filterHeader = document.querySelector(".search-filter__header");
-        filterHeader?.classList.toggle("active-header");
-    }
-
-    function handleCloseIconOnClick() {
-        handleFilterOnClick();
-    }
-
-
-    useEffect(() => {
+    function handleFilterShowAndHide() {
         const filter = document.querySelector(".search-filter");
-        const filterContent = document.querySelector(".search-filter__content");
+        const overlay = document.querySelector(".filter-overlay");
+        const searchNav = document.querySelector(".search-content__searchNav")
         document.addEventListener("keydown", handleCloseFilterOnKeyDown);
         document.addEventListener("click", handleCloseFilterOnClick);
         hideFilter();
+
         function handleCloseFilterOnKeyDown(event) {
+            if (window.innerWidth > 1024) return;
             if (event.key !== "Escape") return;
             hideFilter();
         }
 
         function handleCloseFilterOnClick(event) {
-            if (filter.contains(event.target)) return;
+            if (window.innerWidth > 1024) return;
+            if (searchNav?.contains(event.target)) return;
+            if (filter?.contains(event.target)) return;
             hideFilter();
         }
 
         function hideFilter() {
-            filterContent.classList.add("hide-filter-content")
+            overlay?.classList.add("hide-overlay");
+            filter.classList.add("hide-filter")
         }
 
         return () => {
-            filterContent.classList.remove("hide-filter-content")
+            filter.classList.remove("hide-filter-content")
             document.removeEventListener("keydown", handleCloseFilterOnKeyDown);
             document.removeEventListener("click", handleCloseFilterOnClick);
         }
-    }, [])
+    }
+
+    function closeFilter(event) {
+        const filterContent = document.querySelector(".search-filter");
+        filterContent?.classList.add("hide-filter");
+
+        const overlay = document.querySelector(".filter-overlay");
+        overlay?.classList.add("hide-overlay");
+
+        const bodyHeader = document.querySelector(".search-content__searchNav");
+        bodyHeader?.classList.remove("active-header");
+    }
+
+    function handleCloseIconOnClick() {
+        closeFilter();
+    }
 
     return (
         <div className="search-filter">
-            <div className="search-filter__header">
-                <div className="search-filter__header__toggle"
-                    onClick={handleFilterOnClick}
+            <div className="search-filter__close">
+                <i
+                    className="material-icons"
+                    onClick={handleCloseIconOnClick}
                 >
-                    <i className="material-icons">filter_list</i>
-                    <h2>Filters</h2>
-                </div>
-                <SearchBar
-                    lecturers={lecturers}
-                    topics={topics}
-                    invokeSearch={invokeSearch}
-                >
-                    {isLoading && <Loader />}
-                </SearchBar>
+                    close
+                </i>
             </div>
-
-            <div className="search-filter__content">
-                <div className="search-filter__content__close">
-                    <i
-                        className="material-icons"
-                        onClick={handleCloseIconOnClick}
-                    >
-                        close
-                    </i>
-                </div>
-                {props.children}
-            </div>
+            {props.children}
         </div>
     );
 }

@@ -1,205 +1,349 @@
 import { useEffect, useState } from "react";
-
-import "react-datepicker/dist/react-datepicker.css";
+import { useDispatch, useSelector } from "react-redux";
 import slotApi from "../../api/slotApi";
 import topicApi from "../../api/topicApi";
 import ErrorMessage from "../ErrorMessage";
-import SelectedTopics from "../SelectedTopics";
 import SuccessfulMessage from "../SuccessfulMessage";
-import TopicPicker from "../TopicPicker";
+import CreateSlotTopicPicker from "./CreateSlotTopicPicker";
+import CreateSlotSelectedTopic from "./CreateSlotSelectedTopic";
+import Loader from "../Loader";
+import "../../assets/css/createSlotBox.css";
+import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
+import { AiOutlineClose } from "react-icons/ai";
+import { newSlot, updateInvalidMessagesToSlot, updatePeriodToSlot, updateTimeEndToSlot, updateTimeStartToSlot, updateTopicsToSlot } from "../../redux/actions/slot";
 
-
-function CreateSlotBox() {
-    var tzoffset = new Date().getTimezoneOffset();
-    var today = (new Date(Date.now() - tzoffset * 60000)).toISOString().split(".")[0];
-
-    const [timeStart, setTimeStart] = useState(today);
-    const [period, setPeriod] = useState(30);
-    const [selectedTopics, setSelectedTopics] = useState([]);
+function CreateSlotBox({ setCreateSlot, refreshCallback }) {
     const [topics, setTopics] = useState([]);
     const [{ status, message }, setCreateSlotResult] = useState({ status: null, message: null });
-    const [{ invalidStartTime, invalidPeriod }, setInvalidMessage]
-        = useState({ invalidStartTime: "", invalidPeriod: "" });
+    const [isLoading, setIsLoading] = useState(false);
+    const [isCreating, setIsCreating] = useState(false);
 
-    function handleTimeStartChange(event) {
-        const newTimeStart = event.target.value;
-        console.log(newTimeStart);
-        switch (isInvalidTimeStart(newTimeStart)) {
-            case 1: {
-                setInvalidMessage({ invalidStartTime: "Invalid time. Please make sure you are not cheating." })
-                return;
-            }
-            case 2: {
-                setInvalidMessage({ invalidStartTime: "You should create the slot one hour before the meeting." })
-                return;
-            }
-            default: {
-                //nothing
-            }
-        }
-        setInvalidMessage({ invalidStartTime: "" });
-        setTimeStart(newTimeStart);
+    const slotInfo = useSelector(state => state.slot)
+    const user = useSelector(state => state.user);
+    const dispatch = useDispatch();
+
+    function handleCreateBoxOnClick(event) {
+        const createBox = document.querySelector(".create-slot-box");
+        const topicPickerInput = createBox?.querySelector(".box__topic-picker__input");
+        const prompt = createBox?.querySelector(".prompt");
+        if (topicPickerInput?.contains(event?.target)) return;
+        if (prompt?.contains(event?.target)) return;
+
+        prompt?.classList.add("hide-prompt");
     }
 
-    function isInvalidTimeStart(timeStart) {
-        const timeStartObject = new Date(timeStart);
-        if (!timeStartObject) return 1;
-
-        let now = new Date();
-        now.setMinutes(now.getMinutes() + 60);
-
-        if (timeStartObject < now) return 2;
-        return 0;
-    }
-
-    function handlePeriodChange(event) {
-        const newPeriod = Number.parseInt(event.target.value || 0);
-        if (isInvalidPeriod(newPeriod)) {
-            setInvalidMessage({ invalidPeriod: "Invalid period. Please try again." })
-            return;
-        };
-
-        const timeStartObject = new Date(timeStart);
-        const timeEndObject = new Date(timeStartObject);
-        timeEndObject.setMinutes(timeEndObject.getMinutes() + newPeriod);
-
-        if (timeEndObject.getDate() !== timeStartObject.getDate()) {
-            setInvalidMessage({ invalidPeriod: "The meeting should end in same day it started." })
-            return;
-        }
-        setInvalidMessage({ invalidPeriod: "" })
-        setPeriod(newPeriod);
-    }
-
-    function isInvalidPeriod(period) {
-        return !period || period < 30 || period % 15 !== 0
-    }
-
-    function handleRemoveItem(event, removedTopic) {
-        const newSelectedTopic = [...selectedTopics].filter(topic =>
-            topic.id !== removedTopic.id
-        );
-        setSelectedTopics(newSelectedTopic);
+    function handleCreateBoxOnKeyDown(event) {
+        if (event.key !== "Escape") return;
+        handleCloseCreateBox();
     }
 
     function handleCreateSlotSubmit(event) {
         event.preventDefault();
 
+        console.log("Create slot criteria");
+        console.log(slotInfo);
+
         let isError = false;
-        switch (isInvalidTimeStart(timeStart)) {
-            case 1: {
-                isError = true;
-                setInvalidMessage({ invalidStartTime: "Invalid time. Please make sure you are not cheating." })
-                break;
-            }
-            case 2: {
-                isError = true;
-                setInvalidMessage({ invalidStartTime: "You should create the slot one hour before the meeting." })
-                break;
-            }
-            default: {
-                //nothing
-            }
-        }
-
-        if (isInvalidPeriod(period)) {
+        if (!checkValidTimeStart(slotInfo?.timeStart)) {
             isError = true;
-            setInvalidMessage({ invalidPeriod: "Invalid period. Please try again." })
         }
 
-        const timeStartObject = new Date(timeStart);
-        const timeEndObject = new Date(timeStartObject);
-        timeEndObject.setMinutes(timeEndObject.getMinutes() + period);
-        if (timeEndObject.getDate() !== timeStartObject.getDate()) {
-            setInvalidMessage({ invalidPeriod: "The meeting should end in same day it started." })
-            return;
+        if (!checkValidTimeEnd(slotInfo?.timeStart, slotInfo?.timeEnd)) {
+            isError = true;
+        }
+
+        if (!checkValidPeriod(slotInfo?.period)) {
+            isError = true;
+        }
+
+        if (!checkValidNumberOfTopics(slotInfo?.selectedTopics)) {
+            isError = true;
         }
 
         if (isError) return;
-
-        callCreateSlot();
+        setIsCreating(true);
     }
 
-    function callCreateSlot() {
-        const onCreateSuccess = (data) => {
-            console.log("Create slots success:");
-            console.log(data);
+    function handleTimeStartChange(event) {
+        clearAllError();
 
-            setCreateSlotResult({ status: 1, message: "Create successful." })
-        }
+        const newTimeStartString = event.target.value;
+        const newTimeStart = new Date(newTimeStartString);
+        checkValidTimeStart(newTimeStart);
 
-        const onCreateFailed = (response, status, message) => {
-            console.log("Create slots false:");
-            console.log(response);
+        const newTimeEnd = new Date(newTimeStart);
+        newTimeEnd.setTime(newTimeEnd.getTime() + slotInfo?.period * 60 * 1000);
+        checkValidTimeEnd(newTimeStart, newTimeEnd);
 
-            setCreateSlotResult({ status: 0, message: "Create failed." })
-        }
-
-        slotApi.createSlot(timeStart, period, selectedTopics, onCreateSuccess, onCreateFailed);
+        dispatch(updateTimeStartToSlot(newTimeStart));
+        dispatch(updateTimeEndToSlot(newTimeEnd));
     }
 
+    function handlePeriodChange(event) {
+        clearAllError();
 
-    useEffect(() => {
+        const newPeriod = Number.parseInt(event.target.value || 0);
+        const newTimeEnd = new Date(slotInfo?.timeStart);
+        newTimeEnd.setTime(newTimeEnd.getTime() + newPeriod * 60 * 1000);
+
+        checkValidPeriod(newPeriod);
+        checkValidTimeEnd(slotInfo?.timeStart, newTimeEnd);
+
+        dispatch(updatePeriodToSlot(newPeriod));
+        dispatch(updateTimeEndToSlot(newTimeEnd));
+    }
+
+    function checkValidTimeStart(timeStart) {
+        if (!timeStart) {
+            dispatch(updateInvalidMessagesToSlot({
+                ...slotInfo?.invalidMessages,
+                invalidStartTime: "Invalid time. Please make sure you are not cheating."
+            }));
+            return false;
+        }
+
+        let now = new Date();
+        now.setMinutes(now.getMinutes() + 60);
+        if (timeStart < now) {
+            dispatch(updateInvalidMessagesToSlot({
+                ...slotInfo?.invalidMessages,
+                invalidStartTime: "You should create the slot one hour before the meeting."
+            }));
+            return false;
+        }
+        return true;
+    }
+
+    function checkValidTimeEnd(timeStart, timeEnd) {
+        if (timeStart.getDate() !== timeEnd.getDate()) {
+            dispatch(updateInvalidMessagesToSlot({
+                ...slotInfo?.invalidMessages,
+                invalidTimeEnd: "The meeting should end in same day it started."
+            }));
+            return false;
+        }
+        return true;
+    }
+
+    function checkValidPeriod(period) {
+        if (!period || period < 30) {
+            dispatch(updateInvalidMessagesToSlot({
+                ...slotInfo?.invalidMessages,
+                invalidPeriod: "Invalid period. Must be last at least 30 mins"
+            }));
+            return false;
+        }
+        return true;
+    }
+
+    function checkValidNumberOfTopics(selectedTopics) {
+        if (!Array.isArray(selectedTopics) || selectedTopics.length < 1) {
+            dispatch(updateInvalidMessagesToSlot({
+                ...slotInfo?.invalidMessages,
+                invalidNumberOfTopics: "A slot must have at least one topic."
+            }))
+            return false;
+        }
+
+        if (selectedTopics.length > 5) {
+            dispatch(updateInvalidMessagesToSlot({
+                ...slotInfo?.invalidMessages,
+                invalidNumberOfTopics: "A slot have only at most five topics."
+            }))
+            return false;
+        }
+        return true;
+    }
+
+    function handleRemoveItem(event, removedTopic) {
+        clearAllError();
+
+        const newSelectedTopic = [...slotInfo?.selectedTopics].filter(topic =>
+            topic.id !== removedTopic.id
+        );
+
+        checkValidNumberOfTopics(newSelectedTopic);
+        dispatch(updateTopicsToSlot([...newSelectedTopic]));
+    }
+
+    function clearAllError() {
+        dispatch(updateInvalidMessagesToSlot({}));
+    }
+
+    useEffect(activeCreateBox, []);
+
+    useEffect(callApiGetTopics, []);
+
+    useEffect(callApiCreateSlot, [isCreating, slotInfo, user.id, refreshCallback]);
+
+    function activeCreateBox() {
+        const createBox = document.querySelector(".create-slot-box");
+        createBox?.classList.add("active-create-slot-box");
+        createBox?.focus();
+
+        return () => {
+            createBox?.classList.remove("active-create-slot-box");
+        }
+    }
+
+    function callApiGetTopics() {
+        let unMounted = false;
         callGetTopics();
 
         function callGetTopics() {
             const onGetSuccess = (data) => {
                 console.log("Lecturer slot dashboard get topic success:");
                 console.log(data);
+                if (unMounted) return;
                 setTopics(data);
             }
 
             const onGetFailure = (response, status, message) => {
                 console.log("Lecturer slot dashboard get topic failed:");
                 console.log(response);
+                if (unMounted) return;
                 setTopics(null);
             }
 
             topicApi.getTopicsNoPaging(onGetSuccess, onGetFailure);
         }
-    }, [])
+
+        return () => unMounted = true;
+    }
+
+    function callApiCreateSlot() {
+        if (!isCreating) return;
+        setIsCreating(false);
+        setIsLoading(true);
+        callCreateSlot();
+
+        function callCreateSlot() {
+            const onCreateSuccess = (data) => {
+                console.log("Create slots success:");
+                console.log(data);
+
+                setIsLoading(false);
+                refreshCallback(true);
+                setCreateSlotResult({ status: 1, message: "Create successful." })
+            }
+
+            const onCreateFailed = (response, status, message) => {
+                console.log("Create slots false:");
+                console.log(response);
+                setIsLoading(false);
+                setCreateSlotResult({ status: 0, message: "Create failed." })
+            }
+
+            slotApi.createSlot(onCreateSuccess, onCreateFailed, user.id, slotInfo);
+        }
+    }
+
+    function handleCloseCreateBox() {
+        const createBox = document.querySelector(".create-slot-box");
+        createBox?.classList.remove("active-create-slot-box");
+
+        setTimeout(() => {
+            dispatch(newSlot());
+            if (setCreateSlot) setCreateSlot(false);
+        }, 300);
+    }
 
     return (
-        <div className="create-slot-box">
-            <h3>Create Topic</h3>
-            <form className="box" onSubmit={handleCreateSlotSubmit}>
-                <div className="box__time-start">
-                    When to start the meeting?
-                    <input
-                        type="datetime-local"
-                        value={timeStart}
-                        onChange={handleTimeStartChange}
+        <div
+            className="create-slot-box"
+            onClick={handleCreateBoxOnClick}
+            onKeyDown={handleCreateBoxOnKeyDown}
+            tabIndex="0"
+        >
+            <form
+                className="box"
+                onSubmit={handleCreateSlotSubmit}
+            >
+                <div className="box__header">
+                    <h2 className="box__header__title">Create slot</h2>
+                    <AiOutlineClose
+                        className="box__header__close-icon"
+                        onClick={handleCloseCreateBox}
                     />
-                    {invalidStartTime && <ErrorMessage message={invalidStartTime} />}
                 </div>
-                <div className="box__time-end">
-                    <p>How long does it take?</p>
-                    <input
-                        type="number"
-                        value={period}
-                        min={30} step={15}
-                        onChange={handlePeriodChange}
+                <div className="box__content">
+                    <div className="box__time-start" tabIndex="0">
+                        <p className="box__title">Start</p>
+                        <div className="control">
+                            <DateTimePickerComponent
+                                format='dd/MM/yy hh:mm a'
+                                data-name="StartTime"
+                                className="box__time-start__picker"
+                                value={slotInfo?.timeStart || ""}
+                                onChange={handleTimeStartChange}
+                            />
+                        </div>
+                        {slotInfo?.invalidMessages?.invalidStartTime &&
+                            <ErrorMessage message={slotInfo?.invalidMessages?.invalidStartTime} />
+                        }
+                    </div>
+
+                    <div className="box__period" tabIndex="0">
+                        <p className="box__title">Last</p>
+                        <div className="box__control">
+                            <input
+                                type="number"
+                                className="box__period__picker"
+                                value={slotInfo?.period || 30}
+                                min={30} step={15}
+                                onChange={handlePeriodChange}
+                            />
+                            <p className="box__period__unit">mins</p>
+                        </div>
+                    </div>
+                    {slotInfo?.invalidMessages?.invalidPeriod &&
+                        <ErrorMessage
+                            message={slotInfo?.invalidMessages?.invalidPeriod}
+                        />}
+                    <div className="box__time-end" tabIndex="0">
+                        <p className="box__title">End</p>
+                        <div className="box__control">
+                            <DateTimePickerComponent
+                                format='dd/MM/yy hh:mm a'
+                                data-name="EndTime"
+                                className="box__time-end__picker"
+                                value={slotInfo?.timeEnd || ""}
+                                disabled
+                            />
+                        </div>
+
+                    </div>
+
+                    <CreateSlotTopicPicker
+                        topics={topics}
+                        clearAllError={clearAllError}
                     />
-                    <p>Minutes</p>
-                    {invalidPeriod && <ErrorMessage message={invalidPeriod} />}
+                    <CreateSlotSelectedTopic
+                        removeItemCallback={handleRemoveItem}
+                    />
+                    {slotInfo?.invalidMessages?.invalidNumberOfTopics &&
+                        <ErrorMessage
+                            message={slotInfo?.invalidMessages?.invalidNumberOfTopics}
+                        />
+                    }
                 </div>
-                <TopicPicker
-                    topics={topics}
-                    value={[...selectedTopics]}
-                    onChange={setSelectedTopics}
-                />
-                <SelectedTopics
-                    topics={[...selectedTopics]}
-                    removeItemCallback={handleRemoveItem}
-                >
-                    <p>Your selected topics:</p>
-                </SelectedTopics>
+                {status === 1 && <SuccessfulMessage message={message} />}
+                {status === 0 && <ErrorMessage message={message} />}
+                {isLoading && <Loader />}
                 <div className="box__bottom">
-                    <button type="submit">
+                    <button
+                        className="box__bottom__create"
+                        type="submit"
+                    >
                         Create
                     </button>
-                    {status === 1 && <SuccessfulMessage message={message} />}
-                    {status === 0 && <ErrorMessage message={message} />}
+                    <p
+                        className="box__bottom__close"
+                        tabIndex="0"
+                        onClick={handleCloseCreateBox}
+                    >
+                        Close
+                    </p>
                 </div>
             </form>
         </div>
