@@ -100,10 +100,6 @@ $blue: #1cd3f8;
         font-size: 2rem;
 
         &:hover {
-          top: -1px;
-          left: 1px;
-          box-shadow: -7px 7px 0 $brown;
-
           &::after {
             top: 1px;
             left: -2px;

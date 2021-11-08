@@ -116,13 +116,6 @@
   font-size: 2rem;
 }
 
-#home-page .welcome-content__slider-container .slide-welcome__button:hover {
-  top: -1px;
-  left: 1px;
-  -webkit-box-shadow: -7px 7px 0 #404040;
-          box-shadow: -7px 7px 0 #404040;
-}
-
 #home-page .welcome-content__slider-container .slide-welcome__button:hover::after {
   top: 1px;
   left: -2px;

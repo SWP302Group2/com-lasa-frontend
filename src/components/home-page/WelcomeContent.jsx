@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import "../../assets/css/welcomeContent.css";
 import { Link } from "react-router-dom";
 import intro from "../../assets/svg/intro.webm";
+import loop from "../../assets/svg/loop.mp4";
 import CircularFont from "../../assets/images/CircularStd-Medium.otf";
 
 function WelcomeContent({ setIsCheckedAuth }) {
@@ -38,6 +39,9 @@ function WelcomeContent({ setIsCheckedAuth }) {
         <div className="mp4-container">
           <video className="intro" muted autoPlay>
             <source src={intro} type="video/mp4" />
+          </video>
+          <video className="loop" muted loop >
+            <source src={loop} type="video/mp4" />
           </video>
         </div>
         <div
