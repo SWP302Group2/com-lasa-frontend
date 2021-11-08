@@ -14,89 +14,90 @@ import DashboardContent from "../dashboard/DashboardContent";
 import Footer from "../Footer";
 
 function HomePage() {
-    //Use old info before callAPI success
-    const [isCheckedAuth, setIsCheckedAuth] = useState(true);
-    const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
+  //Use old info before callAPI success
+  const [isCheckedAuth, setIsCheckedAuth] = useState(true);
+  const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
 
-    const role = useSelector(state => state.user.role);
-    const dispatch = useDispatch();
-    const history = useHistory();
+  const role = useSelector((state) => state.user.role);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-    useEffect(() => document.title = HOME_PAGE_TITLE, []);
+  useEffect(() => (document.title = HOME_PAGE_TITLE), []);
 
-    useEffect(checkAuthAndGetUserInfo, [dispatch, history, role, isCheckedAuth]);
+  useEffect(checkAuthAndGetUserInfo, [dispatch, history, role, isCheckedAuth]);
 
-    function checkAuthAndGetUserInfo() {
-        if (isCheckedAuth === true) return;
+  function checkAuthAndGetUserInfo() {
+    if (isCheckedAuth === true) return;
 
-        setIsCheckedAuth(true);
-        processUserAuth();
+    setIsCheckedAuth(true);
+    processUserAuth();
 
-        function processUserAuth() {
-            const onGetSuccess = (userInfo) => {
-                console.log("Homepage - get userinfo success:");
-                console.log(userInfo);
+    function processUserAuth() {
+      const onGetSuccess = (userInfo) => {
+        console.log("Homepage - get userinfo success:");
+        console.log(userInfo);
 
-                dispatch(updateUserInfo({
-                    ...userInfo.information,
-                    role: userInfo.role
-                }));
-            }
+        dispatch(
+          updateUserInfo({
+            ...userInfo.information,
+            role: userInfo.role,
+          })
+        );
+      };
 
-            const onGetFailure = (response, status, message) => {
-                console.log("Homepage get userinfo failed: ");
-                console.log(response);
+      const onGetFailure = (response, status, message) => {
+        console.log("Homepage get userinfo failed: ");
+        console.log(response);
 
-                storageTools.removeAccessToken();
-                dispatch(newUserInfo());
-                setAccessToken("");
+        storageTools.removeAccessToken();
+        dispatch(newUserInfo());
+        setAccessToken("");
 
-                if (message === "Network Error") {
-                    //Backend server is down
-                    history.push(createNetworkError());
-                }
-            }
-
-            authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
+        if (message === "Network Error") {
+          //Backend server is down
+          history.push(createNetworkError());
         }
+      };
+
+      authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
     }
+  }
 
-    return (
-        <section id="home-page">
-            <Header />
-            <Switch>
-                <Route exact path="/">
-                    <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
-                </Route>
+  return (
+    <section id="home-page">
+      <Header />
+      <Switch>
+        <Route exact path="/">
+          <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
+        </Route>
 
-                <Route exact path="/home">
-                    <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
-                </Route>
+        <Route exact path="/home">
+          <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
+        </Route>
 
-                <Route exact path="/welcome">
-                    <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
-                </Route>
+        <Route exact path="/welcome">
+          <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
+        </Route>
 
-                {role && accessToken ?
-                    <Route exact path="/search">
-                        <SearchContent setIsCheckedAuth={setIsCheckedAuth} />
-                        <Footer />
-                    </Route>
-                    :
-                    <Redirect to="/auth" />
-                }
+        {role && accessToken ? (
+          <Route exact path="/search">
+            <SearchContent setIsCheckedAuth={setIsCheckedAuth} />
+            <Footer />
+          </Route>
+        ) : (
+          <Redirect to="/auth" />
+        )}
 
-                {role && accessToken ?
-                    <Route path="/dashboard">
-                        <DashboardContent setIsCheckedAuth={setIsCheckedAuth} />
-                    </Route>
-                    :
-                    <Redirect to="/auth" />
-                }
-
-            </Switch>
-        </section>
-    );
+        {role && accessToken ? (
+          <Route path="/dashboard">
+            <DashboardContent setIsCheckedAuth={setIsCheckedAuth} />
+          </Route>
+        ) : (
+          <Redirect to="/auth" />
+        )}
+      </Switch>
+    </section>
+  );
 }
 
 export default HomePage;

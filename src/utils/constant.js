@@ -66,8 +66,8 @@ export const ADMIN_ROLE = "ROLE_ADMIN";
 //API url
 export const DEVELOP_BASE_URL = "http://localhost:8080/las/api/v1";
 export const PRODUCT_BASE_URL = "https://lasfpt.online/api/v1";
-export const BASE_URL = PRODUCT_BASE_URL;
-// export const BASE_URL = DEVELOP_BASE_URL;
+// export const BASE_URL = PRODUCT_BASE_URL;
+export const BASE_URL = DEVELOP_BASE_URL;
 
 
 export const SIGN_IN_GOOGLE_API = "/authentication/google";
