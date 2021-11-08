@@ -18,7 +18,7 @@ import { L10n } from '@syncfusion/ej2-base';
 import { useDispatch, useSelector } from "react-redux";
 import { newSlot } from "../../redux/actions/slot";
 import EditSlotBox from "./EditSlotBox";
-import lecturerStatusList from "../../data/lecturerStatusList";
+import slotStatusList from "../../data/slotStatusList";
 import SlotControlBox from "./SlotControlBox";
 import ViewRequestBox from "./ViewRequestBox";
 
@@ -70,7 +70,7 @@ function SchedulerArea({ slots, refreshCallback }) {
                     const EndTime = new Date(slot.timeEnd) || new Date();
                     const status = slot.status;
                     const topics = slot.topics;
-                    const Subject = lecturerStatusList.find(item => item.value === slot.status).name;
+                    const Subject = slotStatusList.find(item => item.value === slot.status).name;
                     const record = {
                         Id, StartTime, EndTime, Subject, status, topics, Location: meetingUrl
                     }

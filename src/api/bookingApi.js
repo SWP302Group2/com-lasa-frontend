@@ -1,5 +1,8 @@
 import axios from "axios";
-import { BOOKING_REQUEST_API, BOOKING_REQUEST_STATUS_CANCELED, BOOKING_REQUEST_STATUS_WAITING } from "../utils/constant";
+import { 
+    BOOKING_REQUEST_API,
+     BOOKING_REQUEST_STATUS_CANCELED 
+}   from "../utils/constant";
 import storageTools from "../utils/storageTools";
 import axiosClient from "./axiosClient";
 import { paramsTools } from "./paramsTools";
@@ -201,9 +204,8 @@ const bookingApi = {
         const noPaging = `paging=false`;
         const withStudent = `getStudent=true`;
         const slotIdParam = `slotId=${slotId}`;
-        const statusParam = `status=${BOOKING_REQUEST_STATUS_WAITING}`;
 
-        const apiUrl = BOOKING_REQUEST_API + `?${noPaging}&${statusParam}&${withStudent}&${slotIdParam}`;
+        const apiUrl = BOOKING_REQUEST_API + `?${noPaging}&${withStudent}&${slotIdParam}`;
         const params = paramsTools.getParamsWithAccessToken();
 
         return axiosClient.get(apiUrl, params)

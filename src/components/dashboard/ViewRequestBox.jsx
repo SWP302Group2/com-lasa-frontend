@@ -5,7 +5,10 @@ import "../../assets/css/viewRequestBox.css";
 import Loader from "../Loader";
 import bookingApi from "../../api/bookingApi";
 import BookingRequestLecturerView from "./BookingRequestLecturerView";
-
+import {
+    BOOKING_REQUEST_STATUS_CANCELED,
+     BOOKING_REQUEST_STATUS_DENIED
+    } from "../../utils/constant";
 
 function ViewRequestBox({ setViewRequest, refreshCallback }) {
 
@@ -50,7 +53,12 @@ function ViewRequestBox({ setViewRequest, refreshCallback }) {
                 console.log("Get booking request for view request success:");
                 console.log(data);
                 setIsLoading(false);
-                setBookingRequests(data || []);
+                const availableBookings = data.filter(booking => {
+                    if(booking.status !== BOOKING_REQUEST_STATUS_DENIED) return false;
+                    if(booking.status === BOOKING_REQUEST_STATUS_CANCELED)  return false;
+                    return true;
+                });
+                setBookingRequests(availableBookings || []);
             }
 
             const onGetFailure = (response, status, message) => {

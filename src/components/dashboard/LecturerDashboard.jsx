@@ -18,14 +18,6 @@ function LecturerDashboard() {
                     <p>Schedule</p>
                 </Link>
                 <Link
-                    className="sidebar__link sidebar__link-slot "
-                    to="/dashboard/slots"
-                    title="Slot"
-                >
-                    <i className="material-icons">receipt</i>
-                    <p>Slot Dashboard</p>
-                </Link>
-                <Link
                     className="sidebar__link sidebar__link-notification "
                     to="/dashboard/notifications"
                     title="Notification"

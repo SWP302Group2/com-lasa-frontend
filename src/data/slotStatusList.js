@@ -1,6 +1,10 @@
 
 
-const lecturerStatusList = [
+const slotStatusList = [
+    {
+        value: -1,
+        name: "Removed"
+    },
     {
         value: 0,
         name: "Canceled"
@@ -14,9 +18,13 @@ const lecturerStatusList = [
         name: "Ready for meeting"
     },
     {
+        value: 3,
+        name: "Notified"
+    },
+    {
         value: 4,
         name: "Finished"
     }
 ]
 
-export default lecturerStatusList;
+export default slotStatusList;
