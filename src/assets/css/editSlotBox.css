@@ -1,0 +1,360 @@
+.edit-slot-box {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  opacity: 0;
+  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.edit-slot-box .box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  overflow-y: visible;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  max-height: 700px;
+  padding: 1rem;
+  overflow: auto;
+  -webkit-transform: translateY(-100vh);
+          transform: translateY(-100vh);
+  -webkit-transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  background: #fff;
+}
+
+.edit-slot-box .box__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.edit-slot-box .box__header__title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-right: 1rem;
+}
+
+.edit-slot-box .box__header__close-icon {
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.edit-slot-box .box__header__close-icon:hover {
+  background: #ddd;
+}
+
+.edit-slot-box .box__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #fff;
+}
+
+.edit-slot-box .box__time-start, .edit-slot-box .box__period, .edit-slot-box .box__time-end {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.edit-slot-box .box__period__picker {
+  width: 100%;
+  height: 2rem;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.42);
+}
+
+.edit-slot-box .box__period__picker:focus-within {
+  padding-top: 0.5px;
+  border-bottom: 2px solid #e3165b;
+}
+
+.edit-slot-box .box__period__unit {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 40px;
+  height: 2rem;
+}
+
+.edit-slot-box .box__title {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.edit-slot-box .box__control {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.edit-slot-box .box__topic-picker {
+  position: relative;
+}
+
+.edit-slot-box .box__topic-picker__input {
+  display: block;
+  width: 100%;
+  height: 2.5rem;
+  padding: 0 1rem 0 0.5rem;
+  outline: none;
+  background: transparent;
+  border: 1px solid #aaa;
+}
+
+.edit-slot-box .box__topic-picker__input:hover, .edit-slot-box .box__topic-picker__input:focus-within {
+  background: #fff;
+  -webkit-box-shadow: 5px 5px 0px #d5dde0;
+          box-shadow: 5px 5px 0px #d5dde0;
+}
+
+.edit-slot-box .box__topic-picker .prompt {
+  position: absolute;
+  top: 4.5rem;
+  width: 100%;
+  max-height: 150px;
+  overflow: auto;
+  display: block;
+  background: #fff;
+  border: 1px solid #c4c4c4;
+  -webkit-box-shadow: 5px 5px 0px #d5dde0;
+          box-shadow: 5px 5px 0px #d5dde0;
+}
+
+.edit-slot-box .box__topic-picker .prompt__topic {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 0.5rem;
+  -webkit-transition: background-color 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  cursor: pointer;
+}
+
+.edit-slot-box .box__topic-picker .prompt__topic:hover {
+  background-color: #d1f0ff;
+  color: #333;
+}
+
+.edit-slot-box .box__topic-picker .prompt__topic i {
+  margin-right: 0.5rem;
+}
+
+.edit-slot-box .box__topic-picker .prompt__topic__majorid {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+.edit-slot-box .box__topic-picker .prompt__topic:active {
+  -webkit-transform: scale(0.95);
+          transform: scale(0.95);
+}
+
+.edit-slot-box .box__topic-picker .prompt__topic-active {
+  background-color: #d1f0ff;
+  color: #333;
+}
+
+.edit-slot-box .box__topic-picker .hide-prompt {
+  opacity: 0;
+  overflow: hidden;
+  height: 0;
+  border: none;
+  -webkit-box-shadow: 0 0 0 transparent;
+          box-shadow: 0 0 0 transparent;
+}
+
+.edit-slot-box .box__list-topic {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(100px, 1fr))[auto-fill];
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  -ms-grid-rows: (30px)[auto-fill];
+      grid-template-rows: repeat(auto-fill, 30px);
+  grid-gap: 0.25rem;
+  width: 100%;
+  height: 200px;
+  padding: 1rem 0;
+}
+
+.edit-slot-box .box__topic {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  outline: none;
+  border: none;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  border-radius: 3px;
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  color: #fff;
+  background: #777;
+  cursor: pointer;
+}
+
+.edit-slot-box .box__topic i {
+  display: inline-block;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.edit-slot-box .box__topic--default {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 0.9rem;
+  cursor: pointer;
+  color: #fff;
+  background: #1cacac;
+}
+
+.edit-slot-box .box__topic--selected {
+  color: #fff;
+  background: #28afc7;
+}
+
+.edit-slot-box .box__topic--selected-majorid {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+.edit-slot-box .box__bottom {
+  width: 100%;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.edit-slot-box .box__bottom__save, .edit-slot-box .box__bottom__close, .edit-slot-box .box__bottom__remove, .edit-slot-box .box__bottom__cancel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  height: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  color: #000;
+  background: #fff;
+}
+
+.edit-slot-box .box__bottom__save {
+  outline: none;
+  border: none;
+  border-radius: 0;
+  margin-right: 0.5rem;
+  margin-left: auto;
+  color: #e3165b;
+}
+
+.edit-slot-box .box__bottom__save:hover {
+  background: #f7ecf0;
+}
+
+.edit-slot-box .box__bottom__remove {
+  margin-right: auto;
+}
+
+.edit-slot-box .box__bottom__cancel {
+  margin-right: auto;
+}
+
+.edit-slot-box .box__bottom__close {
+  margin-left: 0.5rem;
+}
+
+.edit-slot-box .box__bottom__close:hover, .edit-slot-box .box__bottom__remove:hover, .edit-slot-box .box__bottom__cancel:hover {
+  background: #eee;
+}
+
+.active-edit-slot-box {
+  opacity: 1;
+}
+
+.active-edit-slot-box .box {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+/*# sourceMappingURL=editSlotBox.css.map */

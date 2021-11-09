@@ -1,0 +1,38 @@
+#home-page .dashboard-content .lecturer-dashboard {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  width: 100%;
+  height: calc(100vh - 4rem);
+}
+
+#home-page .dashboard-content .lecturer-dashboard__content {
+  background: #fff;
+  padding: 1rem 2rem;
+  overflow-x: auto;
+  width: 100%;
+}
+
+#home-page .dashboard-content .lecturer-dashboard__content__headline {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-flow: wrap;
+      flex-flow: wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 1rem;
+}
+
+#home-page .dashboard-content .lecturer-dashboard__content__headline__title {
+  width: 100%;
+  color: #2581be;
+  font-size: 2rem;
+  letter-spacing: 0.2rem;
+}
+/*# sourceMappingURL=lecturerDashboard.css.map */

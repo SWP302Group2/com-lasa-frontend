@@ -306,7 +306,7 @@ $shadow-right-down: #bdc2ca;
             display: flex;
             flex-flow: row wrap;
             align-items: center;
-            justify-content: space-evenly;
+            // justify-content: space-evenly;
             width: 100%;
         }
 
@@ -316,8 +316,9 @@ $shadow-right-down: #bdc2ca;
             flex-wrap: nowrap;
             justify-content: space-between;
 
-            width: fit-content;
+            width: 120px;
             padding: 0.2rem 0.5rem;
+            margin-right: 0.5rem;
             margin-bottom: 0.5rem;
             border-radius: 6px;
 
@@ -482,10 +483,10 @@ $shadow-right-down: #bdc2ca;
     }
 
     10% {
-        background: #62e0cb;
+        background: #1180a1;
     }
 
     to {
-        background: #62e0cb;
+        background: #0893b6;
     }
 }

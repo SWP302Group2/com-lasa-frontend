@@ -1,0 +1,218 @@
+#home-page .dashboard-content {
+  width: 100%;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  min-height: calc(100% - 4rem);
+  margin-top: 4rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background: #fff;
+  font-family: "Segoe UI", "Roboto", Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-transition: -webkit-transform 400ms ease;
+  transition: -webkit-transform 400ms ease;
+  transition: transform 400ms ease;
+  transition: transform 400ms ease, -webkit-transform 400ms ease;
+}
+
+#home-page .dashboard-content .sidebar {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0rem;
+  left: 0;
+  z-index: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  height: 100%;
+  padding: 0 0.5rem;
+  min-height: calc(100vh - 4rem);
+  background: #fff;
+  font-family: "Poppins";
+  -webkit-transition: width 400ms;
+  transition: width 400ms;
+  -webkit-box-shadow: -2px -2px 5px #e0dff1, 2px 2px 5px #cacfd8;
+          box-shadow: -2px -2px 5px #e0dff1, 2px 2px 5px #cacfd8;
+}
+
+#home-page .dashboard-content .sidebar__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row nowrap;
+          flex-flow: row nowrap;
+  height: 4rem;
+  padding: 0 1rem;
+  color: #3a8ad4;
+  background: #fff;
+  border-bottom: 1px solid #3a8ad4;
+}
+
+#home-page .dashboard-content .sidebar__header:hover {
+  cursor: pointer;
+}
+
+#home-page .dashboard-content .sidebar__header p {
+  width: 100%;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#home-page .dashboard-content .sidebar__header i {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  height: 100%;
+  -webkit-transition: -webkit-transform 400ms ease;
+  transition: -webkit-transform 400ms ease;
+  transition: transform 400ms ease;
+  transition: transform 400ms ease, -webkit-transform 400ms ease;
+}
+
+#home-page .dashboard-content .sidebar__link {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  padding: 0.8rem 1rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  background: #fff;
+  color: #000;
+  font-size: 0.9rem;
+  text-decoration: none;
+  -webkit-transition: background-color 100ms ease, color 100ms ease;
+  transition: background-color 100ms ease, color 100ms ease;
+}
+
+#home-page .dashboard-content .sidebar__link:hover {
+  background: #3a8ad4;
+  color: #fff;
+}
+
+#home-page .dashboard-content .sidebar__link p {
+  width: 100%;
+  padding-right: 0.5rem;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+#home-page .dashboard-content .sidebar .active-dashboard-content {
+  background: #3a8ad4;
+  color: #fff;
+  background-clip: padding-box;
+}
+
+#home-page .dashboard-content .active-sidebar .sidebar__header p,
+#home-page .dashboard-content .active-sidebar .sidebar__link p {
+  position: relative;
+  opacity: 1;
+  -webkit-transform: translateX(0%);
+          transform: translateX(0%);
+}
+
+#home-page .dashboard-content .active-sidebar .sidebar__header i,
+#home-page .dashboard-content .active-sidebar .sidebar__link i {
+  margin-right: 2rem;
+}
+
+@media all and (max-width: 1023.5px) {
+  #home-page .dashboard-content .sidebar {
+    width: 72px;
+  }
+  #home-page .dashboard-content .sidebar__header:hover {
+    cursor: pointer;
+  }
+  #home-page .dashboard-content .sidebar__header p {
+    display: none;
+  }
+  #home-page .dashboard-content .sidebar__header i {
+    margin: 0;
+  }
+  #home-page .dashboard-content .sidebar__link:hover {
+    background: #3a8ad4;
+    color: #fff;
+  }
+  #home-page .dashboard-content .sidebar__link p {
+    display: none;
+  }
+  #home-page .dashboard-content .sidebar__link i {
+    margin: 0;
+  }
+  #home-page .dashboard-content .active-sidebar {
+    width: 280px;
+  }
+  #home-page .dashboard-content .active-sidebar .sidebar__header p,
+  #home-page .dashboard-content .active-sidebar .sidebar__link p {
+    display: inline-block;
+  }
+  #home-page .dashboard-content .active-sidebar .sidebar__header i,
+  #home-page .dashboard-content .active-sidebar .sidebar__link i {
+    margin-right: 2rem;
+  }
+  #home-page .dashboard-content .active-sidebar .sidebar__header i {
+    -webkit-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+  }
+}
+
+@media all and (min-width: 1024px) {
+  #home-page .dashboard-content .sidebar {
+    width: 280px;
+  }
+  #home-page .dashboard-content .sidebar__header:hover {
+    cursor: pointer;
+  }
+  #home-page .dashboard-content .sidebar__header p {
+    display: inline-block;
+  }
+  #home-page .dashboard-content .sidebar__header i {
+    margin-right: 2rem;
+  }
+  #home-page .dashboard-content .sidebar__link:hover {
+    background: #3a8ad4;
+    color: #fff;
+  }
+  #home-page .dashboard-content .sidebar__link p {
+    display: inline-block;
+  }
+  #home-page .dashboard-content .sidebar__link i {
+    margin-right: 2rem;
+  }
+  #home-page .dashboard-content .active-sidebar {
+    width: 72px;
+  }
+  #home-page .dashboard-content .active-sidebar .sidebar__header p,
+  #home-page .dashboard-content .active-sidebar .sidebar__link p {
+    display: none;
+  }
+  #home-page .dashboard-content .active-sidebar .sidebar__header i,
+  #home-page .dashboard-content .active-sidebar .sidebar__link i {
+    margin-right: 0;
+  }
+  #home-page .dashboard-content .active-sidebar .sidebar__header i {
+    margin: 0;
+    -webkit-transform: rotate(0);
+            transform: rotate(0);
+  }
+}
+/*# sourceMappingURL=dashboardContent.css.map */

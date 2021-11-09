@@ -6,17 +6,26 @@ import MoreInfo from "./MoreInfo";
 import InputAndConfirm from "./InputAndConfirm";
 import StartedWithFPTEmail from "./StartedWithFPTEmail";
 import Verification from "./Verification";
+import { useDispatch } from "react-redux";
+import { newSignUpInfo } from "../../redux/actions/signup";
 
 function SignUpContent() {
     const signupInfo = useSelector(state => state.signup);
+    const [isJustArrived, setIsJustArrived] = useState(true);
     const [position, setPosition] = useState(1);
+    const dispatch = useDispatch();
 
     useEffect(() => {
         //Init
         const checkpoints = document.querySelectorAll(".auth-page .sign-up .sign-up__checkpoint");
 
         //START
-        (() => {
+        const start = () => {
+            if (isJustArrived) {
+                dispatch(newSignUpInfo());
+                setIsJustArrived(false);
+                return;
+            }
             document.title = AUTH_PAGE_SIGN_UP_TITLE;
             [...checkpoints].forEach((checkpoint) => {
                 checkpoint.addEventListener("click", handleCheckPointClickEvent)
@@ -25,7 +34,8 @@ function SignUpContent() {
                 index >= signupInfo.processPosition ?
                     checkpoint.classList.remove("active") : checkpoint.classList.add("active");
             });
-        })();
+        }
+        start();
 
         function handleCheckPointClickEvent(event) {
             const data = Number.parseInt(event.target.getAttribute("data"));
@@ -43,7 +53,7 @@ function SignUpContent() {
                 checkpoint.removeEventListener("click", handleCheckPointClickEvent)
             });
         }
-    }, [position, signupInfo]);
+    }, [position, signupInfo, dispatch, isJustArrived]);
 
     return (
         <div className="sign-up">

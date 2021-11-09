@@ -1,10 +1,31 @@
 
 
-export const updateSearchValueToSearchCriteria = (searchValue) => {
+
+export const newSearchCriteria = (props) => {
+    return {
+        type: "NEW_SEARCH_CRITERIA",
+        payload: {
+            ...props || null,
+        }
+    }
+}
+
+
+export const updateSearchBarValueToSearchCriteria = (value) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            searchValue: searchValue
+            searchBarValue: value || ""
+        }
+    }
+}
+
+
+export const updateSearchLecturerValueToSearchCriteria = (value) => {
+    return {
+        type: "UPDATE_SEARCH_CRITERIA",
+        payload: {
+            searchLecturerValue: value || ""
         }
     }
 }
@@ -28,20 +49,38 @@ export const updateTopicsToSearchCriteria = (topics) => {
     }
 }
 
-export const updateQuantityToSearchCriteria = (quantity) => {
+export const updateUUIDToSearchCriteria = (uuid) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            quantity: quantity
+            uuid
         }
     }
 }
 
-export const updateUnitToSearchCriteria = (unit) => {
+export const updateTimeToSearchCriteria = (time) => {
     return {
         type: "UPDATE_SEARCH_CRITERIA",
         payload: {
-            unit: unit
+            time
+        }
+    }
+}
+
+export const updateSortByToSearchCriteria = (sortBy) => {
+    return {
+        type: "UPDATE_SEARCH_CRITERIA",
+        payload: {
+            sortBy
+        }
+    }
+}
+
+export const updateOrderByToSearchCriteria = (orderBy) => {
+    return {
+        type: "UPDATE_SEARCH_CRITERIA",
+        payload: {
+            orderBy
         }
     }
 }

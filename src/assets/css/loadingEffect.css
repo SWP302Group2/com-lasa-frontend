@@ -14,7 +14,6 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
 }
 
 .loader__circle {

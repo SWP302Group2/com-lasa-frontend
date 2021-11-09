@@ -1,185 +1,247 @@
-// import { useState } from "react";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import lecturerApi from "../../api/lecturerApi";
-import majorApi from "../../api/majorApi";
 import slotApi from "../../api/slotApi";
-import slotTopicDetailApi from "../../api/slotTopicDetailApi";
-// import { useHistory } from "react-router";
 import "../../assets/css/searchContent.css";
-// import SearchBar from "./SearchBar";
-import SearchBar from "./SearchBar";
+import {
+    newSearchCriteria,
+    updateUUIDToSearchCriteria
+} from "../../redux/actions/search";
+import { SEARCH_PAGE_TITLE } from "../../utils/constant";
+import LecturerFilter from "./LecturerFilter";
 import SearchFilter from "./SearchFilter";
 import SearchResult from "./SearchResult";
+import TimeFilter from "./TimeFilter";
+import TopicFilter from "./TopicFilter";
+import dateTools from "../../utils/dateTools";
+import PageBar from "../dashboard/PageBar";
+import { v4 as uuidv4 } from 'uuid';
+import SearchContentHeader from "./SearchContentHeader";
+import SearchBar from "./SearchBar";
+import topicApi from "../../api/topicApi";
+import SearchContentBody from "./SearchContentBody";
+import SearchContentSearchNav from "./SearchContentSearchNav";
+import SortFilter from "./SortFilter";
+import OrderFilter from "./OrderFilter";
 
-function SearchContent() {
-    const searchCriteria = useSelector(state => state.search);
-    const [isCalledOneTimeApi, setIsCalledOneTimeApi] = useState(false);
-    const [majorsWithTopics, setMajorsWithTopics] = useState([]);
-    const [lecturers, setLecturers] = useState([]);
-    const [matchedSlots, setMatchedSlots] = useState([]);
-    const [isFilterWithTopic, setIsFilterWithTopic] = useState(false);
+
+const numberSlotEachPage = 12;
+function SearchContent({ setIsCheckedAuth }) {
+    const [isInitialSearchCriteria, setIsInitialSearchCriteria] = useState(false);
+    const [totalPages, setTotalPages] = useState(1);
+    const [page, setPage] = useState(0);
     const [isLoading, setIsLoading] = useState(false);
-    const [isSearchNotMatched, setIsSearchNotMatched] = useState(false);
+    const [lecturers, setLecturers] = useState([]);
+    const [topics, setTopics] = useState([]);
+    const [matchedSlots, setMatchedSlots] = useState([]);
+    const [isSearching, setIsSearching] = useState(false);
 
-    function startSearching() {
-        console.log("Search criteria");
-        console.log(searchCriteria);
+    const searchCriteria = useSelector(state => state.search);
+    const dispatch = useDispatch();
+
+    useEffect(checkAuthentication, [setIsCheckedAuth]);
+    useEffect(displayTitleAndActiveLinkForSearchPage, []);
+    useEffect(initialNewSearchCriteria, [dispatch, isInitialSearchCriteria]);
+    useEffect(getNecessaryResource, [lecturers, topics]); //Lecturers, topics for search
+    useEffect(processSearching, [page, searchCriteria, isSearching])
+
+    function checkAuthentication() {
+        setIsCheckedAuth(false);
+    }
+
+    function displayTitleAndActiveLinkForSearchPage() {
+        document.title = SEARCH_PAGE_TITLE;
+        const searchNavLink = document.querySelector(".header .navLink-search");
+        searchNavLink.classList.add("active-navItem");
+        return () => searchNavLink.classList.remove("active-navItem");
+    }
+
+    function initialNewSearchCriteria() {
+        if (isInitialSearchCriteria) return;
+        dispatch(newSearchCriteria());
+        setIsInitialSearchCriteria(true);
+    }
+
+    function getNecessaryResource() {
+        if (!lecturers || lecturers.length <= 0) {
+            callGetLecturersApi();
+        }
+        if (!topics || topics.length <= 0) {
+            callGetTopics();
+        }
+
+        function callGetLecturersApi() {
+            const onGetSuccess = data => {
+                console.log("Get lecturer success:");
+                console.log(data);
+                setLecturers(data);
+            }
+            const onGetFailure = (response, state, message) => {
+                console.log("Get lecturer failed:");
+                console.log(response);
+            }
+            lecturerApi.getLecturersWithoutPaging(onGetSuccess, onGetFailure);
+        }
+
+        function callGetTopics() {
+            const onGetSuccess = data => {
+                console.log("Get topics success:");
+                console.log(data);
+                setTopics(data);
+            }
+            const onGetFailure = (response, state, message) => {
+                console.log(response);
+                setTopics(null);
+            }
+            topicApi.getTopicsNoPaging(onGetSuccess, onGetFailure);
+        }
+    }
+
+    function processSearching() {
+        if (!isSearching) return;
+        setIsSearching(false);
         setIsLoading(true);
-        setIsSearchNotMatched(false);
-        if (searchCriteria.searchValue &&
-            Array.isArray(searchCriteria.lecturers) &&
-            searchCriteria.lecturers.length === 0) {
-            setIsLoading(false);
-            setIsSearchNotMatched(true);
-            console.log("Your search does not match any lecturer");
+
+        const isValid = validBeforeSearch();
+        if (!isValid) {
+            setTimeout(() => setIsLoading(false), 500);
+            setMatchedSlots(null);
             return;
         }
-        slotApi.searchAllSlots(searchCriteria, onSearchSuccess, onSearchFail);
-    }
-
-    function onSearchSuccess(data) {
-        console.log("Search slot success:");
-        console.log(data);
-        if (!Array.isArray(data) || data.length === 0) {
-            setMatchedSlots([]);
-            setIsLoading(false);
-            setIsSearchNotMatched(true);
-            return;
-        }
-        setMatchedSlots(data);
-        setIsFilterWithTopic(false);
-    }
-
-    function onSearchFail(responses) {
-        console.log(responses);
-        setMatchedSlots([]);
-        setIsLoading(false);
-    }
-
-    useEffect(() => {
-        if (!isCalledOneTimeApi) {
-            majorApi.getMajorsWithTopics(
-                onGetMajorsWithTopicsSuccess,
-                onGetMajorsWithTopicsFailure
-            );
-            lecturerApi.getAllLecturers(
-                onGetLecturerSuccess,
-                onGetLecturerFailure
-            );
-            setIsCalledOneTimeApi(true);
+        if (isValid) {
+            callSearchSlotApi();
         }
 
-        if (!isFilterWithTopic) {
-            const slotIds = [...matchedSlots].map(slot => slot.id);
-            slotTopicDetailApi.getAllSlotTopicDetailBySlotIds(slotIds, onGetDetailSuccess, onGetDetailFailure)
-        }
+        function validBeforeSearch() {
+            console.log("Search criteria");
+            console.log(searchCriteria);
 
-        function onGetDetailSuccess(data) {
-            console.log("Detail");
-            console.log(data)
-            if (!Array.isArray(data) || data.length === 0) {
-                setMatchedSlots([]);
-                setIsFilterWithTopic(true);
-                setIsSearchNotMatched(true);
-                return;
+            if (!searchCriteria.searchBarValue) {
+                if (!searchCriteria.searchLecturerValue) return false;
             }
 
-            let newMatchedSlots = [...matchedSlots];
-            newMatchedSlots.forEach(slot => slot.topics = addTopicsToSlot(slot.id, data));
-            newMatchedSlots.forEach(slot => slot.topics = updateTopics(slot.topics));
-            if (searchCriteria.topics?.length !== 0) {
-                data = [...data].filter(slotTopicDetail => isMatchedTopics(slotTopicDetail.topicId));
-                newMatchedSlots = [...newMatchedSlots].filter(slot => removeUnMatchedSlot(slot.id, data));
-            }
-            setMatchedSlots(newMatchedSlots);
-            setIsSearchNotMatched(newMatchedSlots.length === 0);
-            console.log("NEw matchedSlot");
-            console.log(newMatchedSlots);
-            setIsFilterWithTopic(true);
-        }
-
-        function addTopicsToSlot(id, data) {
-            const topics = [];
-            data.forEach(slotTopicDetail => {
-                if (slotTopicDetail.slotId === id) {
-                    topics.push({ id: slotTopicDetail.topicId });
+            if (searchCriteria.searchBarValue) {
+                if (!Array.isArray(searchCriteria.lecturers)) {
+                    if (!Array.isArray(searchCriteria.topics)) return false;
+                    if (searchCriteria.topics.length === 0) return false;
                 }
-            })
-            return topics;
+            }
+
+            if (searchCriteria.searchLecturerValue) {
+                if (!Array.isArray(searchCriteria.lecturers)) return false;
+                if (searchCriteria.lecturers.length === 0) return false;
+            }
+            return true;
         }
 
-        function updateTopics(topics) {
-            const updatedTopics = [...topics];
-            updatedTopics.forEach(topic => {
-                majorsWithTopics.find(major => {
-                    return major.topics.find(item => {
-                        if (topic.id === item.id) {
-                            for (let prop in item) {
-                                topic[prop] = item[prop];
-                            }
-                            return true;
-                        }
-                        return false;
-                    })
-                })
-            })
-            return updatedTopics;
-        }
+        function callSearchSlotApi() {
+            const onSuccess = (data, headers, response) => {
+                console.log("Search slot success:");
+                console.log(response);
+                setIsLoading(false);
 
-        function onGetDetailFailure(responses) {
-            console.log(responses);
-            setIsLoading(false);
-        }
+                if (headers.uuid !== searchCriteria.uuid) return;
 
-        function isMatchedTopics(topicId) {
-            return [...searchCriteria.topics].find(id => id === topicId);
-        }
+                const slots = data.content;
+                if (!Array.isArray(slots) || slots.length === 0) {
+                    setMatchedSlots(null);
+                    return;
+                }
 
-        function removeUnMatchedSlot(id, data) {
-            return [...data].find(slotTopicDetail => id === slotTopicDetail.slotId);
-        }
+                const result = [...slots].map(slot => {
+                    slot.timeStart = dateTools.convertLocalDateTimeStringToObject(slot.timeStart);
+                    slot.timeEnd = dateTools.convertLocalDateTimeStringToObject(slot.timeEnd);
+                    return slot;
+                });
 
-        function onGetLecturerSuccess(data) {
-            console.log("Get lecturer success:");
-            console.log(data);
-            setLecturers(data);
-        }
+                setMatchedSlots(result);
+                setTotalPages(data.totalPages);
+            }
 
-        function onGetLecturerFailure(response, status, message) {
-            console.log(response);
-        }
+            const onFailure = responses => {
+                console.log(responses);
+                setMatchedSlots(null);
+                setIsLoading(false);
+            }
 
-        function onGetMajorsWithTopicsSuccess(data) {
-            console.log("Get major success: ");
-            console.log(data);
-            setMajorsWithTopics(Array.isArray(data) ? data : []);
+            setIsLoading(true);
+            slotApi.searchAllSlotsWithPaging(onSuccess, onFailure,
+                page, searchCriteria, numberSlotEachPage
+            );
         }
+    }
 
-        function onGetMajorsWithTopicsFailure(response, status, message) {
-            console.log(response);
-        }
+    function invokeSearch(newPageIndex) {
+        scrollToSearchContent();
+        setPage(newPageIndex != null ? newPageIndex : 0);
+        setIsSearching(true);
+        dispatch(updateUUIDToSearchCriteria(uuidv4()));
+    }
 
-    }, [isFilterWithTopic, isCalledOneTimeApi, searchCriteria, matchedSlots, majorsWithTopics])
+    function handleOnClickChangePage(pageIndex) {
+        invokeSearch(pageIndex);
+    }
+
+    function scrollToSearchContent() {
+        const searchPageBody = document.querySelector(".search-content__body");
+        searchPageBody.scrollIntoView({ top: 0, behavior: "smooth" });
+    }
+
+    function isRequiredToDisplayChangePageBar() {
+        return matchedSlots && matchedSlots.length > 0 && totalPages && totalPages > 1
+    }
+
 
     return (
         <div className="search-content root-content">
-            <h1 className="search-content__title">
-                Search the right Lecturer for you
-            </h1>
-            <SearchBar
-                startSearching={startSearching}
-                lecturers={lecturers} />
-            <SearchFilter
-                startSearching={startSearching}
-                majorsWithTopics={majorsWithTopics} />
-            <SearchResult
-                matchedSlots={matchedSlots}
-                isFilterWithTopic={isFilterWithTopic}
-                isLoading={isLoading}
-                setIsLoading={setIsLoading}
-                lecturers={lecturers}
-                isSearchNotMatched={isSearchNotMatched} />
+            <SearchContentHeader>
+                <SearchBar
+                    lecturers={lecturers}
+                    topics={topics}
+                    invokeSearch={invokeSearch}
+                />
+            </SearchContentHeader>
+            <SearchContentBody>
+                <SearchContentSearchNav
+                    lecturers={lecturers}
+                    topics={topics}
+                    invokeSearch={invokeSearch}
+                    isLoading={isLoading}
+                />
+                <div className="filter-overlay"></div>
+                <SearchFilter>
+                    <LecturerFilter
+                        lecturers={lecturers}
+                        invokeSearch={invokeSearch}
+                    />
+                    <TopicFilter
+                        topics={topics}
+                        invokeSearch={invokeSearch}
+                    />
+                    <TimeFilter
+                        invokeSearch={invokeSearch}
+                    />
+                    <SortFilter
+                        invokeSearch={invokeSearch}
+                    />
+                    <OrderFilter
+                        invokeSearch={invokeSearch}
+                    />
+                </SearchFilter>
+                <SearchResult
+                    matchedSlots={matchedSlots}
+                    invokeSearch={invokeSearch}
+                >
+                    {isRequiredToDisplayChangePageBar() &&
+                        <PageBar
+                            currentPage={Number.isInteger(page) ? page : 0}
+                            totalPages={totalPages}
+                            callBack={handleOnClickChangePage}
+                        />
+                    }
+                </SearchResult>
+            </SearchContentBody>
+
         </div>
     );
 }

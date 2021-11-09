@@ -1,96 +1,103 @@
 import Header from "../Header";
+import authApi from "../../api/authApi";
 import "../../assets/css/homePage.css";
 import { useDispatch, useSelector } from "react-redux";
-import authApi from "../../api/authApi";
 import { newUserInfo, updateUserInfo } from "../../redux/actions/user";
 import React, { useEffect, useState } from "react";
-import LoadingEffect from "../LoadingEffect";
 import { createNetworkError } from "../../redux/actions/error";
 import { useHistory, Switch, Route, Redirect } from "react-router-dom";
 import storageTools from "../../utils/storageTools";
 import { HOME_PAGE_TITLE } from "../../utils/constant";
 import WelcomeContent from "./WelcomeContent";
 import SearchContent from "../search-page/SearchContent";
-
+import DashboardContent from "../dashboard/DashboardContent";
+import Footer from "../Footer";
 
 function HomePage() {
-    const dispatch = useDispatch();
-    const history = useHistory();
-    const [isLoading, setIsLoading] = useState(false);
-    const role = useSelector(state => state.user.role);
-    const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
+  //Use old info before callAPI success
+  const [isCheckedAuth, setIsCheckedAuth] = useState(true);
+  const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
 
-    useEffect(() => {
-        let isMounted = true;
-        document.title = HOME_PAGE_TITLE;
-        processUserAuth();
+  const role = useSelector((state) => state.user.role);
+  const dispatch = useDispatch();
+  const history = useHistory();
 
-        function processUserAuth() {
-            if (!isMounted) return;
+  useEffect(() => (document.title = HOME_PAGE_TITLE), []);
 
-            setIsLoading(true);
-            authApi.getCurrentUserInfo(onGetSuccess, onGetFail);
+  useEffect(checkAuthAndGetUserInfo, [dispatch, history, role, isCheckedAuth]);
+
+  function checkAuthAndGetUserInfo() {
+    if (isCheckedAuth === true) return;
+
+    setIsCheckedAuth(true);
+    processUserAuth();
+
+    function processUserAuth() {
+      const onGetSuccess = (userInfo) => {
+        console.log("Homepage - get userinfo success:");
+        console.log(userInfo);
+
+        dispatch(
+          updateUserInfo({
+            ...userInfo.information,
+            role: userInfo.role,
+          })
+        );
+      };
+
+      const onGetFailure = (response, status, message) => {
+        console.log("Homepage get userinfo failed: ");
+        console.log(response);
+
+        storageTools.removeAccessToken();
+        dispatch(newUserInfo());
+        setAccessToken("");
+
+        if (message === "Network Error") {
+          //Backend server is down
+          history.push(createNetworkError());
         }
+      };
 
-        function onGetSuccess(fetchedData) {
-            if (!isMounted) return;
-            console.log("Homepage - get userinfo success:");
-            console.log(fetchedData);
-            dispatch(updateUserInfo({
-                role: fetchedData.role,
-                ...fetchedData.information
-            }));
-            setIsLoading(false);
-        }
+      authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
+    }
+  }
 
-        function onGetFail(response, status, message) {
-            if (!isMounted) return;
-            console.log("HOmepage get userinfo has failed: ");
-            console.log(message);
+  return (
+    <section id="home-page">
+      <Header />
+      <Switch>
+        <Route exact path="/">
+          <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
+        </Route>
 
-            setAccessToken("");
-            storageTools.removeAccessToken();
-            dispatch(newUserInfo());
-            setIsLoading(false);
+        <Route exact path="/home">
+          <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
+        </Route>
 
-            if (message === "Network Error") {
-                history.push(createNetworkError());
-            }
-        }
+        <Route exact path="/welcome">
+          <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
+        </Route>
 
-        return () => {
-            isMounted = false;
-        }
-    }, [dispatch, history, role, setAccessToken]);
+        {role && accessToken ? (
+          <Route exact path="/search">
+            <SearchContent setIsCheckedAuth={setIsCheckedAuth} />
+            <Footer />
+          </Route>
+        ) : (
+          <Redirect to="/auth" />
+        )}
 
-    return (
-        <section id="home-page">
-            <Header />
-            <Switch>
-                <Route
-                    exact path="/"
-                    component={WelcomeContent}
-                />
-                <Route
-                    exact path="/home"
-                    component={WelcomeContent}
-                />
-                <Route
-                    exact path="/welcome"
-                    component={WelcomeContent}
-                />
-                {role && accessToken ?
-                    <Route
-                        exact path="/search"
-                        component={SearchContent}
-                    />
-                    :
-                    <Redirect to="/auth" />
-                }
-            </Switch>
-            {isLoading ? <LoadingEffect /> : null}
-        </section>
-    );
+        {role && accessToken ? (
+          <Route path="/dashboard">
+            <DashboardContent setIsCheckedAuth={setIsCheckedAuth} />
+          </Route>
+        ) : (
+          <Redirect to="/auth" />
+        )}
+      </Switch>
+    </section>
+  );
 }
 
 export default HomePage;

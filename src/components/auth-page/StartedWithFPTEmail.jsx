@@ -24,11 +24,11 @@ function StartedWithFPTEmail({ setPosition }) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
+        let isMounted = true;
         //Start
-        (() => {
+        if (isMounted) {
             googleTools.insetGoogleApiScript("google-signup", onSignIn, onFailure);
-        })();
-
+        }
         function onSignIn(googleUser) {
             setIsLoading(true);
             const id_token = googleUser.getAuthResponse().id_token;
@@ -87,6 +87,9 @@ function StartedWithFPTEmail({ setPosition }) {
                 return;
             }
             history.push(createUnknownError(message));
+        }
+        return () => {
+            isMounted = false;
         }
 
     }, [dispatch, history, setPosition, setIsLoading]);
