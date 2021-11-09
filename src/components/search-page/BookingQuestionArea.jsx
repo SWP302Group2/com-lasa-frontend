@@ -20,6 +20,7 @@ function BookingQuestionsArea({ addQuestionCallBack, stopDefaultAction, bookingS
 
     return (
         <div className="box__question-area">
+            <div className="box__title">Questions</div>
             {props.children}
             {
                 bookingStatus !== BOOKING_REQUEST_STATUS_READY

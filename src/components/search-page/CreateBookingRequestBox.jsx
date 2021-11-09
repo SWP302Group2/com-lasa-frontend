@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { AiOutlineClose } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import bookingApi from "../../api/bookingApi";
 import "../../assets/css/createBookingRequestBox.css";
@@ -6,7 +7,6 @@ import { newBookingRequest, updateInvalidMessageToBookingRequest } from "../../r
 import dateTools from "../../utils/dateTools";
 import ErrorMessage from "../ErrorMessage";
 import SuccessfulMessage from "../SuccessfulMessage";
-import BookingInputTitle from "./BookingInputTitle";
 import BookingQuestionsArea from "./BookingQuestionArea";
 import BookingSelectTopic from "./BookingSelectTopic";
 import Question from "./Question";
@@ -122,10 +122,10 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
 
     function handleBookingRequestOnKeydown(event) {
         if (event.key !== "Escape") return;
-        clearBookingRequest();
+        handleCloseBookingRequest();
     }
 
-    function clearBookingRequest() {
+    function handleCloseBookingRequest() {
         const bookingRequestBox = document.querySelector(".search-content .create-booking-request-box");
         bookingRequestBox.classList.remove("active-create-booking-request-box");
         setTimeout(() => {
@@ -146,7 +146,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
 
     function handleBookingRequestOnClick(event) {
         if (isClickOnBooking(event.target)) return;
-        clearBookingRequest();
+        handleCloseBookingRequest();
     }
 
     function handleChangeQuestionContent(event, index) {
@@ -197,7 +197,9 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
         setQuestions(questions);
     }
 
-    useEffect(() => {
+    useEffect(focusToFirstInput, [])
+
+    function focusToFirstInput() {
         const bookingRequestBox = document.querySelector(".search-content .create-booking-request-box");
         bookingRequestBox.classList.add("active-create-booking-request-box");
         const titleInput = bookingRequestBox.querySelector(".box__title input");
@@ -206,7 +208,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
         return () => {
             bookingRequestBox.classList.remove("active-create-booking-request-box");
         }
-    }, [])
+    }
 
     return (
         <div
@@ -219,32 +221,31 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
                 className="box"
                 onSubmit={handleBookingRequestSubmit}
             >
-                <h1 className="box__headline">
-                    <i className="material-icons book">
-                        forward_to_inbox
-                    </i>
-                    Booking
-                    <i
-                        className="material-icons close"
-                        onClick={clearBookingRequest}
-                    >
-                        close
-                    </i>
-                </h1>
+                <div className="box__header">
+                    <h2 className="box__header__title">Booking</h2>
+                    <AiOutlineClose
+                        className="box__header__close-icon"
+                        onClick={handleCloseBookingRequest}
+                    />
+                </div>
                 <div className="box__content">
-                    <div className="box__from">
-                        <p>From</p>
-                        <input type="text" disabled value={user.name} />
-                    </div>
                     <div className="box__to">
-                        <p>To</p>
-                        <input type="text" disabled value={bookingInfo.slot?.lecturer?.name} />
+                        <p className="box__title">To</p>
+                        <div className="box__control">
+                            <input type="text" disabled value={bookingInfo.slot?.lecturer?.name} />
+                        </div>
                     </div>
-                    <BookingInputTitle
-                        title={title}
-                        callBack={handleTitleOnChange}
-                    >
-                    </BookingInputTitle>
+                    <div className="box__booking-title">
+                        <p className="box__title">Title</p>
+                        <div className="box__control">
+                            <input
+                                type="text"
+                                placeholder="Enter title"
+                                onChange={handleTitleOnChange}
+                                value={title}
+                            />
+                        </div>
+                    </div>
                     {bookingInfo.titleMustHave && <ErrorMessage message={bookingInfo.titleMustHave} />}
                     <BookingSelectTopic
                         topicId={topicId}
@@ -258,6 +259,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
 
                     <BookingQuestionsArea
                         addQuestionCallBack={handleAddQuestion}
+                        stopDefaultAction={true}
                     >
                         {questions && [...questions].map((question, index) =>
                             <Question
@@ -273,10 +275,22 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
                         }
                     </BookingQuestionsArea>
                 </div>
+                {status === true && <SuccessfulMessage message={message} />}
+                {status === false && <ErrorMessage message={message} />}
                 <div className="box__bottom">
-                    {status === true && <SuccessfulMessage message={message} />}
-                    {status === false && <ErrorMessage message={message} />}
-                    <button type="submit">Send request</button>
+                    <button
+                        className="box__bottom__send"
+                        type="submit"
+                    >
+                        Send
+                    </button>
+                    <p
+                        className="box__bottom__close"
+                        tabIndex="0"
+                        onClick={handleCloseBookingRequest}
+                    >
+                        Close
+                    </p>
                 </div>
             </form>
         </div>

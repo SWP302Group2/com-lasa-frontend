@@ -1,10 +1,12 @@
 .create-booking-request-box {
   position: fixed;
-  top: 0;
-  left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  opacity: 0;
+  overflow: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -14,11 +16,9 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  min-width: 300px;
-  opacity: 0;
-  -webkit-transition: opacity 0.3s ease-in-out;
-  transition: opacity 0.3s ease-in-out;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
 }
 
 .create-booking-request-box .box {
@@ -29,63 +29,52 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
-  overflow: overlay;
-  width: 100%;
+  width: calc(100% - 2rem);
   max-width: 600px;
-  min-width: calc(300px - 2rem);
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  max-height: 70vh;
-  overflow: auto;
-  margin: 0 auto;
+  max-height: 700px;
+  padding: 1rem;
   border-radius: 6px;
+  overflow: auto;
+  -webkit-transform: translateY(-100vh);
+          transform: translateY(-100vh);
+  -webkit-transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
   background: #fff;
-  -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-          box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
 }
 
-.create-booking-request-box .box::-webkit-scrollbar {
-  width: 0.4rem;
-}
-
-.create-booking-request-box .box__headline {
-  position: relative;
+.create-booking-request-box .box__header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  height: 4rem;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 2rem;
   width: 100%;
-  text-align: center;
-  font-size: 1.6rem;
-  font-weight: 500;
-  letter-spacing: 0.2rem;
-  color: #fff;
-  background: #0190a3;
+  margin-bottom: 1rem;
 }
 
-.create-booking-request-box .box__headline i.book {
-  font-size: 2rem;
+.create-booking-request-box .box__header__title {
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-transform: capitalize;
   margin-right: 1rem;
 }
 
-.create-booking-request-box .box__headline i.close {
-  position: absolute;
-  top: 0.2rem;
-  right: 0.2rem;
-  padding: 0.2rem;
+.create-booking-request-box .box__header__close-icon {
+  padding: 0.5rem;
   border-radius: 50%;
+  font-size: 2rem;
   cursor: pointer;
 }
 
-.create-booking-request-box .box__headline i.close:hover {
-  background: rgba(0, 0, 0, 0.4);
+.create-booking-request-box .box__header__close-icon:hover {
+  background: #ddd;
 }
 
 .create-booking-request-box .box__content {
@@ -97,50 +86,53 @@
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
   width: 100%;
-  padding: 0 1rem;
-  overflow-y: overlay;
+  margin-bottom: 1rem;
+  background: #fff;
+}
+
+.create-booking-request-box .box__to, .create-booking-request-box .box__booking-title {
+  width: 100%;
   margin-bottom: 1rem;
 }
 
-.create-booking-request-box .box__from, .create-booking-request-box .box__to, .create-booking-request-box .box__title {
+.create-booking-request-box .box__title {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.create-booking-request-box .box__control {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.create-booking-request-box .box__control input {
   width: 100%;
-  height: 2.5rem;
-  border-bottom: 1px solid #a7a7a7;
-}
-
-.create-booking-request-box .box__from p, .create-booking-request-box .box__to p, .create-booking-request-box .box__title p {
-  width: 50px;
-  font-size: 0.9rem;
-  margin-bottom: 3px;
-}
-
-.create-booking-request-box .box__from input, .create-booking-request-box .box__to input, .create-booking-request-box .box__title input {
-  display: inline-block;
-  overflow: hidden;
-  width: calc(100% - 50px);
   height: 2rem;
-  padding: 0.5rem;
-  outline: none;
   border: none;
+  outline: none;
   font-size: 0.9rem;
-  white-space: normal;
-  text-overflow: ellipsis;
-  background: transparent;
+  background: #fff;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.42);
 }
 
-.create-booking-request-box .box__title input {
-  background: #eeeeee;
+.create-booking-request-box .box__control input:focus-within {
+  padding-top: 0.5px;
+  border-bottom: 2px solid #e3165b;
 }
 
 .create-booking-request-box .box__select-topic {
-  margin-top: 0.5rem;
   min-height: 2rem;
+  margin-bottom: 1rem;
   outline: none;
   border: 1px solid #777;
 }
@@ -153,9 +145,7 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
-  margin-top: 0.5rem;
-  max-height: 250px;
-  min-height: 150px;
+  margin-bottom: 1rem;
 }
 
 .create-booking-request-box .box__question-area__add-button {
@@ -176,22 +166,19 @@
   padding: 0.2rem;
   border-radius: 50%;
   color: #fff;
-  background: #0190a3;
+  background: #01a357;
 }
 
 .create-booking-request-box .box__question {
   width: 100%;
   height: 2rem;
+  margin-bottom: 0.25rem;
   border: 1px solid #999;
 }
 
 .create-booking-request-box .box__question:hover, .create-booking-request-box .box__question:focus-within {
-  -webkit-box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
-          box-shadow: -1px -1px 3px #d4e1e2, 1px 1px 3px #c2c5c9;
-}
-
-.create-booking-request-box .box__question:not(:nth-child(1)) {
-  margin-top: 0.5rem;
+  -webkit-box-shadow: 2px 2px 0 #d4e1e2;
+          box-shadow: 2px 2px 0 #d4e1e2;
 }
 
 .create-booking-request-box .box__question__headline {
@@ -257,8 +244,8 @@
 }
 
 .create-booking-request-box .box__question__content:hover, .create-booking-request-box .box__question__content:focus-within {
-  -webkit-box-shadow: -1px 1px 2px #cad2d3, 1px 1px 2px #b3b6b9;
-          box-shadow: -1px 1px 2px #cad2d3, 1px 1px 2px #b3b6b9;
+  -webkit-box-shadow: 2px 2px 0 #d4e1e2;
+          box-shadow: 2px 2px 0 #d4e1e2;
 }
 
 .create-booking-request-box .box__question .active-question-textarea {
@@ -269,27 +256,50 @@
 
 .create-booking-request-box .box__bottom {
   width: 100%;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
 }
 
-.create-booking-request-box .box__bottom button {
-  width: 100%;
-  height: 4rem;
-  border: none;
-  outline: none;
-  border-radius: 0;
-  color: #fff;
+.create-booking-request-box .box__bottom__send, .create-booking-request-box .box__bottom__close {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
   cursor: pointer;
-  font-size: 1.2rem;
-  background: #0190a3;
+  color: #000;
+  background: #fff;
 }
 
-.create-booking-request-box .box__bottom button:hover {
-  background: #03bbd3;
+.create-booking-request-box .box__bottom__send {
+  outline: none;
+  border: none;
+  margin-right: 0.5rem;
+  color: #e3165b;
+}
+
+.create-booking-request-box .box__bottom__send:hover {
+  background: #f7ecf0;
+}
+
+.create-booking-request-box .box__bottom__close:hover {
+  background: #eee;
 }
 
 .active-create-booking-request-box {
   opacity: 1;
-  -webkit-transform: translateY(0px);
-          transform: translateY(0px);
+}
+
+.active-create-booking-request-box .box {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
 }
 /*# sourceMappingURL=createBookingRequestBox.css.map */

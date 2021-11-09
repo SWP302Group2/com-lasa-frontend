@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,qBAAqB,CAAC;EACpB,QAAQ,EAAE,KAAK;EACf,MAAM,EAAE,CAAC;EACT,IAAI,EAAE,CAAC;EACP,OAAO,EAAE,EAAE;EACX,OAAO,EAAE,MAAM;EACf,MAAM,EAAE,iBAAiB;EACzB,UAAU,EAAE,KAAK;EACjB,KAAK,EAAE,IAAI;CACZ",
+    "sources": [
+        "../scss/bottomErrorMessage.scss"
+    ],
+    "names": [],
+    "file": "bottomErrorMessage.css"
+}

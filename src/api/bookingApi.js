@@ -134,15 +134,11 @@ const bookingApi = {
             });
     },
 
-    removeBookingRequest: (onSuccess, onFailure, studentId, bookingId) => {
-        const apiUrl = BOOKING_REQUEST_API;
-        const data = {
-            id: bookingId,
-            studentId
-        }
+    removeBookingRequest: (onSuccess, onFailure, bookingId) => {
+        const apiUrl = BOOKING_REQUEST_API + `?id=${bookingId}`;
+
         const params = paramsTools.getParamsWithAccessToken();
-        return axiosClient.delete(apiUrl, data, params)
-            .then(onSuccess)
+        return axiosClient.delete(apiUrl, params).then(onSuccess)
             .catch(response => {
                 const status = response?.data?.status || response?.status;
                 const message = response?.data?.message || response?.message;
@@ -152,38 +148,29 @@ const bookingApi = {
 
     updateAndRemoveQuestionsForBookingRequest: (onSuccess, onFailure,
         studentId, bookingId, newQuestions, oldQuestions) => {
-        const apiUrl = BOOKING_REQUEST_API + `/${bookingId}/questions`;
         const params = paramsTools.getParamsWithAccessToken();
 
         if (!newQuestions && !oldQuestions) {
             return Promise.resolve("No new question or removed question").then(onSuccess);
         }
 
-        const dataForCreateNew = {
-            studentId,
-            id: bookingId,
-            questions: newQuestions
-        }
-
-        const oldQuestionIds = oldQuestions ? oldQuestions.map(question => question.id) : [];
-        const dataForRemoveOld = {
-            studentId,
-            questionIds: oldQuestionIds
-        }
-
-        console.log(dataForCreateNew)
-        console.log(dataForRemoveOld)
-
         const requests = [];
         if (Array.isArray(newQuestions) && newQuestions.length > 0) {
-            requests.push(axios.post(apiUrl, dataForCreateNew, params));
+            const updateQuestionApiUrl = BOOKING_REQUEST_API + `/${bookingId}/questions`;
+            const dataForCreateNew = {
+                studentId,
+                id: bookingId,
+                questions: newQuestions
+            }
+            requests.push(axios.post(updateQuestionApiUrl, dataForCreateNew, params));
         }
 
         if (Array.isArray(oldQuestions) && oldQuestions.length > 0) {
-            requests.push(axios.delete(apiUrl, {
-                ...params,
-                data: dataForRemoveOld
-            }));
+            let questionParamsString = "";
+            oldQuestions.forEach(question => questionParamsString += `&id=${question.id}`);
+            let deleteQuestionUrl =BOOKING_REQUEST_API + `/${bookingId}/questions?bookingId=${bookingId}` + questionParamsString;
+
+            requests.push(axios.delete(deleteQuestionUrl, params));
         }
 
         console.log(params);

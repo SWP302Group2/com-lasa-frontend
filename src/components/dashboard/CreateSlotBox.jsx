@@ -269,11 +269,10 @@ function CreateSlotBox({ setCreateSlot, refreshCallback }) {
                 <div className="box__content">
                     <div className="box__time-start" tabIndex="0">
                         <p className="box__title">Start</p>
-                        <div className="control">
+                        <div className="box__control">
                             <DateTimePickerComponent
                                 format='dd/MM/yy hh:mm a'
                                 data-name="StartTime"
-                                className="box__time-start__picker"
                                 value={slotInfo?.timeStart || ""}
                                 onChange={handleTimeStartChange}
                             />
@@ -288,7 +287,6 @@ function CreateSlotBox({ setCreateSlot, refreshCallback }) {
                         <div className="box__control">
                             <input
                                 type="number"
-                                className="box__period__picker"
                                 value={slotInfo?.period || 30}
                                 min={30} step={15}
                                 onChange={handlePeriodChange}
@@ -306,12 +304,10 @@ function CreateSlotBox({ setCreateSlot, refreshCallback }) {
                             <DateTimePickerComponent
                                 format='dd/MM/yy hh:mm a'
                                 data-name="EndTime"
-                                className="box__time-end__picker"
                                 value={slotInfo?.timeEnd || ""}
                                 disabled
                             />
                         </div>
-
                     </div>
 
                     <CreateSlotTopicPicker

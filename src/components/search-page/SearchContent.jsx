@@ -117,16 +117,16 @@ function SearchContent({ setIsCheckedAuth }) {
             console.log(searchCriteria);
 
             if (!searchCriteria.searchBarValue) {
-                if (!searchCriteria.searchLecturerValue)
-                    return;
+                if (!searchCriteria.searchLecturerValue) return false;
             }
-            //If has search by search bar
+
             if (searchCriteria.searchBarValue) {
-                if (!Array.isArray(searchCriteria.lecturers)
-                    && !Array.isArray(searchCriteria.topics)) {
-                    return false;
+                if (!Array.isArray(searchCriteria.lecturers)) {
+                    if (!Array.isArray(searchCriteria.topics)) return false;
+                    if (searchCriteria.topics.length === 0) return false;
                 }
             }
+
             if (searchCriteria.searchLecturerValue) {
                 if (!Array.isArray(searchCriteria.lecturers)) return false;
                 if (searchCriteria.lecturers.length === 0) return false;

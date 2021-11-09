@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { newBookingRequest } from "../../redux/actions/booking";
 import { STUDENT_ROLE } from "../../utils/constant";
+import BottomErrorMessage from "./BottomErrorMessage";
 import CreateBookingRequestBox from "./CreateBookingRequestBox";
 import SlotItem from "./SlotItem";
 import SlotList from "./SlotList";
@@ -13,9 +14,12 @@ function SearchResult({ matchedSlots, ...props }) {
     const dispatch = useDispatch();
 
     function openCreateBookingRequest(event, slot) {
-        if (user.role !== STUDENT_ROLE) return;
         dispatch(newBookingRequest({ slot }));
         setIsStartToBooking(true);
+    }
+
+    function closeCreateBookingRequest() {
+        setIsStartToBooking(false);
     }
 
     return (
@@ -36,7 +40,15 @@ function SearchResult({ matchedSlots, ...props }) {
                     )
                 }
             </SlotList>
-            {isStartToBooking && <CreateBookingRequestBox setIsStartToBooking={setIsStartToBooking} />}
+            {user.role === STUDENT_ROLE && isStartToBooking &&
+                <CreateBookingRequestBox setIsStartToBooking={setIsStartToBooking} />
+            }
+            {user.role !== STUDENT_ROLE && isStartToBooking &&
+                <BottomErrorMessage
+                    message={"Permission denied. You are not allowed to do it."}
+                    closeCallback={closeCreateBookingRequest}
+                />
+            }
             {props.children}
         </div>
     );

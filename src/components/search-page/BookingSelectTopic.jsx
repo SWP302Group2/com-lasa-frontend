@@ -1,6 +1,7 @@
 function BookingSelectTopic({ topicId, callBack, topics, ...props }) {
     return (
         <>
+            <div className="box__title">Topic</div>
             <select
                 className="box__select-topic"
                 value={topicId}

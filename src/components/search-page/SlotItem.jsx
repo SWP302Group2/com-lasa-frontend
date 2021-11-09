@@ -14,7 +14,7 @@ function SlotItem({ slot, openCreateBookingRequest }) {
 
             <div className="slot__info-area">
                 <div className="slot__name">
-                    {`Mx. ${slot.lecturer?.name || "Annonymus"}`}
+                    {`Mx. ${slot.lecturer?.name || "Anonymous"}`}
                 </div>
                 <div className="slot__datetime">
                     <div className="slot__datetime__date">{slot.timeStart.getDateString()}</div>
@@ -30,7 +30,7 @@ function SlotItem({ slot, openCreateBookingRequest }) {
                             key={`topic_${topic.id}`}
                             className="slot__topic-item"
                         >
-                            <p className="slot__topic-item__courseid">{(topic?.courseId || topic?.name)}</p>
+                            <p className="slot__topic-item__courseId">{(topic?.courseId || topic?.name)}</p>
                         </div>
                     )}
                 </div>
@@ -41,7 +41,7 @@ function SlotItem({ slot, openCreateBookingRequest }) {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 }
 

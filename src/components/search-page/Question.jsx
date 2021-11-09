@@ -10,7 +10,7 @@ function Question({ question, index, changeContentCallBack, removeQuestionCallBa
 
     function handleMinimalContentOnClick() {
         toggleTextArea();
-        document.querySelector(".box__question .question-expand").classList.toggle("rotate-180");
+        document.querySelector(`.box__question--${index} .question-expand`).classList.toggle("rotate-180");
     }
 
     function handleExpandIconOnClick(event) {
@@ -35,14 +35,14 @@ function Question({ question, index, changeContentCallBack, removeQuestionCallBa
     }
 
     return (
-        <div className="box__question">
+        <div className={`box__question box__question--${index}`}>
             <div className="box__question__headline">
                 <div className="box__question__cn">{index + 1}.</div>
                 <div
                     className="box__question__minimal-content"
                     onClick={handleMinimalContentOnClick}
                 >
-                    Question: {question.content}
+                    Content: {question.content}
                 </div>
                 <i
                     title="Remove question"

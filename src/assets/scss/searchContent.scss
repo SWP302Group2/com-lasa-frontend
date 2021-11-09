@@ -32,7 +32,7 @@
       .content {
         display: flex;
         flex-flow: column nowrap;
-        width: 50%;
+        width: calc(100% - 2rem);
         max-width: 1024px;
         min-width: 268px;
         margin: 0 auto;
@@ -43,7 +43,7 @@
           color: #04cdff;
           opacity: 0;
 
-          font-size: 3vw;
+          font-size: 2.5rem;
           font-weight: 600;
           font-family: "Montserrat";
         }
@@ -75,13 +75,12 @@
 
           input {
             flex-grow: 1;
-            max-width: calc(100vw - 8rem);
             height: 4rem;
-            padding: 1rem 2rem;
+            padding: 1rem 1rem;
 
             font-size: 1rem;
             outline: none;
-            border-radius: 6px 0 0 6px;
+            border-radius: 3px 0 0 3px;
 
             color: #333;
             border: none;
@@ -90,10 +89,10 @@
 
           button {
             height: 4rem;
-            width: 100px;
+            padding: 0 2rem;
             outline: none;
             border: none;
-            border-radius: 0 6px 6px 0;
+            border-radius: 0 3px 3px 0;
 
             font-size: 2rem;
             text-transform: uppercase;
@@ -639,6 +638,7 @@
     z-index: 1;
 
     width: 100%;
+    padding: 0 0.5rem;
     height: fit-content;
     background: #fff;
     box-shadow: 0 1px 2px rgba($color: #000000, $alpha: 0.15);
@@ -707,7 +707,7 @@
       justify-content: space-evenly;
       margin: 0 auto;
       width: 100px;
-      height: 100%;
+      height: 3rem;
 
       &:hover {
         cursor: pointer;
@@ -895,11 +895,6 @@
             border-radius: 50%;
             background: #777;
           }
-        }
-
-        .topic-filter {
-          order: 1;
-          margin-bottom: 1rem;
         }
       }
 

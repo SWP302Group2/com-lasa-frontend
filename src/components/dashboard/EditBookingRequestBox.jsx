@@ -6,7 +6,6 @@ import { BOOKING_REQUEST_STATUS_CANCELED, BOOKING_REQUEST_STATUS_DENIED, BOOKING
 import AskConfirmBox from "../AskConfirmBox";
 import ErrorMessage from "../ErrorMessage";
 import Loader from "../Loader";
-import BookingInputTitle from "../search-page/BookingInputTitle";
 import BookingQuestionsArea from "../search-page/BookingQuestionArea";
 import BookingSelectTopic from "../search-page/BookingSelectTopic";
 import Question from "../search-page/Question";
@@ -18,7 +17,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
     const [topicId, setTopicId] = useState(-1);
     const [title, setTitle] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-    const [isUpdateting, setIsUpdateting] = useState(false);
+    const [isUpdating, setIsUpdating] = useState(false);
     const [isRemoving, setIsRemoving] = useState(false);
     const [isCanceling, setIsCanceling] = useState(false);
     const [{ confirmStatus, action }, setConfirm] = useState({ confirmStatus: null, action: null })
@@ -84,12 +83,12 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
             id: bookingRequest.id,
             slotId: bookingRequest.slot.id
         }));
-        setIsUpdateting(true);
+        setIsUpdating(true);
         setConfirm({ confirmStatus: null, action: "UPDATE" })
     }
 
     function handleBookingRequestRemove(event) {
-        closeAllError()
+        closeAllError();
         let cannotRemove = "";
         if (bookingStatus === BOOKING_REQUEST_STATUS_READY
             || bookingStatus === BOOKING_REQUEST_STATUS_NOTIFIED) {
@@ -99,7 +98,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
         }
 
         if (bookingStatus === BOOKING_REQUEST_STATUS_WAITING) {
-            cannotRemove = "You show cancel it before, then you can remove."
+            cannotRemove = "You should cancel it before you can remove."
             setInvalidMessages({ cannotRemove });
             return;
         }
@@ -312,9 +311,9 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
     }, [bookingStatus])
 
     useEffect(() => {
-        if (isUpdateting && confirmStatus === true && action) {
+        if (isUpdating && confirmStatus === true && action) {
             setIsLoading(true);
-            setIsUpdateting(false);
+            setIsUpdating(false);
             setConfirm({ confirmStatus: null, action: "" })
             callUpdateBookingRequest();
         }
@@ -362,7 +361,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 user.id, bookingInfo.id, bookingInfo.newQuestions, bookingInfo.deletedOldQuestions);
         }
 
-    }, [isUpdateting, confirmStatus,
+    }, [isUpdating, confirmStatus,
         action, bookingInfo, user, setSuccessMessage, callRefresh]);
 
     useEffect(() => {
@@ -398,9 +397,9 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
             }
 
 
-            bookingApi.removeBookingRequest(onRemoveSuccess, onRemoveFailure, user.id, bookingInfo.id);
+            bookingApi.removeBookingRequest(onRemoveSuccess, onRemoveFailure, bookingInfo.id);
         }
-    }, [isRemoving, confirmStatus, action, bookingInfo, user, callRefresh, closeEditCallBack])
+    }, [isRemoving, confirmStatus, action, bookingInfo, callRefresh, closeEditCallBack])
 
     useEffect(() => {
         if (!isCanceling) return;
@@ -469,11 +468,17 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                         <p>To</p>
                         <input type="text" disabled value={bookingRequest.slot?.lecturer?.name} />
                     </div>
-                    <BookingInputTitle
-                        title={title}
-                        callBack={handleTitleOnChange}
-                    >
-                    </BookingInputTitle>
+                    <div className="box__title">
+                        <p className="box__title">Title</p>
+                        <div className="box__control">
+                            <input
+                                type="text"
+                                placeholder="Keep it short..."
+                                onChange={handleTitleOnChange}
+                                value={title}
+                            />
+                        </div>
+                    </div>
                     {invalidMessages?.invalidTitle && <ErrorMessage message={invalidMessages?.invalidTitle} />}
                     <BookingSelectTopic
                         topicId={topicId}
@@ -560,7 +565,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
 
                 }
                 {isLoading && <Loader />}
-                {isUpdateting && confirmStatus === null && action === "UPDATE" &&
+                {isUpdating && confirmStatus === null && action === "UPDATE" &&
                     <AskConfirmBox
                         message={"Do you want to update?"}
                         setSelectedResult={handleSetConfirmStatus}
@@ -574,7 +579,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 }
                 {isCanceling && confirmStatus === null && action === "CANCEL" &&
                     <AskConfirmBox
-                        message={"Do you want to remove this request?"}
+                        message={"Do you want to cancel this request?"}
                         setSelectedResult={handleSetConfirmStatus}
                     />
                 }
