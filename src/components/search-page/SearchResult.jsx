@@ -38,7 +38,7 @@ function SearchResult({ matchedSlots, ...props }) {
             </SlotList>
             {isStartToBooking && <CreateBookingRequestBox setIsStartToBooking={setIsStartToBooking} />}
             {props.children}
-        </div >
+        </div>
     );
 }
 

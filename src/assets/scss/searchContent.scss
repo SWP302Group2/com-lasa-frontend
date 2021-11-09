@@ -40,11 +40,22 @@
         p {
           width: 100%;
           margin-bottom: 1rem;
-          color: #f4f5f6;
+          color: #04cdff;
+          opacity: 0;
 
           font-size: 3vw;
           font-weight: 600;
           font-family: "Montserrat";
+        }
+
+        p:nth-child(1) {
+          animation: search-content-header-content-fade-in 300ms forwards 0.5s;
+        }
+        p:nth-child(2) {
+          animation: search-content-header-content-fade-in 300ms forwards 1s;
+        }
+        p:nth-child(3) {
+          animation: search-content-header-content-fade-in 300ms forwards 1.5s;
         }
       }
 
@@ -212,20 +223,21 @@
 
             .prompt {
               position: absolute;
-              top: calc(2.5rem + 0.3rem);
+              top: 3rem;
               width: 100%;
-              max-height: 200px;
+              max-height: 150px;
 
               overflow: auto;
               display: block;
               background: #fff;
-              box-shadow: -3px 3px 6px #bec3c4, 3px 3px 6px #b0b9bd;
+              border: 1px solid #c4c4c4;
+              box-shadow: 5px 5px 0px #d5dde0;
 
               &__topic {
                 display: flex;
                 padding: 0.5rem;
-                transition: background-color 300ms ease-in-out,
-                  transform 300ms ease-in-out;
+                transition: background-color 0.4s ease-in-out,
+                  transform 0.4s ease-in-out;
                 cursor: pointer;
 
                 &:hover {
@@ -256,6 +268,8 @@
               opacity: 0;
               overflow: hidden;
               height: 0;
+              border: none;
+              box-shadow: 0 0 0 transparent;
             }
           }
 
@@ -627,7 +641,7 @@
     width: 100%;
     height: fit-content;
     background: #fff;
-    box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.15);
+    box-shadow: 0 1px 2px rgba($color: #000000, $alpha: 0.15);
 
     &__container {
       display: grid;
@@ -639,49 +653,48 @@
       height: 4rem;
       max-width: 1400px;
 
-      > .search-bar {
+      .search-bar {
         form {
-          position: relative;
           display: flex;
           align-items: center;
           width: 100%;
-          max-width: 1200px;
+          max-width: 1024px;
           margin: 0 auto;
 
           input {
             outline: none;
             width: 100%;
             height: 3rem;
-            padding: 1rem 2rem;
-            padding-right: 3rem;
-            border-radius: 50px;
+            padding: 1rem;
+            border-radius: 3px 0 0 3px;
 
             font-size: 1rem;
-            border: 1px solid #aaa;
+            border: 1px solid #d3d3d3;
+            border-right: 0;
+            box-shadow: inset 0 1px 2px #eee;
+
             &:hover,
             &:focus-within {
-              border: 1px solid #3586c9;
+              border: 1px solid #1c62b9;
+              box-shadow: inset 0 1px 2px rgba($color: #000000, $alpha: 0.3);
+            }
+            &::placeholder {
+              color: #777;
             }
           }
 
           button {
-            position: absolute;
-            right: 0.25rem;
-
-            border: none;
             outline: none;
-            height: 2.5rem;
-            width: 2.5rem;
-            border-radius: 50%;
+            height: 3rem;
+            width: 5rem;
 
             cursor: pointer;
-            background: #3586c9;
+            background: #eee;
+            border: 1px solid #d3d3d3;
             transition: background-color 200ms ease;
 
             .search-icon {
-              margin: 0;
-              color: #fff;
-              font-weight: 600;
+              font-size: 1.4rem;
             }
           }
         }
@@ -965,7 +978,7 @@
   }
 }
 
-@keyframes search-content-slot-fadein {
+@keyframes search-content-slot-faded {
   from {
     opacity: 0;
   }
@@ -983,5 +996,16 @@
   }
 }
 
+@keyframes search-content-header-content-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
 // edeff1
 //cacfd8

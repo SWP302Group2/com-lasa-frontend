@@ -8,7 +8,7 @@ function SlotList({ ...props }) {
         list.forEach(addAnimationToSlot)
 
         function addAnimationToSlot(item, index) {
-            item.style.animation = `search-content-slot-fadein 300ms ease-in forwards ${index / 10 + 0.1}s`;
+            item.style.animation = `search-content-slot-faded 300ms ease-in forwards ${index / 10 + 0.1}s`;
         }
 
         function removeAnimationInSlot(item, index) {

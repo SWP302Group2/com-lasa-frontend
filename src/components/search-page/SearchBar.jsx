@@ -34,7 +34,7 @@ function SearchBar({ lecturers, topics, invokeSearch }) {
             matchedLecturers?.length > 0 ? matchedLecturers : null
         ));
         dispatch(updateTopicsToSearchCriteria(
-            matchedtopics?.length > 0 ? matchedtopics : null
+            matchedtopics?.length > 0 ? matchedtopics : []
         ));
     }
 
@@ -98,7 +98,7 @@ function SearchBar({ lecturers, topics, invokeSearch }) {
                     placeholder="Lecturer name, topic, or major"
                     onChange={handleSearchBarOnChange}
                 />
-                <button type="submit">
+                <button type="submit" title="Search">
                     <FiSearch className="search-icon" />
                 </button>
             </form>

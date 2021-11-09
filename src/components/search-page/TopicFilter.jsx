@@ -43,7 +43,7 @@ function TopicFilter({ topics, invokeSearch }) {
                     </div>
                 </SelectedTopics>
             </Box>
-        </div >
+        </div>
     );
 }
 

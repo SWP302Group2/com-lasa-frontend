@@ -41,7 +41,7 @@ function SearchContent({ setIsCheckedAuth }) {
 
     useEffect(checkAuthentication, [setIsCheckedAuth]);
     useEffect(displayTitleAndActiveLinkForSearchPage, []);
-    useEffect(initialNewSearchScriteria, [dispatch, isInitialSearchCriteria]);
+    useEffect(initialNewSearchCriteria, [dispatch, isInitialSearchCriteria]);
     useEffect(getNecessaryResource, [lecturers, topics]); //Lecturers, topics for search
     useEffect(processSearching, [page, searchCriteria, isSearching])
 
@@ -56,7 +56,7 @@ function SearchContent({ setIsCheckedAuth }) {
         return () => searchNavLink.classList.remove("active-navItem");
     }
 
-    function initialNewSearchScriteria() {
+    function initialNewSearchCriteria() {
         if (isInitialSearchCriteria) return;
         dispatch(newSearchCriteria());
         setIsInitialSearchCriteria(true);
@@ -69,9 +69,6 @@ function SearchContent({ setIsCheckedAuth }) {
         if (!topics || topics.length <= 0) {
             callGetTopics();
         }
-        // if (lecturers && topics && lecturers.length > 0 && topics.length > 0) {
-        //     setIsSearching(true);
-        // }
 
         function callGetLecturersApi() {
             const onGetSuccess = data => {
@@ -129,13 +126,6 @@ function SearchContent({ setIsCheckedAuth }) {
                     && !Array.isArray(searchCriteria.topics)) {
                     return false;
                 }
-                if (Array.isArray(searchCriteria.lecturers)
-                    && searchCriteria.lecturers.length === 0) {
-                    if (Array.isArray(searchCriteria.topics)
-                        && searchCriteria.topics.lenght === 0) {
-                        return false;
-                    }
-                }
             }
             if (searchCriteria.searchLecturerValue) {
                 if (!Array.isArray(searchCriteria.lecturers)) return false;
@@ -183,7 +173,7 @@ function SearchContent({ setIsCheckedAuth }) {
 
     function invokeSearch(newPageIndex) {
         scrollToSearchContent();
-        setPage(newPageIndex || 0);
+        setPage(newPageIndex != null ? newPageIndex : 0);
         setIsSearching(true);
         dispatch(updateUUIDToSearchCriteria(uuidv4()));
     }
@@ -244,7 +234,7 @@ function SearchContent({ setIsCheckedAuth }) {
                 >
                     {isRequiredToDisplayChangePageBar() &&
                         <PageBar
-                            currentPage={page}
+                            currentPage={Number.isInteger(page) ? page : 0}
                             totalPages={totalPages}
                             callBack={handleOnClickChangePage}
                         />

@@ -15,7 +15,7 @@ function CreateSlotTopicPicker({ topics, clearAllError }) {
         clearAllError();
         const input = event.target.value || "";
         setSearchValue(input);
-        const matchedTopics = caculateMatchedTopics(input);
+        const matchedTopics = calculateMatchedTopics(input);
         if (isEmptyPrompt(matchedTopics)) {
             hidePrompt();
             return;
@@ -67,7 +67,7 @@ function CreateSlotTopicPicker({ topics, clearAllError }) {
         if (promptActiveItem) promptActiveItem.focus();
     }
 
-    function caculateMatchedTopics(input) {
+    function calculateMatchedTopics(input) {
         return [...topics].filter(topic => {
             if (topic.courseId.toLowerCase().includes(input.toLowerCase())) return true;
             if (topic.majorId.toLowerCase().includes(input.toLowerCase())) return true;
@@ -122,15 +122,16 @@ function CreateSlotTopicPicker({ topics, clearAllError }) {
         promptActiveItem?.classList.remove("prompt__topic-active");
     }
 
-    function isEmptyPrompt(prompt) {
-        return Array.isArray(prompt) && prompt.length === 0;
-    }
-
     function showPrompt() {
         if (isEmptyPrompt(prompt)) return;
         const promptBox = document.querySelector(".prompt");
         promptBox?.classList.remove("hide-prompt");
     }
+
+    function isEmptyPrompt(prompt) {
+        return Array.isArray(prompt) && prompt.length === 0;
+    }
+
 
     useEffect(() => {
         if (isEmptyPrompt(prompt)) {
@@ -156,7 +157,6 @@ function CreateSlotTopicPicker({ topics, clearAllError }) {
             <Prompt>
                 {prompt && prompt.length > 0 && [...prompt].map(topic =>
                     <PromptItem
-
                         key={topic?.id}
                         topic={topic}
                         itemOnClickCallback={handlePromptItemOnClick}

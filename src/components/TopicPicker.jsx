@@ -14,7 +14,12 @@ function TopicPicker({ topics, invokeSearch }) {
     function handleSearchTopicChange(event) {
         const input = event.target.value || "";
         setSearchValue(input);
-        caculateMatchedTopics(input);
+        const matchedTopics = calculateMatchedTopics(input);
+        if (isEmptyPrompt(matchedTopics)) {
+            hidePrompt();
+            return;
+        }
+        updatePromptValue(matchedTopics);
     }
 
     function handleTopicPickerOnKeyDown(event) {
@@ -57,15 +62,22 @@ function TopicPicker({ topics, invokeSearch }) {
         if (promptActiveItem) promptActiveItem.focus();
     }
 
-    function caculateMatchedTopics(input) {
-        const matchedTopics = [...topics].filter(topic => {
+    function isEmptyPrompt(prompt) {
+        return Array.isArray(prompt) && prompt.length === 0;
+    }
+
+    function updatePromptValue(matchedTopics) {
+        setPrompt(matchedTopics);
+    }
+
+    function calculateMatchedTopics(input) {
+        return [...topics].filter(topic => {
             if (topic.courseId.toLowerCase().includes(input.toLowerCase())) return true;
             if (topic.majorId.toLowerCase().includes(input.toLowerCase())) return true;
             if (input.toLowerCase().includes(topic.courseId.toLowerCase())) return true;
             if (input.toLowerCase().includes(topic.majorId.toLowerCase())) return true;
             return false;
         });
-        setPrompt(matchedTopics);
     }
 
     function handleSearchTopicFocus() {
@@ -102,25 +114,32 @@ function TopicPicker({ topics, invokeSearch }) {
     }
 
     function showPrompt() {
-        const prompt = document.querySelector(".prompt");
-        prompt?.classList.remove("hide-prompt");
+        if (isEmptyPrompt(prompt)) return;
+        const promptBox = document.querySelector(".prompt");
+        promptBox?.classList.remove("hide-prompt");
     }
 
     useEffect(() => {
-        const searchForm = document.querySelector(".box__picker");
-        const start = () => {
-            document.addEventListener("click", handleDomOnClick);
-            if (searchValue) {
-                showPrompt();
-            }
+        if (isEmptyPrompt(prompt)) {
+            hidePrompt();
+            return;
         }
-        start();
+        const promptBox = document.querySelector(".prompt");
+        promptBox?.classList.remove("hide-prompt");
+    }, [prompt])
 
+    useEffect(() => {
+        const searchForm = document.querySelector(".box__picker");
+        document.addEventListener("click", handleDomOnClick);
         function handleDomOnClick(event) {
             if (searchForm?.contains(event.target)) return;
             hidePrompt();
         }
-    }, [searchValue])
+
+        return () => {
+            document.removeEventListener("click", handleDomOnClick);
+        }
+    }, [])
 
     return (
         <div className="box__picker" tabIndex="0" onKeyDown={handleTopicPickerOnKeyDown}>

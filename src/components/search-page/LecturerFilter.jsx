@@ -4,6 +4,7 @@ import algorithm from "../../utils/algorithm";
 import InputPrompt from "./InputPrompt";
 import {
     updateLecturersToSearchCriteria,
+    updateSearchBarValueToSearchCriteria,
     updateSearchLecturerValueToSearchCriteria
 } from "../../redux/actions/search";
 
@@ -17,8 +18,9 @@ function LecturerFilter({ lecturers, invokeSearch }) {
     function handleSearchInputChange(event) {
         const input = event.target.value || "";
         showPrompt();
-        calculateMatchedLecturer(input.trim());
+        const matchedLecturers = calculateMatchedLecturer(input.trim());
         dispatch(updateSearchLecturerValueToSearchCriteria(input));
+        setPrompt(matchedLecturers.slice(0, 10));
     }
 
     function handlePromptItemOnClick(event) {
@@ -31,16 +33,17 @@ function LecturerFilter({ lecturers, invokeSearch }) {
     }
 
     function calculateMatchedLecturer(input) {
-        let matchedLecturers = input === "" ? [] :
+        return input === "" ? [] :
             algorithm.getMatchedListBySearchValue(lecturers, input, "name");
-
-        dispatch(updateLecturersToSearchCriteria(matchedLecturers));
-        setPrompt(matchedLecturers.slice(0, 10));
     }
 
     function handleSearchBoxOnSubmit(event) {
         event.preventDefault();
-        calculateMatchedLecturer(searchLecturerValue.trim());
+        const matchedLecturers = calculateMatchedLecturer(searchLecturerValue.trim());
+
+        dispatch(updateLecturersToSearchCriteria(matchedLecturers));
+        dispatch(updateSearchBarValueToSearchCriteria(""));
+        setPrompt(matchedLecturers.slice(0, 10));
         hidePrompt();
         setIsInvokingSearch(true);
     }

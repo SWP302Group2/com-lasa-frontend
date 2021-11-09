@@ -2,6 +2,9 @@ import Page from "./Page";
 
 function PageBar({ currentPage, totalPages, callBack }) {
 
+    console.log("currentPage");
+    console.log(currentPage);
+
     return (
         <div className="bottom-page-bar">
             {currentPage !== 0 &&
