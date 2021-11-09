@@ -10,40 +10,42 @@ import "../assets/css/footer.css";
 function Footer() {
     return (
         <footer className="footer">
-            <div className="footer__contact">
-                <ul>
-                    <li>
-                        <Link to="#">
-                            <SiFacebook />
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="#">
-                            <FaYoutube />
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="#">
-                            <BsGoogle />
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="#">
-                            <FaLinkedinIn />
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="#">
-                            <BsTwitter />
-                        </Link>
-                    </li>
-                    <li>
-                        <Link to="#">
-                            <FaGithub />
-                        </Link>
-                    </li>
-                </ul>
-                <p>Powered by TTNA</p>
+            <div className="footer__container">
+                <div className="footer__contact">
+                    <ul>
+                        <li>
+                            <Link to="#">
+                                <SiFacebook />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="#">
+                                <FaYoutube />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="#">
+                                <BsGoogle />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="#">
+                                <FaLinkedinIn />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="#">
+                                <BsTwitter />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="#">
+                                <FaGithub />
+                            </Link>
+                        </li>
+                    </ul>
+                    <p>Powered by TTNA</p>
+                </div>
             </div>
         </footer>
     );

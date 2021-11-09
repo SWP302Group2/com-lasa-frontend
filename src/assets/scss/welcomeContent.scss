@@ -35,8 +35,25 @@ $blue: #1cd3f8;
         position: absolute;
         left: 0;
         top: 0;
+        z-index: 0;
         width: 100%;
         height: 100%;
+      }
+
+      .loop {
+        object-fit: cover;
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 2;
+        opacity: 1;
+        width: 100%;
+        height: 100%;
+      }
+
+      .hide-loop {
+        opacity: 0;
+        z-index: -1;
       }
     }
 

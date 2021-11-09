@@ -42,7 +42,7 @@ function SearchContentSearchNav({ lecturers, topics, invokeSearch, isLoading }) 
 
     return (
         <div className="search-content__searchNav">
-            <div className="search-content__searchNav__containter">
+            <div className="search-content__searchNav__container">
                 <div className="search-content__searchNav__loader">
                     <div
                         onClick={handleLogoOnClick}

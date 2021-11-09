@@ -1,8 +1,4 @@
 #home-page {
-  position: absolute;
-  top: 0;
-  left: 0;
-  overflow: auto;
   width: 100%;
   min-width: -webkit-fit-content;
   min-width: -moz-fit-content;

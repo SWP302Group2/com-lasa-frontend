@@ -95,7 +95,7 @@ function SearchBar({ lecturers, topics, invokeSearch }) {
                 <input
                     type="search"
                     value={searchCriteria.searchBarValue}
-                    placeholder="Search name, topic, major..."
+                    placeholder="Lecturer name, topic, or major"
                     onChange={handleSearchBarOnChange}
                 />
                 <button type="submit">

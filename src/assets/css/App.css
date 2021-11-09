@@ -6,7 +6,7 @@
 }
 
 ::-webkit-scrollbar {
-  width: 0.5rem;
+  width: 0;
   height: 0px;
 }
 
@@ -23,6 +23,7 @@
 
 html {
   height: 100%;
+  width: 100%;
   background: transparent;
   scroll-behavior: smooth;
 }
@@ -33,6 +34,6 @@ body {
   height: fit-content;
   height: 100%;
   background: transparent;
-  font-family: "Segoe UI", "Poppins", "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", "Poppins", "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
 }
 /*# sourceMappingURL=App.css.map */

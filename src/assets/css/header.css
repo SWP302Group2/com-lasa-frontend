@@ -543,7 +543,6 @@
     -webkit-transform: translateX(0%);
             transform: translateX(0%);
     opacity: 1;
-    background: rgba(0, 0, 0, 0.4);
   }
   .header .menu__navItem {
     opacity: 0;

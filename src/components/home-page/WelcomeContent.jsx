@@ -25,10 +25,20 @@ function WelcomeContent({ setIsCheckedAuth }) {
 
   function enableSliderShow() {
     const video = document.querySelector(".intro");
+    const loop = document.querySelector(".loop");
+    loop?.classList.add("hide-loop");
     if (video) {
       video.oncanplaythrough = () => {
         video.muted = true;
         video.play();
+        setTimeout(() => {
+          if (loop) {
+            loop?.classList.remove("hide-loop");
+            loop.muted = true;
+            loop.play();
+            loop.loop = true;
+          }
+        }, 5800);
       };
     }
   }
@@ -37,10 +47,10 @@ function WelcomeContent({ setIsCheckedAuth }) {
     <div className="welcome-content root-content">
       <div className="welcome-content__slider-container">
         <div className="mp4-container">
-          <video className="intro" muted autoPlay>
+          <video className="intro">
             <source src={intro} type="video/mp4" />
           </video>
-          <video className="loop" muted loop >
+          <video className="loop" >
             <source src={loop} type="video/mp4" />
           </video>
         </div>

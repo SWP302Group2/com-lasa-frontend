@@ -1,4 +1,7 @@
 .footer {
+  display: block;
+  width: 100%;
+  &__container {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
@@ -9,32 +12,33 @@
     background: #fff;
 
     &__contact {
-        display: block;
-        width: 100%;
+      display: block;
+      width: 100%;
     }
 
     ul {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        list-style-type: none;
-        margin-top: 1rem;
-        li {
-            padding: 0 0.5rem;
-            a {
-                color: rgb(50, 72, 121);
-                font-size: 1.5rem;
-                text-decoration: none;
-            }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      list-style-type: none;
+      margin-top: 1rem;
+      li {
+        padding: 0 0.5rem;
+        a {
+          color: rgb(50, 72, 121);
+          font-size: 1.5rem;
+          text-decoration: none;
         }
+      }
     }
 
     p {
-        display: inline-block;
-        width: 100%;
-        font-size: 0.9rem;
-        margin-top: 1rem;
+      display: inline-block;
+      width: 100%;
+      font-size: 0.9rem;
+      margin-top: 1rem;
 
-        text-align: center;
+      text-align: center;
     }
+  }
 }

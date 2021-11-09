@@ -2,12 +2,14 @@
 function SearchContentHeader({ ...props }) {
     return (
         <div className="search-content__header">
-            <div className="search-content__header"></div>
-            <div className="content">
-                <h1>LASA</h1>
-                <p>Help you make appointments with your lecturers</p>
+            <div className="search-content__header__container">
+                <div className="content">
+                    <p>&#10095; Do search</p>
+                    <p>&#10095; Make appointment</p>
+                    <p>&#10095; Go meeting</p>
+                    {props.children}
+                </div>
             </div>
-            {props.children}
         </div>
     );
 }
