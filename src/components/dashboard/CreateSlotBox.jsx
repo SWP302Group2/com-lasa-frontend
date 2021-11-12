@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import slotApi from "../../api/slotApi";
 import topicApi from "../../api/topicApi";
 import ErrorMessage from "../ErrorMessage";
-import SuccessfulMessage from "../SuccessfulMessage";
 import CreateSlotTopicPicker from "./CreateSlotTopicPicker";
 import CreateSlotSelectedTopic from "./CreateSlotSelectedTopic";
 import Loader from "../Loader";
@@ -11,6 +10,7 @@ import "../../assets/css/createSlotBox.css";
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
 import { AiOutlineClose } from "react-icons/ai";
 import { newSlot, updateInvalidMessagesToSlot, updatePeriodToSlot, updateTimeEndToSlot, updateTimeStartToSlot, updateTopicsToSlot } from "../../redux/actions/slot";
+import ActionResultMessage from "../search-page/ActionResultMessage";
 
 function CreateSlotBox({ setCreateSlot, refreshCallback }) {
     const [topics, setTopics] = useState([]);
@@ -224,14 +224,14 @@ function CreateSlotBox({ setCreateSlot, refreshCallback }) {
 
                 setIsLoading(false);
                 refreshCallback(true);
-                setCreateSlotResult({ status: 1, message: "Create successful." })
+                setCreateSlotResult({ status: true, message: "Create successful." })
             }
 
             const onCreateFailed = (response, status, message) => {
                 console.log("Create slots false:");
                 console.log(response);
                 setIsLoading(false);
-                setCreateSlotResult({ status: 0, message: "Create failed." })
+                setCreateSlotResult({ status: false, message: "Create failed." })
             }
 
             slotApi.createSlot(onCreateSuccess, onCreateFailed, user.id, slotInfo);
@@ -246,6 +246,13 @@ function CreateSlotBox({ setCreateSlot, refreshCallback }) {
             dispatch(newSlot());
             if (setCreateSlot) setCreateSlot(false);
         }, 300);
+    }
+
+    function handleCloseResultMessage() {
+        setCreateSlotResult({ status: null, message: null })
+        if (status === true) {
+            setCreateSlot(false);
+        }
     }
 
     return (
@@ -323,8 +330,13 @@ function CreateSlotBox({ setCreateSlot, refreshCallback }) {
                         />
                     }
                 </div>
-                {status === 1 && <SuccessfulMessage message={message} />}
-                {status === 0 && <ErrorMessage message={message} />}
+                {status != null &&
+                    <ActionResultMessage
+                        status={status}
+                        message={message}
+                        closeCallBack={handleCloseResultMessage}
+                    />
+                }
                 {isLoading && <Loader />}
                 <div className="box__bottom">
                     <button

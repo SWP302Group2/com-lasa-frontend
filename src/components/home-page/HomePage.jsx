@@ -12,11 +12,13 @@ import WelcomeContent from "./WelcomeContent";
 import SearchContent from "../search-page/SearchContent";
 import DashboardContent from "../dashboard/DashboardContent";
 import Footer from "../Footer";
+import LoadingEffect from "../LoadingEffect";
 
 function HomePage() {
   //Use old info before callAPI success
   const [isCheckedAuth, setIsCheckedAuth] = useState(true);
   const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
+  const [isLoading, setIsLoading] = useState(false);
 
   const role = useSelector((state) => state.user.role);
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ function HomePage() {
 
   function checkAuthAndGetUserInfo() {
     if (isCheckedAuth === true) return;
-
+    setIsLoading(true);
     setIsCheckedAuth(true);
     processUserAuth();
 
@@ -36,6 +38,7 @@ function HomePage() {
       const onGetSuccess = (userInfo) => {
         console.log("Homepage - get userinfo success:");
         console.log(userInfo);
+        setIsLoading(false);
 
         dispatch(
           updateUserInfo({
@@ -48,6 +51,7 @@ function HomePage() {
       const onGetFailure = (response, status, message) => {
         console.log("Homepage get userinfo failed: ");
         console.log(response);
+        setIsLoading(false);
 
         storageTools.removeAccessToken();
         dispatch(newUserInfo());
@@ -96,6 +100,7 @@ function HomePage() {
           <Redirect to="/auth" />
         )}
       </Switch>
+      {isLoading && <LoadingEffect />}
     </section>
   );
 }

@@ -9,7 +9,9 @@ import Loader from "../Loader";
 import BookingQuestionsArea from "../search-page/BookingQuestionArea";
 import BookingSelectTopic from "../search-page/BookingSelectTopic";
 import Question from "../search-page/Question";
-import SuccessfulMessage from "../SuccessfulMessage";
+import "../../assets/css/editBookingRequestBox.css";
+import { AiOutlineClose } from "react-icons/ai";
+import ActionResultMessage from "../search-page/ActionResultMessage";
 
 function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBack, callRefresh }) {
     const [questions, setQuestions] = useState([]);
@@ -22,7 +24,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
     const [isCanceling, setIsCanceling] = useState(false);
     const [{ confirmStatus, action }, setConfirm] = useState({ confirmStatus: null, action: null })
     const [invalidMessages, setInvalidMessages] = useState({});
-    const [successMessage, setSuccessMessage] = useState("");
+    const [{ status, message }, setEditBookingResult] = useState({ status: null, message: null });
 
 
     const bookingInfo = useSelector(state => state.booking)
@@ -165,10 +167,10 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
 
     function handleBookingRequestOnKeydown(event) {
         if (event.key !== "Escape") return;
-        closeBookingRequest();
+        handleCloseBookingRequest();
     }
 
-    function closeBookingRequest() {
+    function handleCloseBookingRequest() {
         const bookingRequestBox = document.querySelector(".student-dashboard .edit-box");
         bookingRequestBox.classList.remove("active-edit-booking-request-box");
         setTimeout(() => {
@@ -181,15 +183,15 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
         [...textAreas].forEach(item => item.classList.remove("active-question-textarea"));
     }
 
-    function isClickOnBox(target) {
-        const box = document.querySelector(".student-dashboard .edit-box .box");
-        return box.contains(target);
-    }
+    // function isClickOnBox(target) {
+    //     const box = document.querySelector(".student-dashboard .edit-box .box");
+    //     return box.contains(target);
+    // }
 
-    function handleEditBoxOnClick(event) {
-        if (isClickOnBox(event.target)) return;
-        closeBookingRequest();
-    }
+    // function handleEditBoxOnClick(event) {
+    //     if (isClickOnBox(event.target)) return;
+    //     handleCloseBookingRequest();
+    // }
 
     function handleChangeQuestionContent(event, index) {
         closeAllError()
@@ -237,7 +239,6 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
     }
 
     function closeAllError() {
-        setSuccessMessage(null);
         setInvalidMessages(null);
     }
 
@@ -310,13 +311,21 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
 
     }, [bookingStatus])
 
-    useEffect(() => {
-        if (isUpdating && confirmStatus === true && action) {
-            setIsLoading(true);
-            setIsUpdating(false);
-            setConfirm({ confirmStatus: null, action: "" })
-            callUpdateBookingRequest();
-        }
+    useEffect(callUpdateBookingRequest, [isUpdating, confirmStatus, action, bookingInfo, user, callRefresh]);
+
+    useEffect(callRemoveBookingRequest, [isRemoving, confirmStatus, action, bookingInfo, callRefresh, closeEditCallBack])
+
+    useEffect(callCancelBookingRequest, [isCanceling, confirmStatus, action, user, bookingInfo, callRefresh, closeEditCallBack])
+
+    function callUpdateBookingRequest() {
+        if (!isUpdating) return;
+        if (confirmStatus !== true) return;
+        if (action !== "UPDATE") return;
+
+        setIsLoading(true);
+        setIsUpdating(false);
+        setConfirm({ confirmStatus: null, action: "" })
+        callUpdateBookingRequest();
 
         function callUpdateBookingRequest() {
             const onUpdateSuccess = (data) => {
@@ -324,8 +333,10 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 console.log(data);
                 setIsLoading(false);
 
-                setSuccessMessage("Updated");
-                callRefresh(true);
+                setEditBookingResult({
+                    status: true,
+                    message: "Updated"
+                });
             }
 
             const onUpdateFailure = (response, status, message) => {
@@ -333,38 +344,17 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 console.log(response);
                 setIsLoading(false);
 
-                setInvalidMessages({
-                    updateBookingRequestFailed: "We have added new questions for you, but the rest is got problems. Please try again!"
+                setEditBookingResult({
+                    status: false,
+                    message: "We have processed questions for you, but the rest is got problems. Please try again!"
                 });
             }
 
-            const onUpdateAndRemoveQuestionSuccess = (data) => {
-                console.log("Update new question success:");
-                console.log(data);
-
-                bookingApi.updateBookingRequest(onUpdateSuccess, onUpdateFailure, user.id,
-                    bookingInfo.id, bookingInfo.slotId, bookingInfo.title,
-                    bookingInfo.topicId, bookingInfo.questions);
-            }
-
-            const onUpdateAndRemoveQuestionFailure = (response, status, message) => {
-                console.log("Update new question failed:");
-                console.log(response);
-                setIsLoading(false);
-
-                setInvalidMessages({
-                    updateNewQuestionFailed: "Cannot add new questions or remove question on your booking, please try again!"
-                });
-            }
-
-            bookingApi.updateAndRemoveQuestionsForBookingRequest(onUpdateAndRemoveQuestionSuccess, onUpdateAndRemoveQuestionFailure,
-                user.id, bookingInfo.id, bookingInfo.newQuestions, bookingInfo.deletedOldQuestions);
+            bookingApi.updateBookingRequest(onUpdateSuccess, onUpdateFailure, user.id, bookingInfo);
         }
+    }
 
-    }, [isUpdating, confirmStatus,
-        action, bookingInfo, user, setSuccessMessage, callRefresh]);
-
-    useEffect(() => {
+    function callRemoveBookingRequest() {
         if (!isRemoving) return;
         if (confirmStatus !== true) return;
         if (action !== "REMOVE") return;
@@ -379,11 +369,11 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 console.log("Remove booking request success:");
                 console.log(data);
                 setIsLoading(false);
-                setSuccessMessage("Request is removed.");
-                setTimeout(() => {
-                    callRefresh(true);
-                    closeEditCallBack();
-                }, 2000);
+
+                setEditBookingResult({
+                    status: true,
+                    message: "Removed"
+                });
             }
 
             const onRemoveFailure = (response, status, message) => {
@@ -391,17 +381,17 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 console.log(response);
                 setIsLoading(false);
 
-                setInvalidMessages({
-                    removeBookingRequestFailed: "Cannot request this request with unknown error. Please contact us!"
+                setEditBookingResult({
+                    status: true,
+                    message: "Unknown error, cannot remove the request. Please contact us!"
                 });
             }
-
-
             bookingApi.removeBookingRequest(onRemoveSuccess, onRemoveFailure, bookingInfo.id);
         }
-    }, [isRemoving, confirmStatus, action, bookingInfo, callRefresh, closeEditCallBack])
 
-    useEffect(() => {
+    }
+
+    function callCancelBookingRequest() {
         if (!isCanceling) return;
         if (confirmStatus !== true) return;
         if (action !== "CANCEL") return;
@@ -416,64 +406,66 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                 console.log("Cancel booking request success:");
                 console.log(data);
                 setIsLoading(false);
-                setSuccessMessage("Cancel request success.");
-                setTimeout(() => {
-                    callRefresh(true);
-                    closeEditCallBack();
-                }, 2000);
+                setEditBookingResult({
+                    status: true,
+                    message: "Canceled"
+                });
             }
 
             const onCancelFailure = (response, status, message) => {
                 console.log("Cancel booking request failure:");
                 console.log(response);
                 setIsLoading(false);
-                setInvalidMessages({
-                    updateBookingRequestFailed: "Cannot request this request with unknown error. Please contact us!"
+
+                setEditBookingResult({
+                    status: false,
+                    message: "Unknown error, cannot cancel the request. Please contact us!"
                 });
             }
 
             bookingApi.cancelBookingRequest(onCancelSuccess, onCancelFailure, user.id, bookingInfo.id);
         }
-    }, [isCanceling, confirmStatus, action, user, bookingInfo, callRefresh, closeEditCallBack])
 
+    }
+
+    function handleCloseResultMessage() {
+        setEditBookingResult({
+            status: null,
+            message: ""
+        })
+        callRefresh(true);
+    }
 
     return (
         <div
             className="edit-box"
-            onClick={handleEditBoxOnClick}
+            // onClick={handleEditBoxOnClick}
             onKeyDown={handleBookingRequestOnKeydown}
         >
             <form
                 className="box"
                 onSubmit={handleBookingRequestSubmit}
             >
-                <h1 className="box__headline">
-                    <i className="material-icons book">
-                        forward_to_inbox
-                    </i>
-                    <p>Booking</p>
-                    <i
-                        className="material-icons close"
-                        onClick={closeBookingRequest}
-                    >
-                        close
-                    </i>
-                </h1>
+                <div className="box__header">
+                    <h2 className="box__header__title">Booking</h2>
+                    <AiOutlineClose
+                        className="box__header__close-icon"
+                        onClick={handleCloseBookingRequest}
+                    />
+                </div>
                 <div className="box__content">
-                    <div className="box__from">
-                        <p>From</p>
-                        <input type="text" disabled value={user.name} />
-                    </div>
                     <div className="box__to">
-                        <p>To</p>
-                        <input type="text" disabled value={bookingRequest.slot?.lecturer?.name} />
+                        <p className="box__title">To</p>
+                        <div className="box__control">
+                            <input type="text" disabled value={bookingRequest.slot?.lecturer?.name} />
+                        </div>
                     </div>
-                    <div className="box__title">
+                    <div className="box__booking-title">
                         <p className="box__title">Title</p>
                         <div className="box__control">
                             <input
                                 type="text"
-                                placeholder="Keep it short..."
+                                placeholder="Enter title"
                                 onChange={handleTitleOnChange}
                                 value={title}
                             />
@@ -507,18 +499,11 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                         }
                     </BookingQuestionsArea>
                 </div>
-                {invalidMessages?.cannotUpdate &&
-                    <ErrorMessage message={invalidMessages?.cannotUpdate} />
-                }
-                {invalidMessages?.cannotRemove &&
-                    <ErrorMessage message={invalidMessages?.cannotRemove} />
-                }
-                {invalidMessages?.updateNewQuestionFailed &&
-                    <ErrorMessage message={invalidMessages?.updateNewQuestionFailed} />
-                }
-                {successMessage &&
-                    <SuccessfulMessage
-                        message={successMessage}
+                {status != null &&
+                    <ActionResultMessage
+                        status={status}
+                        message={message}
+                        closeCallBack={handleCloseResultMessage}
                     />
                 }
                 <div className="box__bottom">
@@ -526,7 +511,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                         bookingStatus === BOOKING_REQUEST_STATUS_WAITING
                         &&
                         <button
-                            className="box__bottom__button box__bottom__button--update"
+                            className="box__bottom__update"
                             type="submit"
                         >
                             Update
@@ -539,7 +524,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                     ) &&
                         <div
                             tabIndex="0"
-                            className="box__bottom__button box__bottom__button--remove"
+                            className="box__bottom__remove"
                             onClick={handleBookingRequestRemove}
                         >
                             Remove
@@ -550,20 +535,21 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
                         &&
                         <div
                             tabIndex="0"
-                            className="box__bottom__button box__bottom__button--cancel"
+                            className="box__bottom__cancel"
                             onClick={handleBookingRequestCancel}
                         >
                             Cancel Request
                         </div>
                     }
+                    <div
+                        tabIndex="0"
+                        className="box__bottom__close"
+                        onClick={handleCloseBookingRequest}
+                    >
+                        Close
+                    </div>
                 </div>
-                {(bookingStatus === BOOKING_REQUEST_STATUS_READY
-                    || bookingStatus === BOOKING_REQUEST_STATUS_NOTIFIED)
-                    && <p className="box__bottom-message">
-                        READ ONLY
-                    </p>
 
-                }
                 {isLoading && <Loader />}
                 {isUpdating && confirmStatus === null && action === "UPDATE" &&
                     <AskConfirmBox

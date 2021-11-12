@@ -1,9 +1,12 @@
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import "../../assets/css/welcomeContent.css";
 import { Link } from "react-router-dom";
-import intro from "../../assets/svg/intro.webm";
-import loop from "../../assets/svg/loop.mp4";
+// import intro from "../../assets/svg/intro.webm";
+// import loop from "../../assets/svg/loop.mp4";
 import CircularFont from "../../assets/images/CircularStd-Medium.otf";
+import LoadingEffect from "../LoadingEffect";
+
+
 
 function WelcomeContent({ setIsCheckedAuth }) {
   useEffect(checkAuthentication, [setIsCheckedAuth]);
@@ -46,14 +49,16 @@ function WelcomeContent({ setIsCheckedAuth }) {
   return (
     <div className="welcome-content root-content">
       <div className="welcome-content__slider-container">
-        <div className="mp4-container">
-          <video className="intro">
-            <source src={intro} type="video/mp4" />
-          </video>
-          <video className="loop" >
-            <source src={loop} type="video/mp4" />
-          </video>
-        </div>
+        <Suspense fallback={LoadingEffect}>
+          <div className="mp4-container">
+            <video className="intro">
+              <source src="https://useplink.com//assets/images/frontpage/intro.webm" type="video/mp4" />
+            </video>
+            <video className="loop" >
+              <source src="https://useplink.com/assets/images/frontpage/loop.webm" type="video/mp4" />
+            </video>
+          </div>
+        </Suspense>
         <div
           className="slide slide-welcome"
           style={{ fontFamily: CircularFont }}

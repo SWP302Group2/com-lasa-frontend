@@ -14,7 +14,7 @@ function LecturerDashboard() {
                     to="/dashboard/schedule"
                     title="Schedule"
                 >
-                    <i className="material-icons"><AiOutlineSchedule /></i>
+                    <i><AiOutlineSchedule /></i>
                     <p>Schedule</p>
                 </Link>
                 <Link
@@ -22,7 +22,7 @@ function LecturerDashboard() {
                     to="/dashboard/notifications"
                     title="Notification"
                 >
-                    <i className="material-icons"><BiNotification /></i>
+                    <i><BiNotification /></i>
                     <p>Notification</p>
                 </Link>
             </Sidebar>

@@ -1,77 +1,135 @@
 .ask-confirm-box {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  -webkit-transform: translate(-50%, -50%);
-          transform: translate(-50%, -50%);
-  padding: 1rem;
-  width: 240px;
-  background: #fff;
-  -webkit-box-shadow: 4px 4px 8px #2a4d69;
-          box-shadow: 4px 4px 8px #2a4d69;
-}
-
-.ask-confirm-box__icon-close {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  height: 1rem;
-  width: 1rem;
-  font-size: 1rem;
-  color: #fff;
-  background: #dd3d3d;
-}
-
-.ask-confirm-box__icon-close:hover {
-  background: #f74d4d;
-}
-
-.ask-confirm-box__message {
-  display: inline-block;
-  width: 100%;
-  margin-top: 1rem;
-  text-align: center;
-}
-
-.ask-confirm-box__buttons {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  opacity: 0;
+  overflow: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.ask-confirm-box .confirm-box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  max-height: 700px;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow: auto;
+  -webkit-transition: opacity 0.2s ease-in-out;
+  transition: opacity 0.2s ease-in-out;
+  background: #fff;
+}
+
+.ask-confirm-box .confirm-box__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.ask-confirm-box .confirm-box__header__close-icon {
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.ask-confirm-box .confirm-box__header__close-icon:hover {
+  background: #ddd;
+}
+
+.ask-confirm-box .confirm-box__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: 100%;
+  background: #fff;
+}
+
+.ask-confirm-box .confirm-box__message {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.ask-confirm-box .confirm-box__options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
   width: 100%;
-  margin-top: 1.2rem;
+  height: 2rem;
 }
 
-.ask-confirm-box__confirm, .ask-confirm-box__cancel {
-  width: 80px;
-  padding: 0.3rem 0;
-  text-align: center;
+.ask-confirm-box .confirm-box__confirm, .ask-confirm-box .confirm-box__cancel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 100px;
+  height: 100%;
+  font-weight: 500;
   border-radius: 3px;
-  font-size: 0.9rem;
-}
-
-.ask-confirm-box__confirm:hover, .ask-confirm-box__cancel:hover {
   cursor: pointer;
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
 }
 
-.ask-confirm-box__confirm:active, .ask-confirm-box__cancel:active {
-  -webkit-transform: scale(1);
-          transform: scale(1);
-}
-
-.ask-confirm-box__confirm {
+.ask-confirm-box .confirm-box__confirm {
   color: #fff;
-  background: #0d960d;
+  background: #11ac57;
 }
 
-.ask-confirm-box__cancel {
+.ask-confirm-box .confirm-box__cancel {
   color: #333;
   background: #ddd;
+}
+
+.active-ask-confirm-box {
+  opacity: 1;
+}
+
+.active-ask-confirm-box .confirm-box {
+  opacity: 1;
 }
 /*# sourceMappingURL=askConfirmBox.css.map */

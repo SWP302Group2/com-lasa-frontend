@@ -1,27 +1,29 @@
 .loader-loading {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: rgba($color: #fff, $alpha: 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba($color: #fff, $alpha: 0.6);
 
-    &__circle {
-        border-radius: 50%;
-        border-top: 0.2rem solid #33a7f5;
-        border-right: 0.2rem solid #33a7f5;
-        border-bottom: 0.2rem solid #33a7f5;
-        border-left: 0.2rem solid transparent;
-        width: 2rem;
-        height: 2rem;
-        margin-right: 0.5rem;
-        animation: loader-spin 1s linear infinite;
-    }
+  &__circle {
+    border-radius: 50%;
+    border-top: 0.2rem solid #33a7f5;
+    border-right: 0.2rem solid #33a7f5;
+    border-bottom: 0.2rem solid #33a7f5;
+    border-left: 0.2rem solid transparent;
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.5rem;
+    animation: loader-spin 1s linear infinite;
+  }
 
-    &__message {
-        color: #0c1e58;
-    }
+  &__message {
+    color: #0c1e58;
+  }
 }

@@ -6,7 +6,8 @@ $blue: #1cd3f8;
   width: 100%;
   min-height: 100vh;
   transition: transform 400ms ease-in-out;
-  background-image: url("../svg/ShinyOverlay3.svg");
+  background: url("../svg/ShinyOverlay3.svg") no-repeat center center;
+  background-size: cover;
 
   &__slider-container {
     position: relative;

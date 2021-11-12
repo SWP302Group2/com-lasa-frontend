@@ -1,0 +1,311 @@
+.edit-box {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  opacity: 0;
+  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.edit-box .box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  max-height: 700px;
+  padding: 1rem;
+  border-radius: 6px;
+  overflow: auto;
+  -webkit-transform: translateY(-100vh);
+          transform: translateY(-100vh);
+  -webkit-transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  background: #fff;
+}
+
+.edit-box .box__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.edit-box .box__header__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-right: 1rem;
+}
+
+.edit-box .box__header__close-icon {
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.edit-box .box__header__close-icon:hover {
+  background: #ddd;
+}
+
+.edit-box .box__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #fff;
+}
+
+.edit-box .box__to, .edit-box .box__booking-title {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.edit-box .box__title {
+  width: 100%;
+  margin-bottom: 0.25rem;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.edit-box .box__control {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.edit-box .box__control input {
+  width: 100%;
+  height: 2rem;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  background: #fff;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.42);
+}
+
+.edit-box .box__control input:focus-within {
+  padding-top: 0.5px;
+  border-bottom: 2px solid #e3165b;
+}
+
+.edit-box .box__select-topic {
+  min-height: 2rem;
+  margin-bottom: 1rem;
+  outline: none;
+  border: 1px solid #777;
+}
+
+.edit-box .box__question-area {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  margin-bottom: 1rem;
+}
+
+.edit-box .box__question-area__add-button {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  padding: 0.2rem;
+  border-radius: 50%;
+  color: #fff;
+  background: #e3165b;
+}
+
+.edit-box .box__question {
+  width: 100%;
+  height: 2rem;
+  margin-bottom: 0.25rem;
+  border: 1px solid #999;
+}
+
+.edit-box .box__question:hover, .edit-box .box__question:focus-within {
+  -webkit-box-shadow: 2px 2px 0 #d4e1e2;
+          box-shadow: 2px 2px 0 #d4e1e2;
+}
+
+.edit-box .box__question__headline {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-wrap: nowrap;
+      flex-wrap: nowrap;
+  width: 100%;
+  height: 100%;
+  font-size: 0.9rem;
+}
+
+.edit-box .box__question__headline .question-expand,
+.edit-box .box__question__headline .question-remove {
+  cursor: pointer;
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+}
+
+.edit-box .box__question__headline .question-expand.rotate-180 {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
+
+.edit-box .box__question__cn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 40px;
+}
+
+.edit-box .box__question__minimal-content {
+  display: inline-block;
+  width: 100%;
+  padding-right: 1rem;
+  line-height: 2rem;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.edit-box .box__question__content {
+  width: calc(100% + 2px);
+  margin-left: -1px;
+  height: 0px;
+  padding: 0;
+  overflow: hidden;
+  opacity: 0;
+  border: none;
+  outline: none;
+  background: #fff;
+  -webkit-transition: height 0.3s ease, -webkit-transform 0.3s ease-in-out;
+  transition: height 0.3s ease, -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, height 0.3s ease;
+  transition: transform 0.3s ease-in-out, height 0.3s ease, -webkit-transform 0.3s ease-in-out;
+}
+
+.edit-box .box__question__content:hover, .edit-box .box__question__content:focus-within {
+  -webkit-box-shadow: 2px 2px 0 #d4e1e2;
+          box-shadow: 2px 2px 0 #d4e1e2;
+}
+
+.edit-box .box__question .active-question-textarea {
+  height: 100px;
+  opacity: 1;
+  padding: 0.5rem;
+  border: 1px solid #999;
+}
+
+.edit-box .box__bottom {
+  width: 100%;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.edit-box .box__bottom__update, .edit-box .box__bottom__cancel, .edit-box .box__bottom__remove, .edit-box .box__bottom__close {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #000;
+  background: #fff;
+}
+
+.edit-box .box__bottom__update {
+  outline: none;
+  border: none;
+  margin-right: 0.5rem;
+  color: #e3165b;
+}
+
+.edit-box .box__bottom__update:hover {
+  background: #f7ecf0;
+}
+
+.edit-box .box__bottom__close:hover {
+  background: #eee;
+}
+
+.active-edit-booking-request-box {
+  opacity: 1;
+}
+
+.active-edit-booking-request-box .box {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+/*# sourceMappingURL=editBookingRequestBox.css.map */

@@ -2,7 +2,8 @@ import { Link } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import StudentDashboardContent from "./StudentDashboardContent";
 import "../../assets/css/studentDashboard.css"
-
+import { BiNotification } from "react-icons/bi";
+import { MdRequestPage } from "react-icons/md";
 function StudentDashboard() {
 
     return (
@@ -13,7 +14,7 @@ function StudentDashboard() {
                     to="/dashboard/booking-requests"
                     title="Booking requests"
                 >
-                    <i className="material-icons">request_quote</i>
+                    <i><MdRequestPage /></i>
                     <p>Booking requests</p>
                 </Link>
                 <Link
@@ -21,7 +22,7 @@ function StudentDashboard() {
                     to="/dashboard/notifications"
                     title="Notification"
                 >
-                    <i className="material-icons">notifications</i>
+                    <i><BiNotification /></i>
                     <p>Notification</p>
                 </Link>
             </Sidebar>

@@ -21,6 +21,7 @@ import EditSlotBox from "./EditSlotBox";
 import slotStatusList from "../../data/slotStatusList";
 import SlotControlBox from "./SlotControlBox";
 import ViewRequestBox from "./ViewRequestBox";
+import BottomErrorMessage from "../search-page/BottomErrorMessage";
 
 L10n.load({
     'en-US': {
@@ -50,6 +51,7 @@ function SchedulerArea({ slots, refreshCallback }) {
     const [dataSource, setDatasource] = useState([]);
     const [slotControl, setSlotControl] = useState(false);
     const [viewRequest, setViewRequest] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
 
     const meetingUrl = useSelector(state => state.user.meetingUrl);
     const dispatch = useDispatch();
@@ -86,6 +88,10 @@ function SchedulerArea({ slots, refreshCallback }) {
         setCreateSlot(true);
     }
 
+    function handleCloseBottomErrorMessage() {
+        setErrorMessage("");
+    }
+
     function handlePopupOpen(args) {
         args.cancel = true;
         const target = args?.target;
@@ -94,6 +100,12 @@ function SchedulerArea({ slots, refreshCallback }) {
         if (!data) return;
 
         if (target?.classList.contains("e-work-cells")) {
+            const today = new Date();
+            if (data.StartTime < today) {
+                setErrorMessage("Unable to create slots at this time.");
+                return;
+            }
+
             dispatch(newSlot({
                 timeStart: data.StartTime,
                 timeEnd: data.EndTime,
@@ -138,6 +150,7 @@ function SchedulerArea({ slots, refreshCallback }) {
                 <EditSlotBox
                     setEditSlot={setEditSlot}
                     refreshCallback={refreshCallback}
+                    setSlotControl={setSlotControl}
                 />
             }
 
@@ -163,6 +176,12 @@ function SchedulerArea({ slots, refreshCallback }) {
                 </ViewsDirective>
                 <Inject services={[Day, Week, Month]} />
             </ScheduleComponent>
+            {errorMessage &&
+                <BottomErrorMessage
+                    message={errorMessage}
+                    closeCallback={handleCloseBottomErrorMessage}
+                />
+            }
         </div>
     );
 }

@@ -26,6 +26,15 @@ function DashboardContent({ setIsCheckedAuth }) {
         }
     }
 
+    useEffect(() => {
+        const header = document.querySelector(".header");
+        header?.classList.add("white-mode");
+
+        return () => {
+            header?.classList.remove("white-mode");
+        }
+    }, [])
+
     return (
         <div className="dashboard-content root-content">
             {role && role === STUDENT_ROLE &&

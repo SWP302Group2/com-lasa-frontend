@@ -1,3 +1,5 @@
+import { AiOutlineRight } from "react-icons/ai";
+
 function Sidebar({ ...props }) {
 
     function handleListIconOnLCick(event) {
@@ -11,10 +13,10 @@ function Sidebar({ ...props }) {
                 className="sidebar__header"
                 onClick={handleListIconOnLCick}
             >
-                <i className="material-icons">
-                    chevron_right
+                <i>
+                    <AiOutlineRight className="sidebar__header__icon" />
                 </i>
-                <p>Dashboard</p>
+                <p className="sidebar__header__label">Dashboard</p>
             </div>
             {props.children}
         </div>

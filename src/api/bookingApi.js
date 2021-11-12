@@ -97,16 +97,17 @@ const bookingApi = {
             });;
     },
 
-    updateBookingRequest: (onSuccess, onFailure, studentId, bookingId, slotId, title, topicId, questions) => {
+    updateBookingRequest: (onSuccess, onFailure, studentId, bookingInfo) => {
         const apiUrl = BOOKING_REQUEST_API;
         const data = {
             studentId,
-            id: bookingId,
-            slotId,
-            title,
-            topicId,
-            questions
+            id: bookingInfo.id,
+            slotId: bookingInfo.slotId,
+            title: bookingInfo.title,
+            topicId: bookingInfo.topicId,
+            questions: [...bookingInfo.questions]
         }
+
         const params = paramsTools.getParamsWithAccessToken();
         return axiosClient.put(apiUrl, data, params)
             .then(onSuccess)

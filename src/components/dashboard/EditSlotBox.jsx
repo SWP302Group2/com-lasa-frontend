@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from "react-redux";
 import slotApi from "../../api/slotApi";
 import topicApi from "../../api/topicApi";
 import ErrorMessage from "../ErrorMessage";
-import SuccessfulMessage from "../SuccessfulMessage";
+import ActionResultMessage from "../search-page/ActionResultMessage";
 import CreateSlotTopicPicker from "./CreateSlotTopicPicker";
 import Loader from "../Loader";
 import { DateTimePickerComponent } from '@syncfusion/ej2-react-calendars';
 import { AiOutlineClose } from "react-icons/ai";
-import { newSlot, updateInvalidMessagesToSlot, updateTopicsToSlot } from "../../redux/actions/slot";
+import { updateInvalidMessagesToSlot, updateTopicsToSlot } from "../../redux/actions/slot";
 import "../../assets/css/editSlotBox.css";
 import { BOOKING_REQUEST_STATUS_WAITING, SLOT_STATUS_CANCELED, SLOT_STATUS_FINISHED, SLOT_STATUS_WAITING } from "../../utils/constant";
 import EditSlotSelectedTopic from "./EditSlotSelectedTopic";
 
-function EditSlotBox({ setEditSlot, refreshCallback }) {
+function EditSlotBox({ setEditSlot, refreshCallback, setSlotControl }) {
     const [topics, setTopics] = useState([]);
-    const [{ status, message }, setUpdateSlotResult] = useState({ status: null, message: null });
+    const [{ status, message }, setActionSlotResult] = useState({ status: null, message: null });
     const [isLoading, setIsLoading] = useState(false);
     const [isEditing, setIsEditing] = useState(false);
     const [isCanceling, setIsCanceling] = useState(false);
@@ -101,11 +101,11 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
 
     useEffect(callApiGetTopics, []);
 
-    useEffect(callApiEditSlot, [isEditing, slotInfo, user.id, refreshCallback]);
+    useEffect(callApiUpdateSlot, [isEditing, slotInfo, user.id, refreshCallback]);
 
-    useEffect(callApiCancelSlot, [isCanceling, refreshCallback, user.id, slotInfo, setEditSlot]);
+    useEffect(callApiCancelSlot, [isCanceling, refreshCallback, user.id, slotInfo, setEditSlot, setSlotControl]);
 
-    useEffect(callApiRemoveSlot, [isRemoving, refreshCallback, slotInfo, setEditSlot]);
+    useEffect(callApiRemoveSlot, [isRemoving, refreshCallback, slotInfo, setEditSlot, setSlotControl]);
 
 
 
@@ -145,7 +145,7 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
         return () => unMounted = true;
     }
 
-    function callApiEditSlot() {
+    function callApiUpdateSlot() {
         if (!isEditing) return;
         setIsEditing(false);
         setIsLoading(true);
@@ -156,17 +156,14 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                 console.log("Update slots success:");
                 console.log(data);
                 setIsLoading(false);
-
-                if (refreshCallback) refreshCallback(true);
-                setUpdateSlotResult({ status: 1, message: "Update successful." })
+                setActionSlotResult({ status: true, message: "Update successful." })
             }
 
             const onUpdateFailed = (response, status, message) => {
                 console.log("Update slots false:");
                 console.log(response);
                 setIsLoading(false);
-
-                setUpdateSlotResult({ status: 0, message: "Update failed." })
+                setActionSlotResult({ status: false, message: "Update failed." })
             }
 
             slotApi.updateSlot(onUpdateSuccess, onUpdateFailed, user.id, slotInfo.id, slotInfo.selectedTopics);
@@ -185,12 +182,7 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                 console.log("Cancel slot success:");
                 console.log(data);
                 setIsLoading(false);
-
-                refreshCallback();
-                setTimeout(() => {
-                    setEditSlot(false);
-                }, 3000)
-                setUpdateSlotResult({ status: 1, message: "Cancel successful." })
+                setActionSlotResult({ status: true, message: "Cancel successful." })
             }
 
             const onCancelFailure = (response, status, message) => {
@@ -198,7 +190,7 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                 console.log(response);
                 setIsLoading(false);
 
-                setUpdateSlotResult({ status: 0, message: "Cancel failed." })
+                setActionSlotResult({ status: false, message: "Cancel failed." })
             }
 
             slotApi.cancelSlot(onCancelSuccess, onCancelFailure, user.id, slotInfo.id);
@@ -217,12 +209,7 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                 console.log("Remove slot success:");
                 console.log(data);
                 setIsLoading(false);
-
-                refreshCallback();
-                setTimeout(() => {
-                    setEditSlot(false);
-                }, 3000)
-                setUpdateSlotResult({ status: 1, message: "Remove successful." })
+                setActionSlotResult({ status: true, message: "Remove successful." })
             }
 
             const onRemoveFailure = (response, status, message) => {
@@ -230,7 +217,7 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                 console.log(response);
                 setIsLoading(false);
 
-                setUpdateSlotResult({ status: 0, message: "Remove failed." })
+                setActionSlotResult({ status: false, message: "Remove failed." })
             }
 
             slotApi.removeSlot(onRemoveSuccess, onRemoveFailure, slotInfo.id);
@@ -243,9 +230,21 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
         EditBox?.classList.remove("active-edit-slot-box");
 
         setTimeout(() => {
-            dispatch(newSlot());
             if (setEditSlot) setEditSlot(false);
         }, 300);
+    }
+
+    function handleCloseResultMessage() {
+        setActionSlotResult({
+            status: null,
+            message: null
+        });
+
+        setTimeout(() => {
+            setEditSlot(false);
+            if (refreshCallback) refreshCallback();
+            if (setSlotControl) setSlotControl(false);
+        }, 300)
     }
 
     return (
@@ -325,8 +324,13 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                         />
                     }
                 </div>
-                {status === 1 && <SuccessfulMessage message={message} />}
-                {status === 0 && <ErrorMessage message={message} />}
+                {status != null &&
+                    <ActionResultMessage
+                        status={status}
+                        message={message}
+                        closeCallBack={handleCloseResultMessage}
+                    />
+                }
                 {isLoading && <Loader />}
                 <div className="box__bottom">
                     {
@@ -349,7 +353,7 @@ function EditSlotBox({ setEditSlot, refreshCallback }) {
                             type="submit"
                             onClick={handleCancelButtonOnclick}
                         >
-                            Cancle
+                            Cancel slot
                         </p>
                     }
                     {

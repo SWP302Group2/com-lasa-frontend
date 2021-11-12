@@ -7,8 +7,8 @@ import bookingApi from "../../api/bookingApi";
 import BookingRequestLecturerView from "./BookingRequestLecturerView";
 import {
     BOOKING_REQUEST_STATUS_CANCELED,
-     BOOKING_REQUEST_STATUS_DENIED
-    } from "../../utils/constant";
+    BOOKING_REQUEST_STATUS_DENIED
+} from "../../utils/constant";
 
 function ViewRequestBox({ setViewRequest, refreshCallback }) {
 
@@ -25,9 +25,9 @@ function ViewRequestBox({ setViewRequest, refreshCallback }) {
         }, 300)
     }
 
-    function handleViewRequestOnKeyDown(event) {
-        if (event.key !== "Escape") return;
-        handleCloseViewRequest();
+    function invokeRefreshViewRequest() {
+        setBookingRequests(null);
+        refreshCallback();
     }
 
     useEffect(activeViewRequestBox, []);
@@ -54,8 +54,8 @@ function ViewRequestBox({ setViewRequest, refreshCallback }) {
                 console.log(data);
                 setIsLoading(false);
                 const availableBookings = data.filter(booking => {
-                    if(booking.status !== BOOKING_REQUEST_STATUS_DENIED) return false;
-                    if(booking.status === BOOKING_REQUEST_STATUS_CANCELED)  return false;
+                    if (booking.status === BOOKING_REQUEST_STATUS_DENIED) return false;
+                    if (booking.status === BOOKING_REQUEST_STATUS_CANCELED) return false;
                     return true;
                 });
                 setBookingRequests(availableBookings || []);
@@ -75,11 +75,10 @@ function ViewRequestBox({ setViewRequest, refreshCallback }) {
         <div
             tabIndex="0"
             className="view-request-box"
-            onKeyDown={handleViewRequestOnKeyDown}
         >
             <div className="box">
                 <div className="box__header">
-                    <h2 className="box__header__title">View Request</h2>
+                    <h2 className="box__header__title">Requests</h2>
                     <AiOutlineClose
                         className="box__header__close-icon"
                         onClick={handleCloseViewRequest}
@@ -97,6 +96,8 @@ function ViewRequestBox({ setViewRequest, refreshCallback }) {
                             <BookingRequestLecturerView
                                 key={`request__${request.id}`}
                                 bookingRequest={request}
+                                setIsLoading={setIsLoading}
+                                invokeRefresh={invokeRefreshViewRequest}
                             />
                         )
                     }

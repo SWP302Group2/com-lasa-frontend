@@ -6,7 +6,8 @@ import "../../assets/css/createBookingRequestBox.css";
 import { newBookingRequest, updateInvalidMessageToBookingRequest } from "../../redux/actions/booking";
 import dateTools from "../../utils/dateTools";
 import ErrorMessage from "../ErrorMessage";
-import SuccessfulMessage from "../SuccessfulMessage";
+import Loader from "../Loader";
+import ActionResultMessage from "./ActionResultMessage";
 import BookingQuestionsArea from "./BookingQuestionArea";
 import BookingSelectTopic from "./BookingSelectTopic";
 import Question from "./Question";
@@ -15,6 +16,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
     const [questions, setQuestions] = useState([{ content: "" }]);
     const [topicId, setTopicId] = useState(-1);
     const [title, setTitle] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const [{ status, message }, setCreateBookingResult] = useState({ status: null, message: null });
 
     const bookingInfo = useSelector(state => state.booking);
@@ -76,6 +78,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
         const onCreateSuccess = (data) => {
             console.log("create success");
             console.log(data);
+            setIsLoading(false);
 
             setCreateBookingResult({
                 status: true,
@@ -88,15 +91,22 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
         const onCreateFailure = (response, status, message) => {
             console.log("Create fail");
             console.log(response);
+            setIsLoading(false);
+            let errorMessage = "Send request fail."
+            if (response?.data?.errors?.ValidBookingRequest === "BOOKING_REQUEST_DUPLICATED") {
+                errorMessage = "You have sent a request to this slot.";
+            }
+
             setCreateBookingResult({
-                status: true,
-                message: "Send request fail."
+                status: false,
+                message: errorMessage
             })
         }
 
         const createTime = dateTools.getISODatetimeOfNow();
         console.log("Create time");
         console.log(createTime);
+        setIsLoading(true);
         bookingApi.createBooking(onCreateSuccess, onCreateFailure,
             user.id, createTime, bookingInfo.slot.id, topicId, questions, title
         );
@@ -139,15 +149,15 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
         [...textAreas].forEach(item => item.classList.remove("active-question-textarea"));
     }
 
-    function isClickOnBooking(target) {
-        const box = document.querySelector(".search-content .create-booking-request-box .box");
-        return box.contains(target);
-    }
+    // function isClickOnBooking(target) {
+    //     const box = document.querySelector(".search-content .create-booking-request-box .box");
+    //     return box.contains(target);
+    // }
 
-    function handleBookingRequestOnClick(event) {
-        if (isClickOnBooking(event.target)) return;
-        handleCloseBookingRequest();
-    }
+    // function handleBookingRequestOnClick(event) {
+    //     if (isClickOnBooking(event.target)) return;
+    //     handleCloseBookingRequest();
+    // }
 
     function handleChangeQuestionContent(event, index) {
         if (!index && index < 0) return;
@@ -202,11 +212,23 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
     function focusToFirstInput() {
         const bookingRequestBox = document.querySelector(".search-content .create-booking-request-box");
         bookingRequestBox.classList.add("active-create-booking-request-box");
-        const titleInput = bookingRequestBox.querySelector(".box__title input");
+        const titleInput = bookingRequestBox.querySelector(".box__booking-title input");
         titleInput?.focus();
+        console.log(titleInput);
 
         return () => {
             bookingRequestBox.classList.remove("active-create-booking-request-box");
+        }
+    }
+
+
+    function handleCloseResultMessage() {
+        setCreateBookingResult({
+            status: null,
+            message: ""
+        })
+        if (status === true) {
+            setIsStartToBooking(false);
         }
     }
 
@@ -215,7 +237,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
             tabIndex="0"
             className="create-booking-request-box"
             onKeyDown={handleBookingRequestOnKeydown}
-            onClick={handleBookingRequestOnClick}
+        // onClick={handleBookingRequestOnClick}
         >
             <form
                 className="box"
@@ -275,8 +297,13 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
                         }
                     </BookingQuestionsArea>
                 </div>
-                {status === true && <SuccessfulMessage message={message} />}
-                {status === false && <ErrorMessage message={message} />}
+                {status != null &&
+                    <ActionResultMessage
+                        status={status}
+                        message={message}
+                        closeCallBack={handleCloseResultMessage}
+                    />
+                }
                 <div className="box__bottom">
                     <button
                         className="box__bottom__send"
@@ -292,6 +319,7 @@ function CreateBookingRequestBox({ setIsStartToBooking }) {
                         Close
                     </p>
                 </div>
+                {isLoading && <Loader />}
             </form>
         </div>
     );

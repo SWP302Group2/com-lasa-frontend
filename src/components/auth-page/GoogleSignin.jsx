@@ -7,13 +7,16 @@ import { newUserInfo } from "../../redux/actions/user";
 import {
     ACCOUNT_NOT_ENABLE,
     ACCOUNT_NOT_FOUND,
+    ADMIN_ROLE,
     INVALID_EMAIL_DOMAIN,
+    LECTURER_ROLE,
     SIGNIN_ACCOUNT_NOT_ENABLE_CODE,
     SIGNIN_ACCOUNT_NOT_ENABLE_ERROR_MESSAGE,
     SIGNIN_ACCOUNT_NOT_FOUND_CODE,
     SIGNIN_ACCOUNT_NOT_FOUND_ERROR_MESSAGE,
     SIGNIN_INVALID_EMAIL_DOMAIN_CODE,
-    SIGNIN_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE
+    SIGNIN_INVALID_EMAIL_DOMAIN_ERROR_MESSAGE,
+    STUDENT_ROLE
 } from "../../utils/constant";
 import googleTools from "../../utils/googleTools";
 import storageTools from "../../utils/storageTools";
@@ -59,7 +62,17 @@ function GoogleSignin({ setIsLoading }) {
                 ...data.information
             }))
             setIsLoading(false);
-            history.push("/search");
+            if (data.role === STUDENT_ROLE) {
+                history.push("/search");
+            }
+
+            if (data.role === LECTURER_ROLE) {
+                history.push("/dashboard/schedule");
+            }
+
+            if (data.role === ADMIN_ROLE) {
+                history.push("/dashboard");
+            }
         }
 
         function onGetFailure(response, status, message) {
