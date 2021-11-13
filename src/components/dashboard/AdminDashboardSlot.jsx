@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import slotApi from "../../api/slotApi";
+import { addLocation } from "../../redux/actions/history";
 import dateTools from "../../utils/dateTools";
 import PageBar from "./PageBar";
 import TableLoadingEffect from "./TableLoadingEffect";
@@ -9,6 +12,13 @@ function AdminDashboardSlot() {
     const [page, setPage] = useState(0);
     const [slots, setSlots] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     function handleOnClickChangePage(pageIndex) {
         setPage(pageIndex);

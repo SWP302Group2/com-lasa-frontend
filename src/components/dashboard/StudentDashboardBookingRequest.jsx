@@ -2,11 +2,22 @@ import { useEffect, useState } from "react";
 import BookingRequestList from "./BookingRequestList";
 import { BOOKING_REQUEST_STATUS_CANCELED, BOOKING_REQUEST_STATUS_DENIED, BOOKING_REQUEST_STATUS_FINISHED, BOOKING_REQUEST_STATUS_NOTIFIED, BOOKING_REQUEST_STATUS_READY, BOOKING_REQUEST_STATUS_WAITING } from "../../utils/constant";
 import bookingApi from "../../api/bookingApi";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { addLocation } from "../../redux/actions/history";
+
+
 
 function StudentDashboardBookingRequest() {
     const [notifiedBookingRequests, setNotifiedBookingRequests] = useState([]);
     const [isRefresh, setIsRefresh] = useState(true);
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     const userId = useSelector(state => state.user.id)
     useEffect(() => {

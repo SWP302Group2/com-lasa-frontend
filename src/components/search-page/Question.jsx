@@ -1,3 +1,5 @@
+import { MdDelete, MdExpandMore } from "react-icons/md";
+
 function Question({ question, index, changeContentCallBack, removeQuestionCallBack }) {
 
     function handleChangeContent(event) {
@@ -44,20 +46,16 @@ function Question({ question, index, changeContentCallBack, removeQuestionCallBa
                 >
                     Content: {question.content}
                 </div>
-                <i
+                <MdDelete
                     title="Remove question"
-                    className="material-icons question-remove"
+                    className="question-remove"
                     onClick={handleRemoveQuestion}
-                >
-                    remove
-                </i>
+                />
 
-                <i
-                    className="material-icons question-expand"
+                <MdExpandMore
+                    className="question-expand"
                     onClick={handleExpandIconOnClick}
-                >
-                    expand_more
-                </i>
+                />
             </div>
             <textarea
                 className={`box__question__content box__question__content--${index}`}

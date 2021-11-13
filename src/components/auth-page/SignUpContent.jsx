@@ -8,6 +8,7 @@ import StartedWithFPTEmail from "./StartedWithFPTEmail";
 import Verification from "./Verification";
 import { useDispatch } from "react-redux";
 import { newSignUpInfo } from "../../redux/actions/signup";
+import { Link } from "react-router-dom";
 
 function SignUpContent() {
     const signupInfo = useSelector(state => state.signup);
@@ -17,7 +18,7 @@ function SignUpContent() {
 
     useEffect(() => {
         //Init
-        const checkpoints = document.querySelectorAll(".auth-page .sign-up .sign-up__checkpoint");
+        const checkpoints = document.querySelectorAll(".auth-page .sign-up__checkpoint");
 
         //START
         const start = () => {
@@ -70,7 +71,7 @@ function SignUpContent() {
             {position === 4 ? <Verification /> : null}
             <div className="sign-up__signin-link">
                 Already have an account?
-                <a href="/auth/sign-in">Sign in </a>
+                <Link to="/auth/sign-in">Sign in </Link>
             </div>
         </div>
     );

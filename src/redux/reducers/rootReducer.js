@@ -1,5 +1,6 @@
 import { combineReducers } from "redux";
 import bookingRequestReducer from "./bookingRequestReducer";
+import historyReducer from "./historyReducer";
 import searchCriteriaReducer from "./searchCriteriaReducer";
 import signupReducer from "./signupReducer";
 import slotReducer from "./slotReducer";
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     signup: signupReducer,
     search: searchCriteriaReducer,
     booking: bookingRequestReducer,
-    slot: slotReducer
+    slot: slotReducer,
+    history: historyReducer
 });
 
 export default rootReducer;

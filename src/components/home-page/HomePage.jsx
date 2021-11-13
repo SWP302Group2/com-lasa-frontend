@@ -12,6 +12,8 @@ import WelcomeContent from "./WelcomeContent";
 import SearchContent from "../search-page/SearchContent";
 import DashboardContent from "../dashboard/DashboardContent";
 import Footer from "../Footer";
+import { notAuthLocationList } from "../../data/notAuthLocation";
+import ProfileContent from "../profile-page/ProfileContent";
 
 function HomePage() {
   //Use old info before callAPI success
@@ -28,7 +30,6 @@ function HomePage() {
 
   function checkAuthAndGetUserInfo() {
     if (isCheckedAuth === true) return;
-
     setIsCheckedAuth(true);
     processUserAuth();
 
@@ -37,12 +38,10 @@ function HomePage() {
         console.log("Homepage - get userinfo success:");
         console.log(userInfo);
 
-        dispatch(
-          updateUserInfo({
-            ...userInfo.information,
-            role: userInfo.role,
-          })
-        );
+        dispatch(updateUserInfo({
+          ...userInfo.information,
+          role: userInfo.role,
+        }));
       };
 
       const onGetFailure = (response, status, message) => {
@@ -57,9 +56,32 @@ function HomePage() {
           //Backend server is down
           history.push(createNetworkError());
         }
+
+        const location = history.location;
+        if (isInAuthPage(location)) {
+          history.push("/home");
+        }
+
       };
 
+      function isInAuthPage(location) {
+        if (!location) return false;
+        return !notAuthLocationList.find(notAuthLocation => location === notAuthLocation);
+      }
+
       authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
+    }
+  }
+
+  useEffect(setCheckAuthLoop, [history.location]);
+
+  function setCheckAuthLoop() {
+    const timer = setInterval(() => {
+      setIsCheckedAuth(false);
+    }, 5000)
+
+    return () => {
+      clearInterval(timer);
     }
   }
 
@@ -91,6 +113,13 @@ function HomePage() {
         {role && accessToken ? (
           <Route path="/dashboard">
             <DashboardContent setIsCheckedAuth={setIsCheckedAuth} />
+          </Route>
+        ) : (
+          <Redirect to="/auth" />
+        )}
+        {role && accessToken ? (
+          <Route path="/profile">
+            <ProfileContent setIsCheckedAuth={setIsCheckedAuth} />
           </Route>
         ) : (
           <Redirect to="/auth" />

@@ -1,5 +1,4 @@
-import { useLocation } from "react-router";
-import { Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 
 function ErrorPage() {
     const location = useLocation();

@@ -1,7 +1,10 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { addLocation } from "../redux/actions/history";
 
 function Menu({ closeBurger, closeNotification, closeUserInfo }) {
+    const dispatch = useDispatch();
 
     function handleBurgerOnClick(event) {
         closeNotification();
@@ -14,7 +17,7 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
         bugger?.classList.toggle("toggle");
         nav?.classList.toggle("active");
         content?.classList.toggle("hide-content");
-        console.log(content);
+
         navItem?.forEach(handleNavItemAnimation)
     }
 
@@ -28,7 +31,8 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
             `header-menu-navItem-fadein 400ms ease-in forwards ${index / 10 + 0.2}s`;
     }
 
-    function handleLinkOnClick() {
+    function handleLinkOnClick(path) {
+        dispatch(addLocation(path));
         closeBurger();
     }
 
@@ -55,7 +59,7 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
                 <li className="menu__navItem navLink-home">
                     <Link
                         to="/home"
-                        onClick={handleLinkOnClick}
+                        onClick={() => handleLinkOnClick("/home")}
                     >
                         Home
                     </Link>
@@ -63,7 +67,7 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
                 <li className="menu__navItem navLink-search">
                     <Link
                         to="/search"
-                        onClick={handleLinkOnClick}
+                        onClick={() => handleLinkOnClick("/search")}
                     >
                         Search
                     </Link>
@@ -71,7 +75,7 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
                 <li className="menu__navItem navLink-dashboard">
                     <Link
                         to="/dashboard"
-                        onClick={handleLinkOnClick}
+                        onClick={() => handleLinkOnClick("/dashboard")}
                     >
                         Dashboard
                     </Link>
@@ -79,7 +83,7 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
                 <li className="menu__navItem">
                     <Link
                         to="/home"
-                        onClick={handleLinkOnClick}
+                        onClick={() => handleLinkOnClick("/home")}
                     >
                         More
                         <i className="material-icons">expand_more</i>

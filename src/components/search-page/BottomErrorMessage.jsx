@@ -7,7 +7,7 @@ function BottomErrorMessage({ message, closeCallback }) {
 
     function handleCloseMessage() {
         let mounted = true;
-        let countTimeToClose = setTimeout(closeMessage, 1000 * 10);
+        let countTimeToClose = setTimeout(closeMessage, 1000 * 3);
 
         function closeMessage() {
             if (!mounted) return;

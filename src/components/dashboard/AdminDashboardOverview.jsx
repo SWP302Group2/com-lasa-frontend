@@ -1,7 +1,16 @@
 import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { addLocation } from "../../redux/actions/history";
 
 function AdminDashboardOverview() {
 
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     useEffect(() => {
         const overviewDashboard = document.querySelector(".admin-dashboard .sidebar__link-overview");
@@ -16,7 +25,9 @@ function AdminDashboardOverview() {
     }, [])
 
     return (
-        <div className="admin-dashboard__content admin-dashboard__overview"></div>
+        <div className="admin-dashboard__content admin-dashboard__overview">
+
+        </div>
     );
 }
 

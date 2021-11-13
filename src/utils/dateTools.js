@@ -49,7 +49,7 @@ const dateTools = {
                 value: date.getMonth()
             },
             date: {
-                name: dayOfWeek[date.getDay()],
+                name: dayOfWeek[date.getDay() -1],
                 value: date.getDate()
             },
             hours: {
@@ -65,7 +65,7 @@ const dateTools = {
                 value: date.getHours() <= 12 ? "am" : "pm"
             },
             getDateString: () => {
-                return `${dayOfWeek[date.getDay()]}, ${date.getDate()}/${date.getMonth() + 1}`;
+                return `${dayOfWeek[date.getDay() -1]}, ${date.getDate()}/${date.getMonth() + 1}`;
             },
             getTimeString: () => {
                 return `${date.getHours() > 12 ? date.getHours() - 12 : date.getHours()}:${(date.getMinutes() < 10 ? "0" : "") + date.getMinutes()} ${date.getHours() <= 12 ? "am" : "pm"}`;

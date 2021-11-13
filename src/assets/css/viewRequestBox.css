@@ -6,7 +6,6 @@
   left: 0;
   z-index: 10;
   opacity: 0;
-  overflow: auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -29,12 +28,11 @@
   -webkit-box-direction: normal;
       -ms-flex-flow: column nowrap;
           flex-flow: column nowrap;
-  overflow-y: visible;
   width: calc(100% - 2rem);
   max-width: 600px;
   max-height: 700px;
+  border-radius: 6px;
   padding: 1rem;
-  overflow: auto;
   -webkit-transform: translateY(-100vh);
           transform: translateY(-100vh);
   -webkit-transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
@@ -60,7 +58,7 @@
 }
 
 .view-request-box .box__header__title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 500;
   text-transform: capitalize;
   margin-right: 1rem;
@@ -99,6 +97,7 @@
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
 
 .view-request-box .box__request__actions {
@@ -123,6 +122,8 @@
 
 .view-request-box .box__request__avatar img {
   border-radius: 50%;
+  width: 48px;
+  height: 48px;
 }
 
 .view-request-box .box__request__name {
@@ -144,17 +145,26 @@
           justify-content: center;
   width: 70px;
   height: 2rem;
+  border-radius: 3px;
   cursor: pointer;
 }
 
 .view-request-box .box__request__accept {
   color: #fff;
-  background: #333;
+  background: #0d5da7;
+}
+
+.view-request-box .box__request__accept:hover {
+  background: #1380e6;
 }
 
 .view-request-box .box__request__deny {
   color: #333;
   background: #eee;
+}
+
+.view-request-box .box__request__deny:hover {
+  background: #ddd;
 }
 
 .view-request-box .box__request__more {
@@ -173,6 +183,10 @@
   border-radius: 50%;
   font-size: 1.5rem;
   cursor: pointer;
+  -webkit-transition: -webkit-transform 300ms ease-in-out;
+  transition: -webkit-transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out;
+  transition: transform 300ms ease-in-out, -webkit-transform 300ms ease-in-out;
 }
 
 .view-request-box .box__request__more:hover {

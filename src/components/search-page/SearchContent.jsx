@@ -23,6 +23,8 @@ import SearchContentBody from "./SearchContentBody";
 import SearchContentSearchNav from "./SearchContentSearchNav";
 import SortFilter from "./SortFilter";
 import OrderFilter from "./OrderFilter";
+import { useHistory } from "react-router-dom";
+import { addLocation } from "../../redux/actions/history";
 
 
 const numberSlotEachPage = 12;
@@ -38,6 +40,12 @@ function SearchContent({ setIsCheckedAuth }) {
 
     const searchCriteria = useSelector(state => state.search);
     const dispatch = useDispatch();
+
+    const history = useHistory();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     useEffect(checkAuthentication, [setIsCheckedAuth]);
     useEffect(displayTitleAndActiveLinkForSearchPage, []);

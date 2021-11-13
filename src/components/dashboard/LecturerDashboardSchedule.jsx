@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import SchedulerArea from "./SchedulerArea";
 import slotApi from "../../api/slotApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
+import { IoMdRefresh } from "react-icons/io";
+import { useHistory } from "react-router-dom";
+import { addLocation } from "../../redux/actions/history";
+
 
 function LecturerDashboardSchedule() {
     const [slots, setSlots] = useState([]);
@@ -10,6 +14,13 @@ function LecturerDashboardSchedule() {
     const userId = useSelector(state => state.user.id);
     const [reFreshSlots, setRefreshSlots] = useState(false);
 
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     const changeTitleAndActiveScheduleLink = useCallback(() => {
         const slotDashboard = document.querySelector(".lecturer-dashboard .sidebar__link-schedule");
@@ -66,12 +77,18 @@ function LecturerDashboardSchedule() {
 
     function handleCallRefreshSlots() {
         setRefreshSlots(true);
+        setIsLoading(true);
     }
 
     return (
         <div className="lecturer-dashboard__content lecturer-dashboard__schedule">
             <div className="lecturer-dashboard__content__headline">
                 <h2 className="lecturer-dashboard__content__headline__title">Schedule</h2>
+                <IoMdRefresh
+                    className="refresh"
+                    title="Refresh"
+                    onClick={handleCallRefreshSlots}
+                />
             </div>
             {slots &&
                 <SchedulerArea

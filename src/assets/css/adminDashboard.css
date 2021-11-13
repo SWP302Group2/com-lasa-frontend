@@ -2,20 +2,17 @@
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
   width: 100%;
-  height: -webkit-fit-content;
-  height: -moz-fit-content;
-  height: fit-content;
-  min-height: calc(100vh - 4rem);
+  height: calc(100vh - 4rem);
 }
 
 #home-page .dashboard-content .admin-dashboard__content {
-  background: #fff;
+  display: block;
+  background: #f9fbfd;
   padding: 1rem;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 #home-page .dashboard-content .admin-dashboard__content__headline {
@@ -25,110 +22,65 @@
   padding-left: 1rem;
 }
 
-#home-page .dashboard-content .admin-dashboard__content .table-loader {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  background: rgba(255, 255, 255, 0.2);
-}
-
-#home-page .dashboard-content .admin-dashboard__content .table-loader .circle {
-  border-radius: 50%;
-  border-top: 0.2rem solid #33a7f5;
-  border-right: 0.2rem solid #33a7f5;
-  border-bottom: 0.2rem solid #33a7f5;
-  border-left: 0.2rem solid transparent;
-  width: 2rem;
-  height: 2rem;
-  -webkit-animation: loader-spin 1s linear infinite;
-          animation: loader-spin 1s linear infinite;
-}
-
 #home-page .dashboard-content .admin-dashboard__content .list {
-  position: relative;
-  display: block;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: column nowrap;
-          flex-flow: column nowrap;
-  min-height: 200px;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  width: 100%;
   max-width: 100%;
-  font-family: "Quicksand";
-  border-bottom: 8px solid #199fa8;
+  min-height: 200px;
+  font-family: "Montserrat";
 }
 
 #home-page .dashboard-content .admin-dashboard__content .list__headline {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 1rem;
-  background: #199fa8;
-  -webkit-box-shadow: -5px -5px 10px #f4f7fa, 5px 5px 10px #e9eef7;
-          box-shadow: -5px -5px 10px #f4f7fa, 5px 5px 10px #e9eef7;
+  width: 100%;
+  border-radius: 3px 3px 0 0;
+  height: 3rem;
+  border: 1px solid transparent;
+  background: #3a8ad4;
 }
 
 #home-page .dashboard-content .admin-dashboard__content .list__headline__th {
-  color: #fff;
   display: inline-block;
-  padding: 0.5rem;
-  margin: 0 0.5rem;
+  overflow-x: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #fff;
+  line-height: 3rem;
+  font-size: 1rem;
   font-weight: 900;
+  padding: 0 0.5rem;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .list__headline__th:not(:first-child) {
+  border-left: 1px solid #ddd;
 }
 
 #home-page .dashboard-content .admin-dashboard__content .list__row {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: horizontal;
-  -webkit-box-direction: normal;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  padding: 0 1rem;
-  -webkit-animation: dashboard-table-item-fadein 400ms forwards 100ms;
-          animation: dashboard-table-item-fadein 400ms forwards 100ms;
-  border-bottom: 1px solid #e7e7e7;
+  width: 100%;
+  outline: none;
+  border: 1px solid #eee;
+  background: #fff;
+  -webkit-animation: dashboard-table-item-fade-in 300ms ease-in-out;
+          animation: dashboard-table-item-fade-in 300ms ease-in-out;
 }
 
-#home-page .dashboard-content .admin-dashboard__content .list__row:hover {
-  -webkit-box-shadow: -1px -1px 2px #d5e9e9, 1px 1px 2px #cfdbe0;
-          box-shadow: -1px -1px 2px #d5e9e9, 1px 1px 2px #cfdbe0;
+#home-page .dashboard-content .admin-dashboard__content .list__row:hover, #home-page .dashboard-content .admin-dashboard__content .list__row:focus {
+  border: 1px solid #ddd;
 }
 
 #home-page .dashboard-content .admin-dashboard__content .list__row__td {
-  display: block;
-  padding: 0.5rem;
-  margin: 0 0.5rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  -webkit-hyphens: auto;
-      -ms-hyphens: auto;
-          hyphens: auto;
-  overflow-wrap: break-word;
+  font-size: 0.9rem;
+  padding: 1rem 0.5rem;
+  font-weight: 500;
+  display: inline-block;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
-#home-page .dashboard-content .admin-dashboard__content .list__row:last-child {
-  margin-bottom: 0;
+#home-page .dashboard-content .admin-dashboard__content .list__row__td:not(:first-child) {
+  border-left: 1px solid #ddd;
 }
 
 #home-page .dashboard-content .admin-dashboard__content .bottom-page-bar {
@@ -138,8 +90,12 @@
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   overflow-x: scroll;
   margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 #home-page .dashboard-content .admin-dashboard__content .bottom-page-bar .page {
@@ -178,279 +134,59 @@
   background: #3a8ad4;
 }
 
-#home-page .dashboard-content .admin-dashboard__slot .list__headline__th:nth-child(1) {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__headline__th:nth-child(2) {
-  width: 90px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__headline__th:nth-child(3) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__headline__th:nth-child(4), #home-page .dashboard-content .admin-dashboard__slot .list__headline__th:nth-child(5) {
-  width: 120px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__headline__th:nth-child(6) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__row .slot-id {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__row .lecturer-id {
-  width: 90px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__row .lecturer-name {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__row .time-start,
-#home-page .dashboard-content .admin-dashboard__slot .list__row .time-end {
-  width: 120px;
-}
-
-#home-page .dashboard-content .admin-dashboard__slot .list__row .status {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(1) {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(2) {
-  width: 80px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(3) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(4) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(5) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(6) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(7) {
-  width: 120px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__headline__th:nth-child(8) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .id {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .slot-id {
-  width: 80px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .student-id {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .student-name {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .title {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .topic {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .question {
-  width: 120px;
-  word-break: break-all;
-}
-
-#home-page .dashboard-content .admin-dashboard__booking .list__row .status {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(1) {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(2) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(3) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(4) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(5) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(6) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(7) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(8) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(9) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__headline__th:nth-child(10) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .id {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .name {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .email {
-  word-break: break-all;
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .mssv {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .phone {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .gender {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .birthday {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .address {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .avatarUrl {
-  word-break: break-all;
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__student .list__row .status {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(1) {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(2) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(3) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(4) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(5) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(6) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(7) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(8) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(9) {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__headline__th:nth-child(10) {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .id {
-  width: 50px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .name {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .email {
-  width: 150px;
-  word-break: break-all;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .phone {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .gender {
-  width: 100px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .birthday {
-  width: 150px;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .address {
-  width: 150px;
-  word-break: break-all;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .avatarUrl {
-  width: 150px;
-  word-break: break-all;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .meetingUrl {
-  width: 150px;
-  word-break: break-all;
-}
-
-#home-page .dashboard-content .admin-dashboard__lecturer .list__row .status {
-  width: 100px;
-}
-
-@-webkit-keyframes dashboard-table-item-fadein {
+#home-page .dashboard-content .admin-dashboard__student .list__headline {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 20% 25% 15% 15% 15%;
+      grid-template-columns: 10% 20% 25% 15% 15% 15%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#home-page .dashboard-content .admin-dashboard__student .list__row {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 20% 25% 15% 15% 15%;
+      grid-template-columns: 10% 20% 25% 15% 15% 15%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#home-page .dashboard-content .admin-dashboard__student .list__row__td.manage {
+  color: #6c7074;
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+#home-page .dashboard-content .admin-dashboard__lecturer .list__headline {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 20% 25% 15% 15%;
+      grid-template-columns: 10% 20% 25% 15% 15%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#home-page .dashboard-content .admin-dashboard__lecturer .list__row {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 10% 20% 25% 15% 15%;
+      grid-template-columns: 10% 20% 25% 15% 15%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#home-page .dashboard-content .admin-dashboard__lecturer .list__row__td.manage {
+  color: #6c7074;
+  padding-left: 1rem;
+  cursor: pointer;
+}
+
+@-webkit-keyframes dashboard-table-item-fade-in {
   from {
     -webkit-transform: translateX(50%);
             transform: translateX(50%);
@@ -463,7 +199,7 @@
   }
 }
 
-@keyframes dashboard-table-item-fadein {
+@keyframes dashboard-table-item-fade-in {
   from {
     -webkit-transform: translateX(50%);
             transform: translateX(50%);

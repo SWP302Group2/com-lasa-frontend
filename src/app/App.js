@@ -33,6 +33,10 @@ function App() {
           component={HomePage}
         />
         <Route
+          path="/profile"
+          component={HomePage}
+        />
+        <Route
           path="/auth"
           component={AuthPage}
         />

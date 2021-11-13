@@ -454,6 +454,10 @@
   background: #e0e1e6;
 }
 
+.white-mode {
+  background: #211e27;
+}
+
 @media all and (max-width: 1023.5px) {
   .header {
     min-width: 300px;

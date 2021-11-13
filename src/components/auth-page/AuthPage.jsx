@@ -16,8 +16,9 @@ function AuthPage() {
     const history = useHistory();
     const [isLoading, setIsLoading] = useState(false);
 
-    useEffect(() => {
-        //Start
+    useEffect(callApiCheckAuthentication, [history, dispatch])
+
+    function callApiCheckAuthentication() {
         checkAuth();
 
         function checkAuth() {
@@ -49,8 +50,7 @@ function AuthPage() {
                 history.push(createNetworkError());
             }
         }
-    }, [history, dispatch])
-
+    }
 
     return (
         <section className="auth-page">

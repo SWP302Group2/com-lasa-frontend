@@ -6,7 +6,8 @@ $blue: #1cd3f8;
   width: 100%;
   min-height: 100vh;
   transition: transform 400ms ease-in-out;
-  background-image: url("../svg/ShinyOverlay3.svg");
+  background: url("../svg/ShinyOverlay3.svg") no-repeat center center;
+  background-size: cover;
 
   &__slider-container {
     position: relative;
@@ -15,7 +16,7 @@ $blue: #1cd3f8;
     flex-flow: column;
 
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
 
     .mp4-container {
       position: absolute;
@@ -27,6 +28,7 @@ $blue: #1cd3f8;
 
       min-width: 100vw;
       min-height: 100vh;
+      height: 100%;
       overflow: hidden;
       text-align: center;
 
@@ -36,6 +38,7 @@ $blue: #1cd3f8;
         left: 0;
         top: 0;
         z-index: 0;
+        opacity: 1;
         width: 100%;
         height: 100%;
       }
@@ -62,15 +65,14 @@ $blue: #1cd3f8;
       z-index: 1;
 
       display: flex;
-      justify-content: center;
       flex-direction: column;
       margin: 0 auto;
-
+      margin-top: 8rem;
+      margin-bottom: 2rem;
       width: 100%;
       height: 100%;
       padding: 0 5vw;
       border-radius: 16px;
-      font-size: 5%;
 
       &__header {
         opacity: 0;

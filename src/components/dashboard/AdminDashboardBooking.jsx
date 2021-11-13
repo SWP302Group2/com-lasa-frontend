@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import bookingApi from "../../api/bookingApi";
+import { addLocation } from "../../redux/actions/history";
 import PageBar from "./PageBar";
 import TableLoadingEffect from "./TableLoadingEffect";
 
@@ -8,6 +11,15 @@ function AdminDashboardBooking() {
     const [page, setPage] = useState(0);
     const [bookingRequests, setBookingRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
+
 
     function handleOnClickChangePage(pageIndex) {
         setPage(pageIndex);

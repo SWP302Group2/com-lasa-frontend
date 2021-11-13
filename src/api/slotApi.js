@@ -276,6 +276,46 @@ const slotApi = {
                 const message = response?.data?.message || response?.message;
                 return onFailure(response, status, message);
             });
+    },
+
+    denyARequest: (onSuccess, onFailure, userId, bookingId, slotId) => {
+        const url = GET_SLOT_API + `/${slotId}/booking-requests`;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        const data = {
+            bookingId,
+            lecturerId: userId,
+            slotId,
+            status: -1
+        }
+
+        return axiosClient.put(url, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
+    },
+
+    acceptARequest: (onSuccess, onFailure, userId, bookingId, slotId) => {
+        const url = GET_SLOT_API + `/${slotId}/booking-requests`;
+        const params = paramsTools.getParamsWithAccessToken();
+
+        const data = {
+            bookingId,
+            lecturerId: userId,
+            slotId,
+            status: 2
+        }
+
+        return axiosClient.put(url, data, params)
+            .then(onSuccess)
+            .catch(response => {
+                const status = response?.data?.status || response?.status;
+                const message = response?.data?.message || response?.message;
+                return onFailure(response, status, message);
+            });
     }
 }
 

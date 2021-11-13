@@ -36,4 +36,9 @@ body {
   background: transparent;
   font-family: "Segoe UI", "Poppins", "Montserrat", Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.rotate-180 {
+  -webkit-transform: rotate(-180deg);
+          transform: rotate(-180deg);
+}
 /*# sourceMappingURL=App.css.map */

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import React from "react";
 import storageTools from "../utils/storageTools";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Header() {
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -91,9 +92,9 @@ function Header() {
             />
           </React.Fragment>
         ) : (
-          <a className="sign-in" href="/auth/sign-in">
+          <Link className="sign-in" to="/auth/sign-in">
             <p className="sign-in__text">Sign in</p>
-          </a>
+          </Link>
         )}
       </div>
     </header>
