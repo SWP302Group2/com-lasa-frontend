@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { AiTwotoneSetting } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import studentApi from "../../api/studentApi";
+import { addLocation } from "../../redux/actions/history";
 import Loader from "../Loader";
 import AdminManageStudentBox from "./AdminManageStudentBox";
 import PageBar from "./PageBar";
@@ -12,6 +15,13 @@ function AdminDashboardStudent() {
     const [isLoading, setIsLoading] = useState(false);
     const [isManaging, setIsManaging] = useState(false);
     const [managedStudent, setManagedStudent] = useState(null);
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     function handleOnClickChangePage(pageIndex) {
         setPage(pageIndex);

@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../assets/css/signInContent.css";
 import { AUTH_PAGE_SIGN_IN_TITLE } from "../../utils/constant";
 import LoadingEffect from "../LoadingEffect";
-import { useDispatch } from "react-redux";
 import GoogleSignin from "./GoogleSignin";
 import LocalSignin from "./LocalSignin";
 
 function SignInContent() {
-    const history = useHistory();
-    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
@@ -30,14 +27,14 @@ function SignInContent() {
             option?.removeEventListener("click", handleOptionClickEvent);
             setIsLoading(false);
         }
-    }, [history, setIsLoading, dispatch]);
+    }, [setIsLoading]);
 
     return (
         <div className="sign-in">
             <GoogleSignin setIsLoading={setIsLoading} />
             <div className="sign-in__signup-link">
                 Do not sign up yet?
-                <a href="/auth/sign-up">Sign up </a>
+                <Link to="/auth/sign-up">Sign up </Link>
             </div>
             <p className="sign-in__option">
                 More

@@ -54,6 +54,7 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
 
 
     useEffect(() => {
+        let mounted = true;
         if (bookingRequests && bookingRequests.length > 0) {
             callGetBookingRequestSlotInfo();
             setIsLoading(true);
@@ -65,6 +66,7 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
                 console.log(data);
                 setIsLoading(false);
 
+                if (!mounted) return;
                 let preparingBookingRequests = [...bookingRequests];
                 if (additionalBks && additionalBks.length > 0) {
                     preparingBookingRequests = preparingBookingRequests.concat(additionalBks);
@@ -90,6 +92,8 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
                 console.log("Get slot info of booking request failed:");
                 console.log(response);
                 setIsLoading(false);
+
+                if (!mounted) return;
                 setPreparedBookingRequests(null);
             }
 
@@ -99,12 +103,13 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
             }
             slotApi.getSlotsBySlotIdWithoutPaging(onGetSuccess, onGetFailure, slotIds);
         }
+
+        return () => {
+            mounted = false;
+        }
     }, [bookingRequests, additionalBks])
 
     useEffect(() => {
-        console.log("CHECKPOINT " + status);
-        console.log(bookingRequests);
-        console.log(preparedBookingRequests);
         const list = document.querySelectorAll(".student-dashboard__content .booking-request");
         list.forEach(addAnimationToBookingRequest);
 

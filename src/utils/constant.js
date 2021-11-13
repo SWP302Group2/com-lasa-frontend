@@ -52,6 +52,7 @@ export const AUTH_PAGE_SIGN_IN_TITLE = "Sign in to Lasa";
 export const HOME_PAGE_TITLE = "Home - Lecturer Appoinment Schedule";
 export const SEARCH_PAGE_TITLE = "Search the right lecturer for you";
 export const DASHBOARD_PAGE_TITLE = "Dashboard";
+export const PROFILE_PAGE_TITLE = "Your profile";
 
 //View point
 export const DAY_VIEW = 1;

@@ -1,9 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
 import SchedulerArea from "./SchedulerArea";
 import slotApi from "../../api/slotApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../Loader";
 import { IoMdRefresh } from "react-icons/io";
+import { useHistory } from "react-router-dom";
+import { addLocation } from "../../redux/actions/history";
+
 
 function LecturerDashboardSchedule() {
     const [slots, setSlots] = useState([]);
@@ -11,6 +14,13 @@ function LecturerDashboardSchedule() {
     const userId = useSelector(state => state.user.id);
     const [reFreshSlots, setRefreshSlots] = useState(false);
 
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     const changeTitleAndActiveScheduleLink = useCallback(() => {
         const slotDashboard = document.querySelector(".lecturer-dashboard .sidebar__link-schedule");

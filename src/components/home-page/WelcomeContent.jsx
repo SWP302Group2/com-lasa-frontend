@@ -1,14 +1,24 @@
-import { useEffect, Suspense } from "react";
+import { useEffect, Suspense, useState } from "react";
 import "../../assets/css/welcomeContent.css";
 import { Link } from "react-router-dom";
-// import intro from "../../assets/svg/intro.webm";
-// import loop from "../../assets/svg/loop.mp4";
+import intro from "../../assets/svg/intro.webm";
+import loop from "../../assets/svg/loop.mp4";
 import CircularFont from "../../assets/images/CircularStd-Medium.otf";
 import LoadingEffect from "../LoadingEffect";
-
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { addLocation } from "../../redux/actions/history";
 
 
 function WelcomeContent({ setIsCheckedAuth }) {
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  useEffect(function saveLocation() {
+    dispatch(addLocation(history?.location?.pathname));
+  }, [dispatch, history]);
+
   useEffect(checkAuthentication, [setIsCheckedAuth]);
   useEffect(applyPageTitleAndActiveNavLink, []);
   useEffect(enableSliderShow, []);
@@ -30,8 +40,14 @@ function WelcomeContent({ setIsCheckedAuth }) {
     const video = document.querySelector(".intro");
     const loop = document.querySelector(".loop");
     loop?.classList.add("hide-loop");
+    setIsLoading(true);
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
     if (video) {
       video.oncanplaythrough = () => {
+        setIsLoading(false);
         video.muted = true;
         video.play();
         setTimeout(() => {
@@ -44,18 +60,21 @@ function WelcomeContent({ setIsCheckedAuth }) {
         }, 5800);
       };
     }
+
+    return () => clearTimeout(timer);
   }
 
   return (
     <div className="welcome-content root-content">
+      {isLoading && <LoadingEffect />}
       <div className="welcome-content__slider-container">
         <Suspense fallback={LoadingEffect}>
           <div className="mp4-container">
             <video className="intro">
-              <source src="https://useplink.com//assets/images/frontpage/intro.webm" type="video/mp4" />
+              <source src={intro} type="video/mp4" />
             </video>
             <video className="loop" >
-              <source src="https://useplink.com/assets/images/frontpage/loop.webm" type="video/mp4" />
+              <source src={loop} type="video/mp4" />
             </video>
           </div>
         </Suspense>

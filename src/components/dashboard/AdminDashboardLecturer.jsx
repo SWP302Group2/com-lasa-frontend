@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import { AiTwotoneSetting } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import lecturerApi from "../../api/lecturerApi";
+import { addLocation } from "../../redux/actions/history";
 import PageBar from "./PageBar";
 import TableLoadingEffect from "./TableLoadingEffect";
 
@@ -9,6 +12,13 @@ function AdminDashboardLecturer() {
     const [page, setPage] = useState(0);
     const [lecturers, setLecturers] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+
+    const history = useHistory();
+    const dispatch = useDispatch();
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     function handleOnClickChangePage(pageIndex) {
         setPage(pageIndex);

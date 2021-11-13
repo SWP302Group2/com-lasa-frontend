@@ -3,7 +3,7 @@ import "../assets/css/loadingEffect.css";
 function LoadingEffect() {
     return (
         <div className="loader">
-            <div class="loader__icon">
+            <div className="loader__icon">
                 <div></div>
                 <div></div>
                 <div></div>

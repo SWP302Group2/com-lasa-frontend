@@ -12,13 +12,13 @@ import WelcomeContent from "./WelcomeContent";
 import SearchContent from "../search-page/SearchContent";
 import DashboardContent from "../dashboard/DashboardContent";
 import Footer from "../Footer";
-import LoadingEffect from "../LoadingEffect";
+import { notAuthLocationList } from "../../data/notAuthLocation";
+import ProfileContent from "../profile-page/ProfileContent";
 
 function HomePage() {
   //Use old info before callAPI success
   const [isCheckedAuth, setIsCheckedAuth] = useState(true);
   const [accessToken, setAccessToken] = useState(storageTools.getAccessToken());
-  const [isLoading, setIsLoading] = useState(false);
 
   const role = useSelector((state) => state.user.role);
   const dispatch = useDispatch();
@@ -30,7 +30,6 @@ function HomePage() {
 
   function checkAuthAndGetUserInfo() {
     if (isCheckedAuth === true) return;
-    setIsLoading(true);
     setIsCheckedAuth(true);
     processUserAuth();
 
@@ -38,20 +37,16 @@ function HomePage() {
       const onGetSuccess = (userInfo) => {
         console.log("Homepage - get userinfo success:");
         console.log(userInfo);
-        setIsLoading(false);
 
-        dispatch(
-          updateUserInfo({
-            ...userInfo.information,
-            role: userInfo.role,
-          })
-        );
+        dispatch(updateUserInfo({
+          ...userInfo.information,
+          role: userInfo.role,
+        }));
       };
 
       const onGetFailure = (response, status, message) => {
         console.log("Homepage get userinfo failed: ");
         console.log(response);
-        setIsLoading(false);
 
         storageTools.removeAccessToken();
         dispatch(newUserInfo());
@@ -61,9 +56,32 @@ function HomePage() {
           //Backend server is down
           history.push(createNetworkError());
         }
+
+        const location = history.location;
+        if (isInAuthPage(location)) {
+          history.push("/home");
+        }
+
       };
 
+      function isInAuthPage(location) {
+        if (!location) return false;
+        return !notAuthLocationList.find(notAuthLocation => location === notAuthLocation);
+      }
+
       authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
+    }
+  }
+
+  useEffect(setCheckAuthLoop, [history.location]);
+
+  function setCheckAuthLoop() {
+    const timer = setInterval(() => {
+      setIsCheckedAuth(false);
+    }, 5000)
+
+    return () => {
+      clearInterval(timer);
     }
   }
 
@@ -99,8 +117,14 @@ function HomePage() {
         ) : (
           <Redirect to="/auth" />
         )}
+        {role && accessToken ? (
+          <Route path="/profile">
+            <ProfileContent setIsCheckedAuth={setIsCheckedAuth} />
+          </Route>
+        ) : (
+          <Redirect to="/auth" />
+        )}
       </Switch>
-      {isLoading && <LoadingEffect />}
     </section>
   );
 }

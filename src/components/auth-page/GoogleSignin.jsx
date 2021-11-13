@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import authApi from "../../api/authApi";
+import { notAuthLocationList } from "../../data/notAuthLocation";
 import { createNetworkError, createUnknownError } from "../../redux/actions/error";
 import { newUserInfo } from "../../redux/actions/user";
 import {
@@ -23,9 +24,11 @@ import storageTools from "../../utils/storageTools";
 import ErrorMessage from "../ErrorMessage";
 
 function GoogleSignin({ setIsLoading }) {
+    const [googleSignInErrorMessage, setGoogleSignInErrorMessage] = useState("");
+
+    const reduxHistory = useSelector(state => Object.values(state.history));
     const history = useHistory();
     const dispatch = useDispatch();
-    const [googleSignInErrorMessage, setGoogleSignInErrorMessage] = useState("");
 
     useEffect(() => {
         googleTools.insetGoogleApiScript("google-signin", onSignIn, onFailure);
@@ -62,6 +65,24 @@ function GoogleSignin({ setIsLoading }) {
                 ...data.information
             }))
             setIsLoading(false);
+
+            console.log("reduxHistory");
+            console.log(reduxHistory);
+            if (Array.isArray(reduxHistory) && reduxHistory.length > 0) {
+                const previousPath = reduxHistory[reduxHistory.length - 1];
+                console.log("Previous path");
+                console.log(previousPath);
+                if (isInAuthPage(previousPath)) {
+                    if (previousPath.includes("/dashboard")) {
+                        history.push("/dashboard");
+                        return;
+                    }
+
+                    history.push(previousPath);
+                    return;
+                }
+            }
+
             if (data.role === STUDENT_ROLE) {
                 history.push("/search");
             }
@@ -73,6 +94,11 @@ function GoogleSignin({ setIsLoading }) {
             if (data.role === ADMIN_ROLE) {
                 history.push("/dashboard");
             }
+        }
+
+        function isInAuthPage(location) {
+            if (!location) return false;
+            return !notAuthLocationList.find(notAuthLocation => notAuthLocation === location);
         }
 
         function onGetFailure(response, status, message) {
@@ -106,7 +132,7 @@ function GoogleSignin({ setIsLoading }) {
             }
             history.push(createUnknownError(message));
         }
-    }, [dispatch, history, setIsLoading, setGoogleSignInErrorMessage])
+    }, [dispatch, history, setIsLoading, setGoogleSignInErrorMessage, reduxHistory])
 
     return (
         <React.Fragment>
