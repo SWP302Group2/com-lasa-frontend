@@ -4,8 +4,7 @@ import SignInContent from "./SignInContent";
 import SignUpContent from "./SignUpContent";
 import "../../assets/css/authPage.css";
 import Logo from "../Logo";
-import { useState, useEffect } from "react";
-import LoadingEffect from "../LoadingEffect.jsx";
+import { useEffect } from "react";
 import { createNetworkError } from "../../redux/actions/error";
 import storageTools from "../../utils/storageTools";
 import { newUserInfo } from "../../redux/actions/user";
@@ -14,15 +13,14 @@ import { useDispatch } from "react-redux";
 function AuthPage() {
     const dispatch = useDispatch();
     const history = useHistory();
-    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(callApiCheckAuthentication, [history, dispatch])
 
     function callApiCheckAuthentication() {
+        let mounted = true;
         checkAuth();
 
         function checkAuth() {
-            setIsLoading(true);
             authApi.getCurrentUserInfo(
                 handleAutoSigninSuccess,
                 handleAutoSigninFailed
@@ -34,21 +32,25 @@ function AuthPage() {
                 role: data.role,
                 ...data.information
             }))
-            setIsLoading(false);
             history.push("/home");
         }
 
         function handleAutoSigninFailed(response, status, message) {
             console.log("Auto signin has failed:")
-            console.log(message)
+            console.log(response)
 
             storageTools.removeAccessToken();
-            dispatch(newUserInfo());
-            setIsLoading(false);
+            if (mounted) {
+                dispatch(newUserInfo());
+            }
 
             if (status >= 500 && message === "Network Error") {
                 history.push(createNetworkError());
             }
+        }
+
+        return () => {
+            mounted = false;
         }
     }
 
@@ -68,7 +70,6 @@ function AuthPage() {
                         component={SignUpContent} />
                 </Switch>
             </div>
-            {isLoading ? <LoadingEffect /> : null}
         </section>
     );
 }

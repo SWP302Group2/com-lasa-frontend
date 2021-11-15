@@ -3,6 +3,7 @@ export const DEFAULT_AVATAR_URL = "https://i.postimg.cc/ZKJv2rf0/default-user-un
 export const ACCESS_TOKEN_NOT_EXIST = "ACCESS_TOKEN_NOT_EXIST";
 export const RANDOM_AVATAR_API = "https://i.pravatar.cc/300";
 export const RANDOM_IMG_API = "https://random.imagecdn.app/100/100";
+export const RANDOM_BACKGROUND_IMG_API = "https://source.unsplash.com/user/erondu/";
 
 export const AWS_ACCESS_KEY_ID = "AKIA2UVUUNPTZMZMEB67";
 export const AWS_SECRET_KEY = "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";
@@ -49,7 +50,7 @@ export const SLOT_STATUS_FINISHED = 4;
 //Page title
 export const AUTH_PAGE_SIGN_UP_TITLE = "Sign up to Lasa";
 export const AUTH_PAGE_SIGN_IN_TITLE = "Sign in to Lasa";
-export const HOME_PAGE_TITLE = "Home - Lecturer Appoinment Schedule";
+export const HOME_PAGE_TITLE = "Home - Lecturer Appointment Schedule";
 export const SEARCH_PAGE_TITLE = "Search the right lecturer for you";
 export const DASHBOARD_PAGE_TITLE = "Dashboard";
 export const PROFILE_PAGE_TITLE = "Your profile";
@@ -81,6 +82,7 @@ export const SIGN_UP_LECTURER_GOOGLE_API = "/authentication/google/lecturer";
 export const GET_USER_INFO_API = "/home/information";
 export const CHECK_VALID_ACCESS_TOKEN = "/home/information";
 
+export const ADMIN_API_URL = "/admins"
 export const GET_MAJOR_API = "/majors";
 export const GET_MAJOR_WITH_TOPICS_API = "/majors/topics";
 export const GET_TOPIC_API = "/topics";

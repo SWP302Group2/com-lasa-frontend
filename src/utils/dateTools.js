@@ -72,6 +72,9 @@ const dateTools = {
             },
             getOriginalDate: () => {
                 return localDateTime;
+            },
+            getNormalDateString: () => {
+                return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
             }
         }
     }

@@ -1,34 +1,18 @@
-import { GET_LECTURER_API } from "../utils/constant";
+import { ADMIN_API_URL } from "../utils/constant";
 import dateTools from "../utils/dateTools";
 import axiosClient from "./axiosClient";
 import { paramsTools } from "./paramsTools";
 
-const lecturerApi = {
-  getLecturersWithPaging: (pageIndex, onSuccess, onFailure) => {
-    const paging = `paging=true`;
-    const pageNum = `page=${pageIndex || 0}`;
-
-    const apiUrl = GET_LECTURER_API + `?${paging}&${pageNum}`;
+const adminApi = {
+  updatePassword: (onSuccess, onFailure, id, newPassword) => {
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
-
+    const data = {
+      id,
+      password: newPassword,
+    };
     return axiosClient
-      .get(apiUrl, params)
-      .then(onSuccess)
-      .catch((response) => {
-        const status = response?.data?.status || response?.status;
-        const message = response?.data?.message || response?.message;
-        return onFailure(response, status, message);
-      });
-  },
-
-  getLecturersWithoutPaging: (onSuccess, onFailure) => {
-    const noPaging = `paging=false`;
-
-    const apiUrl = GET_LECTURER_API + `?${noPaging}`;
-    const params = paramsTools.getParamsWithAccessToken();
-
-    return axiosClient
-      .get(apiUrl, params)
+      .patch(apiUrl, data, params)
       .then(onSuccess)
       .catch((response) => {
         const status = response?.data?.status || response?.status;
@@ -38,7 +22,7 @@ const lecturerApi = {
   },
 
   updateName: (onSuccess, onFailure, id, newName) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -55,7 +39,7 @@ const lecturerApi = {
   },
 
   updateAddress: (onSuccess, onFailure, id, newAddress) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -72,7 +56,7 @@ const lecturerApi = {
   },
 
   updateAvatarUrl: (onSuccess, onFailure, id, newAvatarUrl) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -89,7 +73,7 @@ const lecturerApi = {
   },
 
   updateBirthday: (onSuccess, onFailure, id, newBirthday) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -108,7 +92,7 @@ const lecturerApi = {
   },
 
   updateGender: (onSuccess, onFailure, id, newGender) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -125,7 +109,7 @@ const lecturerApi = {
   },
 
   updateMajor: (onSuccess, onFailure, id, newMajor) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -141,25 +125,8 @@ const lecturerApi = {
       });
   },
 
-  updateMeetingUrl: (onSuccess, onFailure, id, newMeetingUrl) => {
-    const apiUrl = GET_LECTURER_API;
-    const params = paramsTools.getParamsWithAccessToken();
-    const data = {
-      id,
-      meetingUrl: newMeetingUrl,
-    };
-    return axiosClient
-      .patch(apiUrl, data, params)
-      .then(onSuccess)
-      .catch((response) => {
-        const status = response?.data?.status || response?.status;
-        const message = response?.data?.message || response?.message;
-        return onFailure(response, status, message);
-      });
-  },
-
   updatePhone: (onSuccess, onFailure, id, newPhone) => {
-    const apiUrl = GET_LECTURER_API;
+    const apiUrl = ADMIN_API_URL;
     const params = paramsTools.getParamsWithAccessToken();
     const data = {
       id,
@@ -174,6 +141,23 @@ const lecturerApi = {
         return onFailure(response, status, message);
       });
   },
+
+  updateEmail: (onSuccess, onFailure, id, newEmail) => {
+    const apiUrl = ADMIN_API_URL;
+    const params = paramsTools.getParamsWithAccessToken();
+    const data = {
+      id,
+      email: newEmail,
+    };
+    return axiosClient
+      .patch(apiUrl, data, params)
+      .then(onSuccess)
+      .catch((response) => {
+        const status = response?.data?.status || response?.status;
+        const message = response?.data?.message || response?.message;
+        return onFailure(response, status, message);
+      });
+  },
 };
 
-export default lecturerApi;
+export default adminApi;

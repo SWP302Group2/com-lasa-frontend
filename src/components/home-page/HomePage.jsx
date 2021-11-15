@@ -78,7 +78,7 @@ function HomePage() {
   function setCheckAuthLoop() {
     const timer = setInterval(() => {
       setIsCheckedAuth(false);
-    }, 5000)
+    }, 30000)
 
     return () => {
       clearInterval(timer);
@@ -120,6 +120,7 @@ function HomePage() {
         {role && accessToken ? (
           <Route path="/profile">
             <ProfileContent setIsCheckedAuth={setIsCheckedAuth} />
+            <Footer />
           </Route>
         ) : (
           <Redirect to="/auth" />

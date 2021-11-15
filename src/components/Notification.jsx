@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import NotificationItem from "./NotificationItem";
 
 function Notification({ closeBurger, closeNotification, closeUserInfo }) {
@@ -53,7 +54,7 @@ function Notification({ closeBurger, closeNotification, closeUserInfo }) {
             <div className="notification__list">
                 <div className="notification__headline">
                     <h4>Notifications</h4>
-                    <a href="/home">See all</a>
+                    <Link to="/dashboard/notifications">See all</Link>
                 </div>
                 {list.map((item, index) => {
                     return <NotificationItem {...item} key={"noti_" + index} />
