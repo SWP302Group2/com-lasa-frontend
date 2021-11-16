@@ -78,7 +78,7 @@ function HomePage() {
   function setCheckAuthLoop() {
     const timer = setInterval(() => {
       setIsCheckedAuth(false);
-    }, 30000)
+    }, 10 * 1000)
 
     return () => {
       clearInterval(timer);

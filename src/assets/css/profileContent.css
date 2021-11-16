@@ -168,6 +168,7 @@
   display: grid;
   -ms-grid-columns: 100px 1fr 40px;
       grid-template-columns: 100px 1fr 40px;
+  grid-column-gap: 1rem;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;

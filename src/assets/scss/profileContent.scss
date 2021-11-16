@@ -134,6 +134,7 @@
           overflow: hidden;
           display: grid;
           grid-template-columns: 100px 1fr 40px;
+          grid-column-gap: 1rem;
           align-items: center;
           width: 100%;
           transition: height 0.4s ease-in-out, opacity 0.4s ease-in-out;

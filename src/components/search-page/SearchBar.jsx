@@ -13,7 +13,7 @@ function SearchBar({ lecturers, topics, invokeSearch }) {
 
     function handleSearchBarOnChange(event) {
         dispatch(updateSearchBarValueToSearchCriteria(
-            event.target.value || ""
+            event.target?.value || ""
         ));
         const matchedLecturers = analysisMatchedLecturer();
         dispatch(updateLecturersToSearchCriteria(
@@ -28,13 +28,13 @@ function SearchBar({ lecturers, topics, invokeSearch }) {
         invokeSearch(true);
         scrollToSearchContent();
         const matchedLecturers = analysisMatchedLecturer();
-        const matchedtopics = analysisMatchedTopics();
+        const matchedTopics = analysisMatchedTopics();
 
         dispatch(updateLecturersToSearchCriteria(
             matchedLecturers?.length > 0 ? matchedLecturers : null
         ));
         dispatch(updateTopicsToSearchCriteria(
-            matchedtopics?.length > 0 ? matchedtopics : []
+            matchedTopics?.length > 0 ? matchedTopics : []
         ));
     }
 
@@ -56,17 +56,31 @@ function SearchBar({ lecturers, topics, invokeSearch }) {
     }
 
     function analysisMatchedTopics() {
-        const searchBarValue = searchCriteria.searchBarValue;
+        const searchBarValue = searchCriteria.searchBarValue?.trim();
         if (searchBarValue.length < 2) return;
         if (!Array.isArray(topics) || topics.length === 0) return;
+
+        let words = searchBarValue.split(/\s+/);
+        words = [...words].filter(word => word?.length >= 2);
 
         const result = [...topics].filter(topic => {
             if (topic.majorId.toLowerCase().includes(searchBarValue.toLowerCase())) return true;
             if (searchBarValue.toLowerCase().includes(topic.majorId.toLowerCase())) return true;
+            if (words?.length > 0) {
+                if (words.find(word => topic.majorId.toLowerCase().includes(word.toLowerCase()))) return true;
+                if (words.find(word => word.toLowerCase().includes(topic.majorId.toLowerCase()))) return true;
+            }
+
 
             if (searchBarValue.length < 3) return false;
             if (topic.courseId.toLowerCase().includes(searchBarValue.toLowerCase())) return true;
             if (searchBarValue.toLowerCase().includes(topic.courseId.toLowerCase())) return true;
+
+            words = [...words].filter(word => word?.length >= 3);
+            if (words?.length > 0) {
+                if (words.find(word => topic.courseId.toLowerCase().includes(word.toLowerCase()))) return true;
+                if (words.find(word => word.toLowerCase().includes(topic.courseId.toLowerCase()))) return true;
+            }
             return false;
         });
 

@@ -47,7 +47,7 @@ function OptionalInfo({ setPosition, setMoreInfoStep }) {
                 </div>
 
             </div>
-        </React.Fragment >
+        </React.Fragment>
     );
 }
 

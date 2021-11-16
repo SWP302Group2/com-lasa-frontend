@@ -53,6 +53,11 @@ export const SLOT_STATUS_READY = 2;
 export const SLOT_STATUS_NOTIFIED = 3;
 export const SLOT_STATUS_FINISHED = 4;
 
+//User account status
+export const USER_STATUS_INACTIVE = 0;
+export const USER_STATUS_ACTIVE = 1;
+export const USER_STATUS_BANNED = -1;
+
 //Page title
 export const AUTH_PAGE_SIGN_UP_TITLE = "Sign up to Lasa";
 export const AUTH_PAGE_SIGN_IN_TITLE = "Sign in to Lasa";

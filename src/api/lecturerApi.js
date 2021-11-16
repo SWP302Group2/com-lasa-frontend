@@ -4,7 +4,7 @@ import axiosClient from "./axiosClient";
 import { paramsTools } from "./paramsTools";
 
 const lecturerApi = {
-  getLecturersWithPaging: (pageIndex, onSuccess, onFailure) => {
+  getLecturersWithPaging: (onSuccess, onFailure, pageIndex) => {
     const paging = `paging=true`;
     const pageNum = `page=${pageIndex || 0}`;
 
@@ -164,6 +164,23 @@ const lecturerApi = {
     const data = {
       id,
       phone: newPhone,
+    };
+    return axiosClient
+      .patch(apiUrl, data, params)
+      .then(onSuccess)
+      .catch((response) => {
+        const status = response?.data?.status || response?.status;
+        const message = response?.data?.message || response?.message;
+        return onFailure(response, status, message);
+      });
+  },
+
+  updateStatus: (onSuccess, onFailure, id, newStatus) => {
+    const apiUrl = GET_LECTURER_API;
+    const params = paramsTools.getParamsWithAccessToken();
+    const data = {
+      id,
+      status: newStatus,
     };
     return axiosClient
       .patch(apiUrl, data, params)

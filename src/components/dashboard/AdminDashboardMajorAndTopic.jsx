@@ -1,105 +1,115 @@
-// import { useEffect, useState } from "react";
-// import majorApi from "../../api/majorApi";
-// import PageBar from "./PageBar";
-// import TableLoadingEffect from "./TableLoadingEffect";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import bookingApi from "../../api/bookingApi";
+import { addLocation } from "../../redux/actions/history";
+import PageBar from "./PageBar";
+import TableLoadingEffect from "./TableLoadingEffect";
 
 function AdminDashboardMajorAndTopic() {
-    //     const [totalPages, setTotalPages] = useState(1);
-    //     const [page, setPage] = useState(0);
-    //     const [majorsWithTopics, setMajorsWithTopics] = useState([]);
-    //     const [isLoading, setIsLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(1);
+    const [page, setPage] = useState(0);
+    const [bookingRequests, setBookingRequests] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
-    //     function handleOnClickChangePage(pageIndex) {
-    //         setPage(pageIndex);
-    //     }
 
-    //     useEffect(() => {
-    //         const bookingDashboard = document.querySelector(".admin-dashboard .sidebar__link-major-topic");
-    //         const start = () => {
-    //             bookingDashboard?.classList.add("active-dashboard-content");
-    //             callGetMajorsWithTopics();
-    //         }
-    //         start();
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    //         const end = () => {
-    //             bookingDashboard?.classList.remove("active-dashboard-content");
-    //         }
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
-    //         function callGetMajorsWithTopics() {
-    //             const onGetSuccess = (data) => {
-    //                 console.log("Dashboard get major-topic success:");
-    //                 console.log(data);
 
-    //                 setIsLoading(false);
-    //                 if (data.number !== page) return;
+    function handleOnClickChangePage(pageIndex) {
+        setPage(pageIndex);
+    }
 
-    //                 setMajorsWithTopics(data.content);
-    //                 setTotalPages(data.totalPages);
-    //             }
+    useEffect(() => {
+        const bookingDashboard = document.querySelector(".admin-dashboard .sidebar__link-booking");
+        const start = () => {
+            bookingDashboard?.classList.add("active-dashboard-content");
+            callGetBookingRequest();
+        }
+        start();
 
-    //             const onGetFailure = (response, status, message) => {
-    //                 console.log("Dashboard get major-topic failed:");
-    //                 console.log(response);
+        const end = () => {
+            bookingDashboard?.classList.remove("active-dashboard-content");
+        }
 
-    //                 setMajorsWithTopics(data.content);
-    //                 setIsLoading(false);
-    //             }
+        function callGetBookingRequest() {
+            const onGetSuccess = (data) => {
+                console.log("Dashboard get booing success:");
+                console.log(data);
 
-    //             setIsLoading(true);
-    //             majorApi.getMajorsWithTopicsWithPaging(page, onGetSuccess, onGetFailure);
-    //         }
+                setIsLoading(false);
+                if (data.number !== page) return;
 
-    //         return end;
-    //     }, [page])
-    //     return (
-    //         <div className="admin-dashboard__content admin-dashboard__major-topic">
-    //             <h3 className="admin-dashboard__content__headline">
-    //                 Majors And Topics
-    //             </h3>
+                setBookingRequests(data.content);
+                setTotalPages(data.totalPages);
+            }
 
-    //             <div className="list">
-    //                 <div className="list__headline">
-    //                     <div className="list__headline__th">Id</div>
-    //                     <div className="list__headline__th">Slot Id</div>
-    //                     <div className="list__headline__th">Owner Id</div>
-    //                     <div className="list__headline__th">Owner Name</div>
-    //                     <div className="list__headline__th">Title</div>
-    //                     <div className="list__headline__th">Topic</div>
-    //                     <div className="list__headline__th">Questions</div>
-    //                     <div className="list__headline__th">Status</div>
-    //                 </div>
-    //                 {majorsWithTopics && majorsWithTopics.length > 0 && majorsWithTopics.map(majorWithTopics =>
-    //                     <div
-    //                         className="list__row"
-    //                         key={`slot_${major.id}`}
-    //                     >
-    //                         <div className="list__row__td id">{major.id}</div>
-    //                         <div className="list__row__td slot-id">{major.slotId}</div>
-    //                         <div className="list__row__td student-id">{major.student?.id}</div>
-    //                         <div className="list__row__td student-name">{major.student?.name}</div>
-    //                         <div className="list__row__td title">{major.title}</div>
-    //                         <div className="list__row__td topic">{major.topic?.courseId}</div>
-    //                         <div className="list__row__td question">View question</div>
-    //                         <div className="list__row__td status">
-    //                             {major.status === 1 && "Waiting"}
-    //                             {major.status === 2 && "Accepted"}
-    //                             {major.status === 0 && "Cancled"}
-    //                             {major.status === -1 && "Denied"}
-    //                         </div>
+            const onGetFailure = (response, status, message) => {
+                console.log("Dashboard get booking failed:");
+                console.log(response);
+                setBookingRequests(null);
+                setIsLoading(false);
+            }
 
-    //                     </div>
-    //                 )}
-    //                 {isLoading ? <TableLoadingEffect /> : null}
-    //             </div>
-    //             {totalPages && totalPages > 0 &&
-    //                 <PageBar
-    //                     currentPage={page}
-    //                     totalPages={totalPages}
-    //                     callBack={handleOnClickChangePage}
-    //                 />
-    //             }
-    //         </div>
-    //     );
+            setIsLoading(true);
+            bookingApi.getBookingsWithPaging(page, onGetSuccess, onGetFailure);
+        }
+
+        return end;
+    }, [page])
+    return (
+        <div className="admin-dashboard__content admin-dashboard__booking">
+            <h3 className="admin-dashboard__content__headline">
+                Booking Request Management
+            </h3>
+            <div className="list">
+                <div className="list__headline">
+                    <div className="list__headline__th">Id</div>
+                    <div className="list__headline__th">Slot Id</div>
+                    <div className="list__headline__th">Owner Id</div>
+                    <div className="list__headline__th">Owner Name</div>
+                    <div className="list__headline__th">Title</div>
+                    <div className="list__headline__th">Topic</div>
+                    <div className="list__headline__th">Questions</div>
+                    <div className="list__headline__th">Status</div>
+                </div>
+                {bookingRequests && bookingRequests.length > 0 && bookingRequests.map(bookingRequest =>
+                    <div
+                        className="list__row"
+                        key={`slot_${bookingRequest.id}`}
+                    >
+                        <div className="list__row__td id">{bookingRequest.id}</div>
+                        <div className="list__row__td slot-id">{bookingRequest.slotId}</div>
+                        <div className="list__row__td student-id">{bookingRequest.student?.id}</div>
+                        <div className="list__row__td student-name">{bookingRequest.student?.name}</div>
+                        <div className="list__row__td title">{bookingRequest.title}</div>
+                        <div className="list__row__td topic">{bookingRequest.topic?.courseId}</div>
+                        <div className="list__row__td question">View question</div>
+                        <div className="list__row__td status">
+                            {bookingRequest.status === 2 && "Accepted"}
+                            {bookingRequest.status === 1 && "Waiting"}
+                            {bookingRequest.status === 0 && "Cancled"}
+                            {bookingRequest.status === -1 && "Denied"}
+                        </div>
+
+                    </div>
+                )}
+                {isLoading ? <TableLoadingEffect /> : null}
+            </div>
+            {totalPages && totalPages > 0 &&
+                <PageBar
+                    currentPage={page}
+                    totalPages={totalPages}
+                    callBack={handleOnClickChangePage}
+                />
+            }
+        </div>
+    );
 }
 
 export default AdminDashboardMajorAndTopic;

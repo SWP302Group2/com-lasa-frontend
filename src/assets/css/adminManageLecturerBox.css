@@ -1,4 +1,4 @@
-.admin-manage-student-box {
+.admin-manage-lecturer-box {
   position: fixed;
   right: 0;
   bottom: 0;
@@ -21,7 +21,7 @@
   transition: opacity 0.4s ease-in-out;
 }
 
-.admin-manage-student-box .box {
+.admin-manage-lecturer-box .box {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -45,7 +45,7 @@
   background: #fff;
 }
 
-.admin-manage-student-box .box__header {
+.admin-manage-lecturer-box .box__header {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -60,25 +60,25 @@
   margin-bottom: 1rem;
 }
 
-.admin-manage-student-box .box__header__title {
+.admin-manage-lecturer-box .box__header__title {
   font-size: 1.2rem;
   font-weight: 500;
   text-transform: capitalize;
   margin-right: 1rem;
 }
 
-.admin-manage-student-box .box__header__close-icon {
+.admin-manage-lecturer-box .box__header__close-icon {
   padding: 0.5rem;
   border-radius: 50%;
   font-size: 2rem;
   cursor: pointer;
 }
 
-.admin-manage-student-box .box__header__close-icon:hover {
+.admin-manage-lecturer-box .box__header__close-icon:hover {
   background: #ddd;
 }
 
-.admin-manage-student-box .box__content {
+.admin-manage-lecturer-box .box__content {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -91,14 +91,14 @@
   background: #fff;
 }
 
-.admin-manage-student-box .box__title {
+.admin-manage-lecturer-box .box__title {
   width: 100px;
   margin-bottom: 0.5rem;
   color: #444;
   font-size: 0.9rem;
 }
 
-.admin-manage-student-box .box__radio {
+.admin-manage-lecturer-box .box__radio {
   display: inline-block;
   -webkit-box-align: center;
       -ms-flex-align: center;
@@ -108,12 +108,12 @@
   margin-bottom: 0.25rem;
 }
 
-.admin-manage-student-box .box__radio input {
+.admin-manage-lecturer-box .box__radio input {
   position: absolute;
   visibility: hidden;
 }
 
-.admin-manage-student-box .box__radio label {
+.admin-manage-lecturer-box .box__radio label {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -126,7 +126,7 @@
   transition: all 0.25s linear;
 }
 
-.admin-manage-student-box .box__radio .outer-circle {
+.admin-manage-lecturer-box .box__radio .outer-circle {
   position: relative;
   display: inline-block;
   width: 1.25rem;
@@ -139,7 +139,7 @@
   cursor: pointer;
 }
 
-.admin-manage-student-box .box__radio .outer-circle::before {
+.admin-manage-lecturer-box .box__radio .outer-circle::before {
   content: "";
   position: absolute;
   top: 3px;
@@ -153,43 +153,43 @@
   transition: background-color 0.25s linear;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-active + label .outer-circle {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-active + label .outer-circle {
   border-color: #00cc88;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-active:checked + label .outer-circle {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-active:checked + label .outer-circle {
   border: 3px solid #009966;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-active:checked + label .outer-circle::before {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-active:checked + label .outer-circle::before {
   background: #009966;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-banned + label .outer-circle {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-banned + label .outer-circle {
   border-color: #f35771;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-banned:checked + label .outer-circle {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-banned:checked + label .outer-circle {
   border: 3px solid #f02749;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-banned:checked + label .outer-circle::before {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-banned:checked + label .outer-circle::before {
   background: #f02749;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-inactive + label .outer-circle {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-inactive + label .outer-circle {
   border-color: #5c1674;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-inactive:checked + label .outer-circle {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-inactive:checked + label .outer-circle {
   border: 3px solid #3a0e49;
 }
 
-.admin-manage-student-box .box__radio #box-radio-circle-inactive:checked + label .outer-circle::before {
+.admin-manage-lecturer-box .box__radio #box-radio-circle-inactive:checked + label .outer-circle::before {
   background: #3a0e49;
 }
 
-.admin-manage-student-box .box__status {
+.admin-manage-lecturer-box .box__status {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -200,7 +200,7 @@
   margin-bottom: 1rem;
 }
 
-.admin-manage-student-box .box__bottom {
+.admin-manage-lecturer-box .box__bottom {
   width: 100%;
   height: 2rem;
   display: -webkit-box;
@@ -214,7 +214,7 @@
           justify-content: flex-end;
 }
 
-.admin-manage-student-box .box__bottom__apply, .admin-manage-student-box .box__bottom__close {
+.admin-manage-lecturer-box .box__bottom__apply, .admin-manage-lecturer-box .box__bottom__close {
   font-size: 0.9rem;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
@@ -224,34 +224,34 @@
   background: #fff;
 }
 
-.admin-manage-student-box .box__bottom__apply {
+.admin-manage-lecturer-box .box__bottom__apply {
   outline: none;
   border: none;
   margin-right: 0.5rem;
   color: #e3165b;
 }
 
-.admin-manage-student-box .box__bottom__apply:hover {
+.admin-manage-lecturer-box .box__bottom__apply:hover {
   background: #f7ecf0;
 }
 
-.admin-manage-student-box .box__bottom .disabled-apply {
+.admin-manage-lecturer-box .box__bottom .disabled-apply {
   color: #777;
   cursor: initial;
   background: transparent;
 }
 
-.admin-manage-student-box .box__bottom__close:hover {
+.admin-manage-lecturer-box .box__bottom__close:hover {
   background: #eee;
 }
 
-.active-admin-manage-student-box {
+.active-admin-manage-lecturer-box {
   opacity: 1;
 }
 
-.active-admin-manage-student-box .box {
+.active-admin-manage-lecturer-box .box {
   -webkit-transform: scale(1);
           transform: scale(1);
   opacity: 1;
 }
-/*# sourceMappingURL=adminManageStudentBox.css.map */
+/*# sourceMappingURL=adminManageLecturerBox.css.map */

@@ -1,22 +1,22 @@
 import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import studentApi from "../../api/studentApi";
-import "../../assets/css/adminManageStudentBox.css"
+import lecturerApi from "../../api/lecturerApi";
+import "../../assets/css/adminManageLecturerBox.css"
 import ErrorMessage from "../ErrorMessage";
 import Loader from "../Loader";
 import SuccessfulMessage from "../SuccessfulMessage";
 import UserStatusRadio from "./UserStatusRadio";
 
-function AdminManageStudentBox({ setIsManaging, setManagedStudent, student, refresh }) {
-    const [newStatus, setNewStatus] = useState(student.status);
+function AdminManageLecturerBox({ setIsManaging, setManagedLecturer, lecturer, refresh }) {
+    const [newStatus, setNewStatus] = useState(lecturer.status);
     const [isUpdatingStatus, setIsUpdatingStatus] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
 
     function handleCloseBox() {
-        const createBox = document.querySelector(".admin-manage-student-box");
-        createBox?.classList.remove("active-admin-manage-student-box");
+        const createBox = document.querySelector(".admin-manage-lecturer-box");
+        createBox?.classList.remove("active-admin-manage-lecturer-box");
 
         setTimeout(() => {
             if (setIsManaging) setIsManaging(false);
@@ -24,31 +24,31 @@ function AdminManageStudentBox({ setIsManaging, setManagedStudent, student, refr
     }
 
     function invokeUpdate() {
-        if (student.status !== newStatus) {
+        if (lecturer.status !== newStatus) {
             setIsUpdatingStatus(true);
         }
     }
 
     useEffect(activeBox, []);
     function activeBox() {
-        const manageBox = document.querySelector(".admin-manage-student-box");
-        manageBox?.classList.add("active-admin-manage-student-box");
+        const manageBox = document.querySelector(".admin-manage-lecturer-box");
+        manageBox?.classList.add("active-admin-manage-lecturer-box");
         manageBox?.focus();
         return () => {
-            manageBox?.classList.remove("active-admin-manage-student-box");
+            manageBox?.classList.remove("active-admin-manage-lecturer-box");
         }
     }
 
     useEffect(function listenApplyButton() {
-        const applyButton = document.querySelector(".admin-manage-student-box .box__bottom__apply");
-        if (student.status === newStatus) {
+        const applyButton = document.querySelector(".admin-manage-lecturer-box .box__bottom__apply");
+        if (lecturer.status === newStatus) {
             applyButton?.classList.add("disabled-apply");
         }
-        if (student.status !== newStatus) {
+        if (lecturer.status !== newStatus) {
             applyButton?.classList.remove("disabled-apply");
         }
 
-    }, [student.status, newStatus])
+    }, [lecturer.status, newStatus])
 
     useEffect(function callApiUpdateStatus() {
         if (!isUpdatingStatus) return;
@@ -58,29 +58,29 @@ function AdminManageStudentBox({ setIsManaging, setManagedStudent, student, refr
 
         function updateStatus() {
             const onUpdateSuccess = (data) => {
-                console.log("Admin updates student status successful:");
+                console.log("Admin updates lecturer status successful:");
                 console.log(data);
                 setIsLoading(false);
                 if (refresh) refresh();
-                if (setManagedStudent) {
-                    setManagedStudent({ ...data });
+                if (setManagedLecturer) {
+                    setManagedLecturer({ ...data });
                 }
                 setSuccessMessage("Updated successful.");
             }
 
             const onUpdateFailure = (response, status, message) => {
-                console.error("Admin updates student status failed:");
+                console.error("Admin updates lecturer status failed:");
                 console.error(response);
                 setIsLoading(false);
                 setErrorMessage("Something went wrong, status is not updated. Please try again.");
             }
 
-            studentApi.updateStatus(onUpdateSuccess, onUpdateFailure, student.id, newStatus);
+            lecturerApi.updateStatus(onUpdateSuccess, onUpdateFailure, lecturer.id, newStatus);
         }
-    }, [newStatus, isUpdatingStatus, student.id, refresh, setManagedStudent]);
+    }, [newStatus, isUpdatingStatus, lecturer.id, refresh, setManagedLecturer]);
 
     return (
-        <div className="admin-manage-student-box">
+        <div className="admin-manage-lecturer-box">
             <div className="box">
                 <div className="box__header">
                     <h2 className="box__header__title">Account setting</h2>
@@ -91,7 +91,7 @@ function AdminManageStudentBox({ setIsManaging, setManagedStudent, student, refr
                 </div>
                 <div className="box__content">
                     <UserStatusRadio
-                        status={student.status}
+                        status={lecturer.status}
                         newStatus={newStatus}
                         setNewStatus={setNewStatus}
                     />
@@ -113,11 +113,11 @@ function AdminManageStudentBox({ setIsManaging, setManagedStudent, student, refr
                     >
                         Close
                     </p>
+                    <div>{isLoading && <Loader />}</div>
                 </div>
-                {isLoading && <Loader />}
             </div>
         </div>
     );
 }
 
-export default AdminManageStudentBox;
+export default AdminManageLecturerBox;
