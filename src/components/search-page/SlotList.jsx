@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import SlotItem from "./SlotItem";
+import "../../assets/css/slotList.css";
 
 function SlotList({ matchedSlots, openCreateBookingRequest }) {
     const [sameDateSlotsList, setSameDateSlotsList] = useState({});

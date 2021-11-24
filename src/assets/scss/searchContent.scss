@@ -190,7 +190,7 @@
 
           transition: all 300ms ease;
           background: #fff;
-          box-shadow: -3px 3px 6px #d3dbdd, 3px 3px 6px #d5dde0;
+          box-shadow: 5px 5px 0px #d5dde0;
 
           &__item {
             width: 100%;
@@ -224,14 +224,15 @@
 
             .prompt {
               position: absolute;
-              top: 3rem;
-              width: 100%;
-              max-height: 150px;
-
+              top: 2.8rem;
+              z-index: 1;
               overflow: auto;
-              display: block;
+              max-height: 200px;
+              width: 100%;
+              border-radius: 0 0 3px 3px;
+
+              transition: all 300ms ease;
               background: #fff;
-              border: 1px solid #c4c4c4;
               box-shadow: 5px 5px 0px #d5dde0;
 
               &__topic {
@@ -411,208 +412,6 @@
         .active-page:hover {
           color: #fff;
           background: #3a8ad4;
-        }
-      }
-
-      .slot-list {
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-row-gap: 2rem;
-
-        &__date {
-          display: flex;
-          flex-flow: column;
-          width: 100%;
-          max-width: 1260px;
-          margin: 0 auto;
-
-          &__time {
-            border-radius: 3px;
-            padding: 0.5rem 1rem;
-            margin-bottom: 1rem;
-            background: #ffffff;
-
-            letter-spacing: 0.07rem;
-            line-height: 2rem;
-            font-size: 1rem;
-            font-weight: 600;
-
-            cursor: default;
-            color: #0c032b;
-            box-shadow: -2px -2px 5px #e1e7ec, 2px 2px 5px #cad3df;
-          }
-
-          &__items {
-            width: 100%;
-            display: grid;
-            justify-content: center;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
-            grid-row-gap: 2rem;
-            grid-column-gap: 2rem;
-          }
-        }
-      }
-
-      .slot {
-        display: flex;
-        flex-flow: column nowrap;
-        overflow: hidden;
-
-        width: 100%;
-        border-radius: 12px;
-
-        opacity: 0;
-        background: #fff;
-        transition: box-shadow 300ms ease-in-out, transform 300ms ease-in-out;
-        box-shadow: 4px 4px 0 #b8c1ca;
-
-        &__image-area {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          width: 100%;
-          filter: sepia(10%);
-          background-position-x: 0px;
-          background: url("../svg/Meteor2.svg") no-repeat right center;
-          transition: transform 300ms ease-in-out,
-            background-position 300ms ease-in-out;
-
-          &:hover img,
-          &:active img {
-            transform: scale(1.1);
-          }
-
-          img {
-            position: relative;
-            bottom: -50%;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            transition: transform 300ms ease-in-out;
-            border: 1px solid #fff;
-
-            &:hover,
-            &:active {
-              transform: scale(1.1);
-            }
-          }
-        }
-
-        &:hover .slot__image-area,
-        &__image-area:hover,
-        &__image-area:active {
-          background-position-x: -500px;
-        }
-
-        &__info-area {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          flex-flow: row wrap;
-          width: 100%;
-          flex-grow: 1;
-          padding: 1rem 1.1rem;
-          border-radius: 0 0 6px 6px;
-        }
-
-        &__name {
-          display: inline-block;
-          width: 100%;
-          margin-top: 40px;
-
-          text-align: center;
-          font-weight: 600;
-        }
-
-        &__datetime {
-          width: 100%;
-          margin-top: 1rem;
-
-          font-size: 0.9rem;
-          padding: 0.5em 0rem;
-          font-weight: 500;
-
-          &__date {
-            width: 100%;
-            text-align: center;
-          }
-
-          &__time {
-            margin-top: 0.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-          }
-
-          &__start,
-          &__end {
-            padding: 0.4rem 0.8rem;
-            border-radius: 3px;
-            border: 1px solid #c7c7c7;
-          }
-        }
-
-        &__topics {
-          overflow: overlay;
-          display: grid;
-          justify-content: center;
-          grid-template-columns: repeat(auto-fill, 80px);
-          grid-template-rows: repeat(auto-fill, 2rem);
-          grid-gap: 0.1rem;
-          width: 100%;
-          margin-top: 1rem;
-          height: 4rem;
-
-          overflow: auto;
-        }
-
-        &__topic-item {
-          border-radius: 6px;
-          margin-top: 0.3rem;
-          margin-right: 0.3rem;
-          padding: 0.2rem 0.4rem;
-
-          color: #fff;
-          font-size: 0.9rem;
-          background: #1cacac;
-        }
-
-        &__bottom {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-
-          width: 100%;
-          height: 3rem;
-          margin-top: 1rem;
-          border-radius: 3px;
-        }
-
-        &__booking-button {
-          width: fit-content;
-          font-size: 1rem;
-          font-weight: 600;
-          border-radius: 3px;
-          padding: 0.5rem 2rem;
-
-          cursor: pointer;
-          color: #fff;
-          background: #d61841;
-          transition: transform 0.2s linear, background-position 0.3s ease,
-            font-size 0.3s ease-in-out;
-          box-shadow: 0 0 6px rgba($color: #ee365e, $alpha: 0.2);
-
-          &:hover {
-            background: #ee365e;
-            box-shadow: 0 0 12px rgba($color: #ee365e, $alpha: 0.2);
-          }
-          &:active {
-            background-position: 0.5rem;
-            transform: scale(0.95);
-            box-shadow: 0 0 6px rgba($color: #ee365e, $alpha: 0.2);
-          }
         }
       }
 

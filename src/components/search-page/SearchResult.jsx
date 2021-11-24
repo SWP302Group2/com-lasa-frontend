@@ -28,10 +28,12 @@ function SearchResult({ matchedSlots, ...props }) {
                     There was no slot matching with your search.
                 </div>
             }
-            <SlotList
-                matchedSlots={matchedSlots}
-                openCreateBookingRequest={openCreateBookingRequest}
-            />
+            {Array.isArray(matchedSlots) && matchedSlots.length > 0 &&
+                <SlotList
+                    matchedSlots={matchedSlots}
+                    openCreateBookingRequest={openCreateBookingRequest}
+                />
+            }
             {user.role === STUDENT_ROLE && isStartToBooking &&
                 <CreateBookingRequestBox setIsStartToBooking={setIsStartToBooking} />
             }

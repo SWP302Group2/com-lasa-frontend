@@ -16,25 +16,24 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
 
     function callRefresh() {
         setIsRefresh(true);
-        if (additionalBks) {
+        if (additionalBks && setIsRefreshAdditionalBks) {
             setIsRefreshAdditionalBks(true);
         }
     }
 
     useEffect(() => {
-        if (isRefresh) {
-            callGetBookingRequest();
-            setIsRefresh(false);
-            setIsLoading(true);
-        }
+        if (!isRefresh) return;
+        callGetBookingRequest();
+        setIsRefresh(false);
+        setIsLoading(true);
 
         function callGetBookingRequest() {
             const onGetSuccess = (data) => {
                 console.log(`Get current user requests success with status:${status}`);
                 console.log(data);
                 setIsLoading(false);
-                if (!data || data.lenght <= 0) {
-                    setBookingRequests(null);
+                if (!Array.isArray(data) || data.length <= 0) {
+                    setBookingRequests([]);
                     return;
                 }
                 setBookingRequests(data);
@@ -44,7 +43,7 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
                 console.log(`Get current user requests failed with status:${status}`);
                 console.log(response);
                 setIsLoading(false);
-                setBookingRequests(null);
+                setBookingRequests([]);
             }
 
             bookingApi.getCurrentUserBookingsWithoutPaging(onGetSuccess, onGetFailure, userId, status);
@@ -54,11 +53,13 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
 
 
     useEffect(() => {
-        let mounted = true;
-        if (bookingRequests && bookingRequests.length > 0) {
-            callGetBookingRequestSlotInfo();
-            setIsLoading(true);
+        if (!Array.isArray(bookingRequests) || bookingRequests.length <= 0) {
+            setPreparedBookingRequests([]);
+            return;
         }
+        let mounted = true;
+        callGetBookingRequestSlotInfo();
+        setIsLoading(true);
 
         function callGetBookingRequestSlotInfo() {
             const onGetSuccess = (data) => {
@@ -135,11 +136,11 @@ function BookingRequestList({ status, title, additionalBks, setIsRefreshAddition
                 callRefresh={callRefresh}
             />
             <div className={`booking-list__content booking-list__content--${status}`}>
-                {(!preparedBookingRequests || preparedBookingRequests.length <= 0)
+                {(!Array.isArray(preparedBookingRequests) || preparedBookingRequests.length <= 0)
                     && <p>Empty</p>
                 }
                 {
-                    preparedBookingRequests
+                    Array.isArray(preparedBookingRequests)
                     && preparedBookingRequests.length > 0
                     && [...preparedBookingRequests].map(bookingRequest =>
                         <StudentBookingRequest

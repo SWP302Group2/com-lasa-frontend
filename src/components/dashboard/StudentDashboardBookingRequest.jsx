@@ -21,10 +21,9 @@ function StudentDashboardBookingRequest() {
 
     const userId = useSelector(state => state.user.id)
     useEffect(() => {
-        if (isRefresh) {
-            callGetNotifiedBookingRequest();
-            setIsRefresh(false);
-        }
+        if (!isRefresh) return;
+        callGetNotifiedBookingRequest();
+        setIsRefresh(false);
 
         function callGetNotifiedBookingRequest() {
             const onGetSuccess = (data) => {
@@ -69,7 +68,6 @@ function StudentDashboardBookingRequest() {
                     status={BOOKING_REQUEST_STATUS_READY}
                     title={"Ready for meeting"}
                     additionalBks={notifiedBookingRequests}
-                    setIsRefreshAdditionalBks={setIsRefresh}
                 />
             }
             <BookingRequestList

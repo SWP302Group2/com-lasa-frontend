@@ -2,7 +2,7 @@ const algorithm = {
   getMatchedListBySearchValue: (array, searchValue, propName) => {
     if (searchValue?.length <= 0) return [];
     if (!Array.isArray(array) || array.length <= 0) return [];
-    const words = searchValue.split(/\s+/);
+    // const words = searchValue.split(/\s+/);
 
     return [...array].filter((item) => {
       if (!item[propName]) return false;

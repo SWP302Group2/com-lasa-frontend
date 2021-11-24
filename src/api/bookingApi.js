@@ -128,6 +128,9 @@ const bookingApi = {
       questions: [...bookingInfo.questions],
     };
 
+    console.log("ahahahahahah");
+    console.log([...bookingInfo.questions]);
+
     const params = paramsTools.getParamsWithAccessToken();
     return axiosClient
       .patch(apiUrl, data, params)

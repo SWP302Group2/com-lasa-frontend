@@ -20,6 +20,7 @@ function LecturerFilter({ lecturers, invokeSearch }) {
         showPrompt();
         const matchedLecturers = calculateMatchedLecturer(input.trim());
         dispatch(updateSearchLecturerValueToSearchCriteria(input));
+        console.log(input);
         setPrompt(matchedLecturers.slice(0, 10));
     }
 
