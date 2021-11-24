@@ -23,8 +23,10 @@ function Header() {
     nav?.classList?.remove("active");
     content?.classList?.remove("hide-content");
     navItem.forEach((item) => {
-      item?.classList.toggle(".active-navItem");
-      if (item) item.style.animation = "";
+      if (item) {
+        item?.classList.remove("active-navItem");
+        item.style.animation = "";
+      }
     });
   }
 
@@ -38,16 +40,17 @@ function Header() {
     userWrapper?.classList?.remove("active");
   }
 
-  useEffect(() => {
-    //Initialization
-    checkSignInStatus();
-    document.addEventListener("click", handleDomClickEventForHeader);
-    const hiddenList = document.querySelectorAll(".hidden");
-
+  useEffect(
     function checkSignInStatus() {
       const accessToken = storageTools.getAccessToken();
       setIsSignedIn(accessToken != null && role != null);
-    }
+    },
+    [role]
+  );
+
+  useEffect(function handleHiddenListEvent() {
+    document.addEventListener("click", handleDomClickEventForHeader);
+    const hiddenList = document.querySelectorAll(".hidden");
 
     function handleDomClickEventForHeader(event) {
       if (hiddenList && hiddenList.length !== 0)
@@ -67,7 +70,7 @@ function Header() {
     return () => {
       document?.removeEventListener("click", handleDomClickEventForHeader);
     };
-  }, [isSignedIn, role]);
+  }, []);
 
   return (
     <header className="header">
@@ -78,7 +81,7 @@ function Header() {
           closeNotification={closeNotification}
           closeUserInfo={closeUserInfo}
         />
-        {isSignedIn ? (
+        {isSignedIn && (
           <React.Fragment>
             <Notification
               closeBurger={closeBurger}
@@ -91,7 +94,9 @@ function Header() {
               closeUserInfo={closeUserInfo}
             />
           </React.Fragment>
-        ) : (
+        )}
+
+        {!isSignedIn && (
           <Link className="sign-in" to="/auth/sign-in">
             <p className="sign-in__text">Sign in</p>
           </Link>

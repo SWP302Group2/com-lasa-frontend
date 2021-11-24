@@ -13,13 +13,13 @@ const months = [
   "Dec",
 ];
 const dayOfWeek = [
+  "Sunday",
   "Monday",
-  "Tueday",
+  "Tuesday",
   "Wednesday",
   "Thursday",
   "Friday",
   "Saturday",
-  "Sunday",
 ];
 
 const dateTools = {
@@ -89,7 +89,7 @@ const dateTools = {
         value: date.getHours() <= 12 ? "am" : "pm",
       },
       getDateString: () => {
-        return `${dayOfWeek[date.getDay() - 1]}, ${date.getDate()}/${
+        return `${dayOfWeek[date.getDay()]}, ${date.getDate()}/${
           date.getMonth() + 1
         }`;
       },
