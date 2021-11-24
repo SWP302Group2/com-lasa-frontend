@@ -79,7 +79,7 @@ $w-w-blue: #f4f5fa;
 
       width: 0;
       height: 100%;
-      transition: width 400ms ease-in-out;
+      transition: width 200ms ease-in-out;
       background: $sign-in-button-color;
     }
 
@@ -147,7 +147,7 @@ $w-w-blue: #f4f5fa;
       border-radius: 6px;
 
       background: transparent;
-      animation: header-noti-list-fadein 400ms ease-in;
+      animation: header-noti-list-fadein 200ms ease-in;
       box-shadow: 0 0 4px rgba($color: #000, $alpha: 0.3);
     }
 
@@ -288,7 +288,7 @@ $w-w-blue: #f4f5fa;
 
       opacity: 0;
       background: transparent;
-      animation: header-userinfo-wrapper-fadein 400ms ease-in;
+      animation: header-userinfo-wrapper-fadein 200ms ease-in;
       font-family: "Poppins";
       font-size: 0.9rem;
       box-shadow: 0 0px 4px rgba($color: #000, $alpha: 0.3);
@@ -439,7 +439,7 @@ $w-w-blue: #f4f5fa;
 
         list-style-type: none;
         transform: translateX(-100%);
-        transition: all 400ms ease-in;
+        transition: all 200ms ease-in;
       }
 
       .active {
@@ -450,20 +450,17 @@ $w-w-blue: #f4f5fa;
       &__navItem {
         opacity: 0;
         width: 100%;
-        border: 0.25rem solid transparent;
-        border-bottom: 0;
-
+        height: 3rem;
         &:hover {
           background-color: rgba($color: rgb(0, 162, 255), $alpha: 0.6);
         }
 
         a {
+          width: 100%;
+          height: 100%;
           display: flex;
           align-items: center;
           justify-content: center;
-
-          width: 100%;
-          padding: 1rem;
           color: #f4f5fa;
           text-decoration: none;
         }
@@ -569,7 +566,7 @@ $w-w-blue: #f4f5fa;
 
   60% {
     opacity: 0;
-    transform: translatey(-10px);
+    transform: translateY(-10px);
   }
 
   to {
@@ -586,7 +583,7 @@ $w-w-blue: #f4f5fa;
 
   60% {
     opacity: 0;
-    transform: translatey(-10px);
+    transform: translateY(-10px);
   }
 
   to {

@@ -106,7 +106,9 @@
   }
 
   &__body {
-    display: block;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
     width: 100%;
     height: fit-content;
     min-height: 100vh;
@@ -414,10 +416,41 @@
 
       .slot-list {
         display: grid;
-        justify-content: center;
-        grid-template-columns: repeat(auto-fit, minmax(280px, 300px));
+        grid-template-rows: 1fr;
         grid-row-gap: 2rem;
-        grid-column-gap: 1rem;
+
+        &__date {
+          display: flex;
+          flex-flow: column;
+          width: 100%;
+          max-width: 1260px;
+          margin: 0 auto;
+
+          &__time {
+            border-radius: 3px;
+            padding: 0.5rem 1rem;
+            margin-bottom: 1rem;
+            background: #ffffff;
+
+            letter-spacing: 0.07rem;
+            line-height: 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+
+            cursor: default;
+            color: #0c032b;
+            box-shadow: -2px -2px 5px #e1e7ec, 2px 2px 5px #cad3df;
+          }
+
+          &__items {
+            width: 100%;
+            display: grid;
+            justify-content: center;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 280px));
+            grid-row-gap: 2rem;
+            grid-column-gap: 2rem;
+          }
+        }
       }
 
       .slot {
@@ -425,7 +458,7 @@
         flex-flow: column nowrap;
         overflow: hidden;
 
-        width: 280px;
+        width: 100%;
         border-radius: 12px;
 
         opacity: 0;
@@ -457,6 +490,7 @@
             height: 100px;
             border-radius: 50%;
             transition: transform 300ms ease-in-out;
+            border: 1px solid #fff;
 
             &:hover,
             &:active {
@@ -493,8 +527,11 @@
 
         &__datetime {
           width: 100%;
-          font-size: 0.9rem;
           margin-top: 1rem;
+
+          font-size: 0.9rem;
+          padding: 0.5em 0rem;
+          font-weight: 500;
 
           &__date {
             width: 100%;
@@ -520,7 +557,7 @@
         &__topics {
           overflow: overlay;
           display: grid;
-          justify-content: space-between;
+          justify-content: center;
           grid-template-columns: repeat(auto-fill, 80px);
           grid-template-rows: repeat(auto-fill, 2rem);
           grid-gap: 0.1rem;

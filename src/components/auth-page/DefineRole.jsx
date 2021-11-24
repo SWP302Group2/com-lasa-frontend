@@ -23,7 +23,7 @@ function DefineRole({ setMoreInfoStep }) {
     return (
         <React.Fragment>
             <div className="sign-up__step__title">
-                Your are..
+                You are..
             </div>
             <div className="sign-up__define-role">
                 <div className="sign-up__define-role__select student" onClick={handleRoleButtonClickEvent}>

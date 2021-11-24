@@ -70,7 +70,7 @@ function Header() {
     return () => {
       document?.removeEventListener("click", handleDomClickEventForHeader);
     };
-  }, []);
+  }, [isSignedIn]);
 
   return (
     <header className="header">

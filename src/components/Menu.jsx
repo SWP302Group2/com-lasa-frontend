@@ -7,9 +7,10 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
     const dispatch = useDispatch();
 
     function handleBurgerOnClick(event) {
+        console.log("seeee")
         closeNotification();
         closeUserInfo();
-        const bugger = event.target;
+        const bugger = document.querySelector(".header .menu__burger");
         const nav = document.querySelector(".header .menu__nav");
         const navItem = document.querySelectorAll(".header .menu__navItem");
         const content = document.querySelector("#home-page .root-content");
@@ -40,11 +41,13 @@ function Menu({ closeBurger, closeNotification, closeUserInfo }) {
         window.addEventListener("resize", checkWindowSize);
 
         function checkWindowSize() {
-            if (window.innerWidth > 768) closeBurger();
+            if (window.innerWidth > 768) {
+                if (closeBurger) closeBurger();
+            }
         }
 
         return () => {
-
+            window.removeEventListener("resize", checkWindowSize);
         }
     }, [closeBurger])
 

@@ -4,7 +4,6 @@ import { newBookingRequest } from "../../redux/actions/booking";
 import { STUDENT_ROLE } from "../../utils/constant";
 import BottomErrorMessage from "./BottomErrorMessage";
 import CreateBookingRequestBox from "./CreateBookingRequestBox";
-import SlotItem from "./SlotItem";
 import SlotList from "./SlotList";
 
 function SearchResult({ matchedSlots, ...props }) {
@@ -29,17 +28,10 @@ function SearchResult({ matchedSlots, ...props }) {
                     There was no slot matching with your search.
                 </div>
             }
-            <SlotList>
-                {Array.isArray(matchedSlots) && matchedSlots.length > 0 &&
-                    [...matchedSlots].map(slot =>
-                        <SlotItem
-                            slot={slot}
-                            key={"slot__" + slot.id}
-                            openCreateBookingRequest={openCreateBookingRequest}
-                        />
-                    )
-                }
-            </SlotList>
+            <SlotList
+                matchedSlots={matchedSlots}
+                openCreateBookingRequest={openCreateBookingRequest}
+            />
             {user.role === STUDENT_ROLE && isStartToBooking &&
                 <CreateBookingRequestBox setIsStartToBooking={setIsStartToBooking} />
             }

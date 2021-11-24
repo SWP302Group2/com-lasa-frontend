@@ -18,21 +18,21 @@ const algorithm = {
 
       if (nmlItemProp.includes(nmlSearchValue)) return true;
       if (nmlSearchValue.includes(nmlItemProp)) return true;
-      if (
-        words.find((word) => {
-          const nmlWord = word
-            ?.trim()
-            .normalize("NFD")
-            .replace(/[\u0300-\u036f]/g, "")
-            .toLowerCase();
+      // if (
+      //   words.find((word) => {
+      //     const nmlWord = word
+      //       ?.trim()
+      //       .normalize("NFD")
+      //       .replace(/[\u0300-\u036f]/g, "")
+      //       .toLowerCase();
 
-          if (nmlWord.includes(nmlItemProp)) return true;
-          if (nmlItemProp.includes(nmlWord)) return true;
-          return false;
-        })
-      ) {
-        return true;
-      }
+      //     if (nmlWord.includes(nmlItemProp)) return true;
+      //     if (nmlItemProp.includes(nmlWord)) return true;
+      //     return false;
+      //   })
+      // ) {
+      //   return true;
+      // }
 
       return false;
     });

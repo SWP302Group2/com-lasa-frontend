@@ -23,6 +23,35 @@ const dayOfWeek = [
 ];
 
 const dateTools = {
+  calculateAboutTimeDiffer: (start, end, type) => {
+    try {
+      const dateNow = new Date(start);
+      const dateFuture = new Date(end);
+      let diffInMilliSeconds = Math.abs(dateFuture - dateNow);
+
+      type = type.toLowerCase();
+      switch (type) {
+        case "hour": {
+          return Math.floor(diffInMilliSeconds / (1000 * 60 * 60));
+        }
+        case "day": {
+          return Math.floor(diffInMilliSeconds / (1000 * 60 * 60 * 24));
+        }
+        case "minute": {
+          return Math.floor(diffInMilliSeconds / (1000 * 60));
+        }
+        case "second": {
+          return Math.floor(diffInMilliSeconds / 1000);
+        }
+        default:
+          return diffInMilliSeconds;
+      }
+    } catch (error) {
+      console.log(error);
+      return 0;
+    }
+  },
+
   getTimeStartAndTimeEndInISOFormat: (time) => {
     const now = new Date();
     const timeStart = dateTools.convertDateToISOStringWithTimeZoneOffset(now);
@@ -103,6 +132,11 @@ const dateTools = {
       },
       getNormalDateString: () => {
         return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`;
+      },
+      getDateSlotTemplate: () => {
+        return `${date.getDate()}/${date.getMonth() + 1} | ${
+          dayOfWeek[date.getDay()]
+        }`;
       },
     };
   },
