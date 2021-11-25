@@ -22,6 +22,21 @@
   margin-bottom: 1rem;
 }
 
+#home-page .dashboard-content .admin-dashboard__content__panel {
+  width: 100%;
+  margin: 0.5rem 0;
+}
+
+#home-page .dashboard-content .admin-dashboard__content__panel select {
+  outline: none;
+  border: none;
+  max-width: 268px;
+  padding: 0.4rem 0.8rem;
+  font-weight: 600;
+  color: #fff;
+  background: #0889d4;
+}
+
 #home-page .dashboard-content .admin-dashboard__content .bottom-page-bar {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -167,6 +182,61 @@
   background: #ddd;
 }
 
+#home-page .dashboard-content .admin-dashboard__content .overview-container {
+  width: 100%;
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: (minmax(200px, 400px))[auto-fit];
+      grid-template-columns: repeat(auto-fit, minmax(200px, 400px));
+  grid-gap: 1rem;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard {
+  display: block;
+  background: #fff;
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid #e7e7e7;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__header, #home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__bottom {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 0.5rem 1rem;
+  background: #fff;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__header i, #home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__bottom i {
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__header {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__bottom {
+  outline: none;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+  color: #333;
+  border-top: 1px solid #c4c4c4;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__bottom:hover {
+  background: #e7e7e7;
+}
+
+#home-page .dashboard-content .admin-dashboard__content .overview-container .minimal-dashboard__content {
+  height: 100px;
+}
+
 #home-page .dashboard-content .admin-dashboard__content .list {
   display: -ms-grid;
   display: grid;
@@ -175,7 +245,8 @@
   width: 100%;
   max-width: 100%;
   min-height: 200px;
-  padding: 1rem 0;
+  padding-top: 0.5rem;
+  padding-bottom: 1rem;
   border-radius: 8px;
   border: 1px solid #e7e7e7;
   background: #fff;

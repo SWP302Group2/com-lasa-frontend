@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { AiTwotoneSetting } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import majorApi from "../../api/majorApi";
 import studentApi from "../../api/studentApi";
 import { addLocation } from "../../redux/actions/history";
+import { ORDER_BY_DESC } from "../../utils/constant";
 import Loader from "../Loader";
 import AdminManageStudentBox from "./AdminManageStudentBox";
 import PageBar from "./PageBar";
@@ -18,17 +20,35 @@ function AdminDashboardStudent() {
     const [isManaging, setIsManaging] = useState(false);
     const [managedStudent, setManagedStudent] = useState(null);
 
+    const [majors, setMajors] = useState([]);
+    const [selectedMajor, setSelectedMajor] = useState("");
+
     const history = useHistory();
     const dispatch = useDispatch();
 
-    useEffect(function saveLocation() {
-        dispatch(addLocation(history?.location?.pathname));
-    }, [dispatch, history]);
+    function handleOpenManageStudentBox(student) {
+        setIsManaging(true);
+        setManagedStudent(student);
+    }
+
+    function invokeSearch() {
+        setIsGettingStudents(true);
+    }
 
     function handleOnClickChangePage(pageIndex) {
         setPage(pageIndex);
         setIsGettingStudents(true);
     }
+
+    function handleSelectedMajorOnChange(event) {
+        const value = event.target?.value || "";
+        setSelectedMajor(value);
+        setIsGettingStudents(true);
+    }
+
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
     useEffect(function activeContent() {
         const studentDashboard = document.querySelector(".admin-dashboard .sidebar__link-student");
@@ -63,29 +83,58 @@ function AdminDashboardStudent() {
             }
 
             setIsLoading(true);
-            studentApi.getStudentsWithPaging(onGetSuccess, onGetFailure, page);
+            studentApi.getStudentsWithPaging(onGetSuccess, onGetFailure, page, selectedMajor, ORDER_BY_DESC);
         }
-    }, [page, isGettingStudents])
+    }, [page, isGettingStudents, selectedMajor])
 
-    function handleOpenManageStudentBox(student) {
-        setIsManaging(true);
-        setManagedStudent(student);
-    }
+    useEffect(function callApiGetMajor() {
+        callGetMajors();
 
-    function invokeSearch() {
-        setIsGettingStudents(true);
-    }
+        function callGetMajors() {
+            const onGetSuccess = (data) => {
+                console.log("Dashboard get major success:");
+                console.log(data);
+
+                setMajors(data);
+            }
+
+            const onGetFailure = (response, status, message) => {
+                console.error("Dashboard get major failed:");
+                console.error(response);
+
+                setMajors([]);
+            }
+            majorApi.getMajorsWithoutPaging(onGetSuccess, onGetFailure);
+        }
+    }, [])
 
     return (
         <div className="admin-dashboard__content admin-dashboard__student">
             <h3 className="admin-dashboard__content__headline">
                 Student Management
             </h3>
+            <div className="admin-dashboard__content__panel">
+                <select
+                    defaultValue={selectedMajor}
+                    value={selectedMajor}
+                    onChange={handleSelectedMajorOnChange}
+                >
+                    <option value="">All majors</option>
+                    {Array.isArray(majors) && majors.length > 0 && majors.map(major =>
+                        <option
+                            value={major.id}
+                            key={major.id}
+                        >
+                            {major.id}
+                        </option>
+                    )}
+                </select>
+            </div>
             <div className="list">
                 <div className="list__headline">
                     <div className="list__headline__th">Id</div>
                     <div className="list__headline__th">Name</div>
-                    <div className="list__headline__th">Fpt email</div>
+                    <div className="list__headline__th">Email</div>
                     <div className="list__headline__th">MSSV</div>
                     <div className="list__headline__th">Status</div>
                     <div className="list__headline__th">Action</div>

@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import lecturerApi from "../../api/lecturerApi";
 import { addLocation } from "../../redux/actions/history";
+import { ORDER_BY_DESC } from "../../utils/constant";
 import Loader from "../Loader";
 import AdminManageLecturerBox from "./AdminManageLecturerBox";
 import PageBar from "./PageBar";
@@ -73,7 +74,7 @@ function AdminDashboardLecturer() {
                 setIsLoading(false);
             }
 
-            lecturerApi.getLecturersWithPaging(onGetSuccess, onGetFailure, page);
+            lecturerApi.getLecturersWithPaging(onGetSuccess, onGetFailure, page, ORDER_BY_DESC);
         }
     }, [page, isGettingLecturers])
 
@@ -86,7 +87,7 @@ function AdminDashboardLecturer() {
                 <div className="list__headline">
                     <div className="list__headline__th">Id</div>
                     <div className="list__headline__th">Name</div>
-                    <div className="list__headline__th">Fpt email</div>
+                    <div className="list__headline__th">Email</div>
                     <div className="list__headline__th">Status</div>
                     <div className="list__headline__th">Action</div>
                 </div>

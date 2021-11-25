@@ -189,6 +189,7 @@
               white-space: nowrap;
               text-overflow: ellipsis;
 
+              cursor: pointer;
               &:active {
                 transform: scale(0.95);
               }

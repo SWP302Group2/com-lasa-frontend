@@ -174,7 +174,7 @@ function EditSlotBox({ setEditSlot, refreshCallback, setSlotControl }) {
         if (!isCanceling) return;
 
         setIsLoading(true);
-        setIsCanceling(true);
+        setIsCanceling(false);
         callCancelSlot();
 
         function callCancelSlot() {

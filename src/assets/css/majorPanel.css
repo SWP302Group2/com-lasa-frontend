@@ -1,0 +1,75 @@
+.major-panel {
+  display: block;
+  width: 100%;
+}
+
+.major-panel__top .create-button {
+  padding: 0.6rem 1rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+  cursor: pointer;
+  background: #fff;
+  border: 1px solid #e7e7e7;
+  -webkit-transition: -webkit-box-shadow 0.2s linear, -webkit-transform 0.2s linear;
+  transition: -webkit-box-shadow 0.2s linear, -webkit-transform 0.2s linear;
+  transition: box-shadow 0.2s linear, transform 0.2s linear;
+  transition: box-shadow 0.2s linear, transform 0.2s linear, -webkit-box-shadow 0.2s linear, -webkit-transform 0.2s linear;
+  -webkit-box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+          box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+.major-panel__top .create-button:active {
+  -webkit-box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+          box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.3);
+  -webkit-transform: translate(2px, 2px);
+          transform: translate(2px, 2px);
+}
+
+.major-panel__top .create-button__text {
+  margin-right: 0.5rem;
+  font-weight: 600;
+}
+
+.major-panel__header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 15% 30% 25% 15% 15%;
+      grid-template-columns: 15% 30% 25% 15% 15%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 1rem;
+  font-weight: 600;
+}
+
+.major-panel__header__th {
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 0.5rem;
+  color: #333;
+}
+
+.major-panel__header__more, .major-panel__header__action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+}
+/*# sourceMappingURL=majorPanel.css.map */

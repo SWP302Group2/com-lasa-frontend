@@ -23,7 +23,10 @@ function StudentDashboardNotification() {
 
     return (
         <div className="student-dashboard__content student-dashboard__notification">
-
+            <div className="student-dashboard__content__headline">
+                <h2 className="student-dashboard__content__headline__title">Notification</h2>
+                <p>This feature is under development. Please come back next time.</p>
+            </div>
         </div>
     );
 }

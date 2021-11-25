@@ -58,6 +58,7 @@
   border-radius: 50%;
   overflow: hidden;
   border: 5px solid #fff;
+  background: #fff;
 }
 
 #home-page .profile-content__header__userArea .avatar img {

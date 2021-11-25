@@ -4,11 +4,14 @@ import axiosClient from "./axiosClient";
 import { paramsTools } from "./paramsTools";
 
 const lecturerApi = {
-  getLecturersWithPaging: (onSuccess, onFailure, pageIndex) => {
+  getLecturersWithPaging: (onSuccess, onFailure, pageIndex, orderBy) => {
     const paging = `paging=true`;
     const pageNum = `page=${pageIndex || 0}`;
+    const orderByParam = orderBy ? `orderBy=${orderBy}` : "";
 
-    const apiUrl = GET_LECTURER_API + `?${paging}&${pageNum}`;
+    let apiUrl = GET_LECTURER_API + `?${paging}&${pageNum}`;
+    if (orderByParam) apiUrl += `&${orderByParam}`;
+
     const params = paramsTools.getParamsWithAccessToken();
 
     return axiosClient

@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import bookingApi from "../../api/bookingApi";
+import majorApi from "../../api/majorApi";
 import { addLocation } from "../../redux/actions/history";
-import PageBar from "./PageBar";
-import TableLoadingEffect from "./TableLoadingEffect";
+import Loader from "../Loader";
+import MajorBar from "./MajorBar";
+import MajorPanel from "./MajorPanel";
 
 function AdminDashboardMajorAndTopic() {
-    const [totalPages, setTotalPages] = useState(1);
-    const [page, setPage] = useState(0);
-    const [bookingRequests, setBookingRequests] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-
+    const [majors, setMajors] = useState([]);
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -21,93 +19,53 @@ function AdminDashboardMajorAndTopic() {
     }, [dispatch, history]);
 
 
-    function handleOnClickChangePage(pageIndex) {
-        setPage(pageIndex);
-    }
+    useEffect(function activeContent() {
+        const majorDashboard = document.querySelector(".admin-dashboard .sidebar__link-major-topic");
+        majorDashboard?.classList.add("active-dashboard-content");
+        return () => {
+            majorDashboard?.classList.remove("active-dashboard-content");
+        };
+    }, [])
 
-    useEffect(() => {
-        const bookingDashboard = document.querySelector(".admin-dashboard .sidebar__link-booking");
-        const start = () => {
-            bookingDashboard?.classList.add("active-dashboard-content");
-            callGetBookingRequest();
-        }
-        start();
+    useEffect(function callApiGetMajor() {
+        setIsLoading(true);
+        callGetMajors();
 
-        const end = () => {
-            bookingDashboard?.classList.remove("active-dashboard-content");
-        }
-
-        function callGetBookingRequest() {
+        function callGetMajors() {
             const onGetSuccess = (data) => {
-                console.log("Dashboard get booing success:");
+                console.log("Dashboard get major success:");
                 console.log(data);
 
                 setIsLoading(false);
-                if (data.number !== page) return;
-
-                setBookingRequests(data.content);
-                setTotalPages(data.totalPages);
+                setMajors(data);
             }
 
             const onGetFailure = (response, status, message) => {
-                console.log("Dashboard get booking failed:");
-                console.log(response);
-                setBookingRequests(null);
+                console.error("Dashboard get major failed:");
+                console.error(response);
+
                 setIsLoading(false);
+                setMajors([]);
             }
-
-            setIsLoading(true);
-            bookingApi.getBookingsWithPaging(page, onGetSuccess, onGetFailure);
+            majorApi.getMajorsWithoutPaging(onGetSuccess, onGetFailure);
         }
+    }, [])
 
-        return end;
-    }, [page])
     return (
-        <div className="admin-dashboard__content admin-dashboard__booking">
+        <div className="admin-dashboard__content admin-dashboard__majors-topics">
             <h3 className="admin-dashboard__content__headline">
-                Booking Request Management
+                Majors
             </h3>
-            <div className="list">
-                <div className="list__headline">
-                    <div className="list__headline__th">Id</div>
-                    <div className="list__headline__th">Slot Id</div>
-                    <div className="list__headline__th">Owner Id</div>
-                    <div className="list__headline__th">Owner Name</div>
-                    <div className="list__headline__th">Title</div>
-                    <div className="list__headline__th">Topic</div>
-                    <div className="list__headline__th">Questions</div>
-                    <div className="list__headline__th">Status</div>
-                </div>
-                {bookingRequests && bookingRequests.length > 0 && bookingRequests.map(bookingRequest =>
-                    <div
-                        className="list__row"
-                        key={`slot_${bookingRequest.id}`}
-                    >
-                        <div className="list__row__td id">{bookingRequest.id}</div>
-                        <div className="list__row__td slot-id">{bookingRequest.slotId}</div>
-                        <div className="list__row__td student-id">{bookingRequest.student?.id}</div>
-                        <div className="list__row__td student-name">{bookingRequest.student?.name}</div>
-                        <div className="list__row__td title">{bookingRequest.title}</div>
-                        <div className="list__row__td topic">{bookingRequest.topic?.courseId}</div>
-                        <div className="list__row__td question">View question</div>
-                        <div className="list__row__td status">
-                            {bookingRequest.status === 2 && "Accepted"}
-                            {bookingRequest.status === 1 && "Waiting"}
-                            {bookingRequest.status === 0 && "Cancled"}
-                            {bookingRequest.status === -1 && "Denied"}
-                        </div>
-
-                    </div>
-                )}
-                {isLoading ? <TableLoadingEffect /> : null}
-            </div>
-            {totalPages && totalPages > 0 &&
-                <PageBar
-                    currentPage={page}
-                    totalPages={totalPages}
-                    callBack={handleOnClickChangePage}
-                />
+            <MajorPanel />
+            {Array.isArray(majors) && majors.length > 0 &&
+                majors.map((major, index) =>
+                    <MajorBar
+                        key={`major-bar__${major.id || index}`}
+                        major={major}
+                    />
+                )
             }
+            {isLoading && <Loader />}
         </div>
     );
 }

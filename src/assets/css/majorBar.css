@@ -1,0 +1,169 @@
+.major-bar {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-rows: 1fr;
+      grid-template-rows: 1fr;
+  width: 100%;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  background: #fff;
+  font-family: "Segoe UI";
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.major-bar:hover, .major-bar:focus-within {
+  -webkit-box-shadow: 0 0 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.15);
+          box-shadow: 0 0 2px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.major-bar__info {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 15% 30% 25% 15% 15%;
+      grid-template-columns: 15% 30% 25% 15% 15%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.major-bar__info__td {
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 0.5rem;
+  color: #333;
+  background: #fff;
+}
+
+.major-bar__info__td .action-icon {
+  cursor: pointer;
+}
+
+.major-bar__info__td .expand-icon {
+  cursor: pointer;
+  height: 1.25rem;
+  width: 1.25rem;
+  -webkit-transition: -webkit-transform 0.3s ease-in-out;
+  transition: -webkit-transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out;
+  transition: transform 0.3s ease-in-out, -webkit-transform 0.3s ease-in-out;
+}
+
+.major-bar__info__more, .major-bar__info__action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+}
+
+.major-bar__list-topic {
+  overflow: hidden;
+  height: 0;
+  opacity: 0;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.major-bar__list-topic__header {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 12% 12% 30% 16% 10%;
+      grid-template-columns: 20% 12% 12% 30% 16% 10%;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-weight: 600;
+  padding: 0.5rem 0;
+}
+
+.major-bar__list-topic__header__th {
+  display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 0 0.5rem;
+  color: #333;
+}
+
+.major-bar__list-topic__header__action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+}
+
+.major-bar__list-topic .topic {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 20% 12% 12% 30% 16% 10%;
+      grid-template-columns: 20% 12% 12% 30% 16% 10%;
+  padding: 0.5rem 0;
+  outline: none;
+  color: #333;
+  background: #fff;
+  border-bottom: 1px solid #ccc;
+  -webkit-animation: dashboard-table-item-fade-in 300ms ease-in-out;
+          animation: dashboard-table-item-fade-in 300ms ease-in-out;
+}
+
+.major-bar__list-topic .topic:focus {
+  position: relative;
+  border-color: transparent;
+  -webkit-box-shadow: 0 0 2px #165eb1;
+          box-shadow: 0 0 2px #165eb1;
+}
+
+.major-bar__list-topic .topic:hover {
+  position: relative;
+  -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 1px rgba(170, 170, 170, 0.2), 0 5px 10px rgba(0, 0, 0, 0.1);
+          box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 1px rgba(170, 170, 170, 0.2), 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.major-bar__list-topic .topic__name, .major-bar__list-topic .topic__courseId, .major-bar__list-topic .topic__majorId, .major-bar__list-topic .topic__description, .major-bar__list-topic .topic__status {
+  font-size: 0.9rem;
+  display: inline-block;
+  word-break: break-all;
+  word-wrap: break-word;
+  padding: 0 0.5rem;
+  color: #333;
+}
+
+.major-bar__list-topic .topic__action {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  width: 100%;
+  padding: 0 0.5rem;
+  color: #333;
+  cursor: pointer;
+}
+
+.major-bar .active-list-topic {
+  overflow: visible;
+  height: auto;
+  margin-top: 1rem;
+  border-top: 2px solid #ccc;
+  opacity: 1;
+}
+/*# sourceMappingURL=majorBar.css.map */

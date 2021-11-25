@@ -23,7 +23,10 @@ function LecturerDashBoardNotification() {
 
     return (
         <div className="lecturer-dashboard__content lecturer-dashboard__notification">
-
+            <div className="lecturer-dashboard__content__headline">
+                <h2 className="lecturer-dashboard__content__headline__title">Notification</h2>
+                <p>This feature is under development. Please come back next time.</p>
+            </div>
         </div>
     );
 }

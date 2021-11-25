@@ -237,6 +237,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url a:active {

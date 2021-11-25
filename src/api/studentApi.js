@@ -4,11 +4,23 @@ import axiosClient from "./axiosClient";
 import { paramsTools } from "./paramsTools";
 
 const studentApi = {
-  getStudentsWithPaging: (onSuccess, onFailure, pageIndex) => {
+  getStudentsWithPaging: (
+    onSuccess,
+    onFailure,
+    pageIndex,
+    majorId,
+    orderBy
+  ) => {
     const paging = `paging=true`;
     const pageNum = `page=${pageIndex || 0}`;
+    const majorIdParam = majorId ? `majorId=${majorId}` : "";
+    const orderByParam = orderBy ? `orderBy=${orderBy}` : "";
 
-    const apiUrl = GET_STUDENT_API + `?${paging}&${pageNum}`;
+    let apiUrl = GET_STUDENT_API + `?${paging}&${pageNum}`;
+
+    if (majorIdParam) apiUrl += `&${majorIdParam}`;
+    if (orderByParam) apiUrl += `&${orderByParam}`;
+
     const params = paramsTools.getParamsWithAccessToken();
 
     return axiosClient
