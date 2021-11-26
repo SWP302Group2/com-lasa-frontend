@@ -52,7 +52,7 @@
 }
 
 #home-page .dashboard-content .student-dashboard__content .booking-list__title--1 {
-  color: #9d9d9d;
+  color: #6a9194;
 }
 
 #home-page .dashboard-content .student-dashboard__content .booking-list__title--2 {
@@ -68,7 +68,7 @@
 }
 
 #home-page .dashboard-content .student-dashboard__content .booking-list__title--4 {
-  color: #6a9b9c;
+  color: #0b5b80;
 }
 
 #home-page .dashboard-content .student-dashboard__content .booking-list__panel {
@@ -237,6 +237,7 @@
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  cursor: pointer;
 }
 
 #home-page .dashboard-content .student-dashboard__content .booking-list__content .booking-request__meeting-url a:active {

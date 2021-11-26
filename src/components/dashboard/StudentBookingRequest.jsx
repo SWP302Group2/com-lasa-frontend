@@ -83,7 +83,7 @@ function StudentBookingRequest({ bookingRequest, status, callRefresh }) {
                         </div>
                     </div>
                     <div className="booking-request__meeting-url">
-                        <a href={bookingRequest.slot.lecturer?.meetingUrl}>Go meeting</a>
+                        <a href={bookingRequest.slot.lecturer?.meetingUrl} target="_blank" rel="noreferrer">Go meeting</a>
                     </div>
                 </div>
                 {isActiveEdit &&

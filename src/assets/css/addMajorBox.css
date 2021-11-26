@@ -1,0 +1,193 @@
+.add-major-box {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  opacity: 0;
+  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  -webkit-transition: opacity 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out;
+}
+
+.add-major-box .box {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  overflow-y: visible;
+  width: calc(100% - 2rem);
+  max-width: 600px;
+  max-height: 700px;
+  padding: 1rem;
+  overflow: auto;
+  -webkit-transform: translateY(-100vh);
+          transform: translateY(-100vh);
+  -webkit-transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
+  background: #fff;
+}
+
+.add-major-box .box__header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  height: 2rem;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.add-major-box .box__header__title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  margin-right: 1rem;
+}
+
+.add-major-box .box__header__close-icon {
+  padding: 0.5rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.add-major-box .box__header__close-icon:hover {
+  background: #ddd;
+}
+
+.add-major-box .box__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column nowrap;
+          flex-flow: column nowrap;
+  width: 100%;
+  margin-bottom: 1rem;
+  background: #fff;
+}
+
+.add-major-box .box__major-code, .add-major-box .box__name, .add-major-box .box__description {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.add-major-box .box__title {
+  width: 100%;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.add-major-box .box__control {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.add-major-box .box__control input {
+  width: 100%;
+  height: 2rem;
+  border: none;
+  outline: none;
+  font-size: 0.9rem;
+  background: #fff;
+  border-bottom: 1.5px solid rgba(0, 0, 0, 0.42);
+}
+
+.add-major-box .box__control input:focus-within {
+  padding-top: 0.5px;
+  border-bottom: 2px solid #e3165b;
+}
+
+.add-major-box .box__bottom {
+  width: 100%;
+  height: 2rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.add-major-box .box__bottom__add, .add-major-box .box__bottom__close {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  padding: 0.5rem 1rem;
+  height: 100%;
+  font-weight: 600;
+  cursor: pointer;
+  color: #000;
+  background: #fff;
+}
+
+.add-major-box .box__bottom__add {
+  outline: none;
+  border: none;
+  border-radius: 0;
+  margin-right: 0.5rem;
+  margin-left: auto;
+  color: #e3165b;
+}
+
+.add-major-box .box__bottom__add:hover {
+  background: #f7ecf0;
+}
+
+.add-major-box .box__bottom__close {
+  margin-left: 0.5rem;
+}
+
+.add-major-box .box__bottom__close:hover {
+  background: #eee;
+}
+
+.active-add-major-box {
+  opacity: 1;
+}
+
+.active-add-major-box .box {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+/*# sourceMappingURL=addMajorBox.css.map */

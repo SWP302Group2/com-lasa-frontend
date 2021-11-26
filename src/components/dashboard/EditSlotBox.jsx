@@ -174,7 +174,7 @@ function EditSlotBox({ setEditSlot, refreshCallback, setSlotControl }) {
         if (!isCanceling) return;
 
         setIsLoading(true);
-        setIsCanceling(true);
+        setIsCanceling(false);
         callCancelSlot();
 
         function callCancelSlot() {
@@ -243,7 +243,7 @@ function EditSlotBox({ setEditSlot, refreshCallback, setSlotControl }) {
         setTimeout(() => {
             setEditSlot(false);
             if (refreshCallback) refreshCallback();
-            if (setSlotControl) setSlotControl(false);
+            // if (setSlotControl) setSlotControl(false);
         }, 300)
     }
 
@@ -306,7 +306,6 @@ function EditSlotBox({ setEditSlot, refreshCallback, setSlotControl }) {
                                 disabled
                             />
                         </div>
-
                     </div>
 
                     {slotInfo.status === BOOKING_REQUEST_STATUS_WAITING

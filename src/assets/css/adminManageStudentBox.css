@@ -31,12 +31,13 @@
           flex-flow: column nowrap;
   overflow-y: visible;
   width: calc(100% - 2rem);
-  max-width: 600px;
+  max-width: 500px;
   max-height: 700px;
   padding: 1rem;
+  border-radius: 6px;
   overflow: auto;
-  -webkit-transform: translateY(-100vh);
-          transform: translateY(-100vh);
+  -webkit-transform: scale(0);
+          transform: scale(0);
   -webkit-transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
   transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
@@ -90,202 +91,113 @@
   background: #fff;
 }
 
-.admin-manage-student-box .box__time-start, .admin-manage-student-box .box__period, .admin-manage-student-box .box__time-end {
+.admin-manage-student-box .box__title {
+  width: 100px;
+  margin-bottom: 0.5rem;
+  color: #444;
+  font-size: 0.9rem;
+}
+
+.admin-manage-student-box .box__radio {
+  display: inline-block;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  width: 100px;
+  margin-bottom: 0.25rem;
+}
+
+.admin-manage-student-box .box__radio input {
+  position: absolute;
+  visibility: hidden;
+}
+
+.admin-manage-student-box .box__radio label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  position: relative;
+  cursor: pointer;
+  -webkit-transition: all 0.25s linear;
+  transition: all 0.25s linear;
+}
+
+.admin-manage-student-box .box__radio .outer-circle {
+  position: relative;
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-right: 0.5rem;
+  border: 3px solid #aaaaaa;
+  border-radius: 50%;
+  -webkit-transition: border 0.25s linear;
+  transition: border 0.25s linear;
+  cursor: pointer;
+}
+
+.admin-manage-student-box .box__radio .outer-circle::before {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  display: block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  margin: auto;
+  -webkit-transition: background-color 0.25s linear;
+  transition: background-color 0.25s linear;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-active + label .outer-circle {
+  border-color: #00cc88;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-active:checked + label .outer-circle {
+  border: 3px solid #009966;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-active:checked + label .outer-circle::before {
+  background: #009966;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-banned + label .outer-circle {
+  border-color: #f35771;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-banned:checked + label .outer-circle {
+  border: 3px solid #f02749;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-banned:checked + label .outer-circle::before {
+  background: #f02749;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-inactive + label .outer-circle {
+  border-color: #5c1674;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-inactive:checked + label .outer-circle {
+  border: 3px solid #3a0e49;
+}
+
+.admin-manage-student-box .box__radio #box-radio-circle-inactive:checked + label .outer-circle::before {
+  background: #3a0e49;
+}
+
+.admin-manage-student-box .box__status {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 100%;
   margin-bottom: 1rem;
-}
-
-.admin-manage-student-box .box__period input {
-  width: 100%;
-  height: 2rem;
-  border: none;
-  outline: none;
-  font-size: 0.9rem;
-  border-bottom: 1.5px solid rgba(0, 0, 0, 0.42);
-}
-
-.admin-manage-student-box .box__period input:focus-within {
-  padding-top: 0.5px;
-  border-bottom: 2px solid #e3165b;
-}
-
-.admin-manage-student-box .box__period__unit {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  width: 40px;
-  height: 2rem;
-}
-
-.admin-manage-student-box .box__title {
-  width: 100%;
-  margin-bottom: 0.25rem;
-  color: #777;
-  font-size: 0.9rem;
-}
-
-.admin-manage-student-box .box__control {
-  width: 100%;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.admin-manage-student-box .box__topic-picker {
-  position: relative;
-}
-
-.admin-manage-student-box .box__topic-picker__input {
-  display: block;
-  width: 100%;
-  height: 2.5rem;
-  padding: 0 1rem 0 0.5rem;
-  outline: none;
-  background: transparent;
-  border: 1px solid #aaa;
-}
-
-.admin-manage-student-box .box__topic-picker__input:hover, .admin-manage-student-box .box__topic-picker__input:focus-within {
-  background: #fff;
-  -webkit-box-shadow: 5px 5px 0px #d5dde0;
-          box-shadow: 5px 5px 0px #d5dde0;
-}
-
-.admin-manage-student-box .box__topic-picker .prompt {
-  position: absolute;
-  top: 4.5rem;
-  width: 100%;
-  max-height: 150px;
-  overflow: auto;
-  display: block;
-  background: #fff;
-  border: 1px solid #c4c4c4;
-  -webkit-box-shadow: 5px 5px 0px #d5dde0;
-          box-shadow: 5px 5px 0px #d5dde0;
-}
-
-.admin-manage-student-box .box__topic-picker .prompt__topic {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 0.5rem;
-  -webkit-transition: background-color 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
-  transition: background-color 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
-  transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out;
-  transition: background-color 0.4s ease-in-out, transform 0.4s ease-in-out, -webkit-transform 0.4s ease-in-out;
-  cursor: pointer;
-}
-
-.admin-manage-student-box .box__topic-picker .prompt__topic:hover {
-  background-color: #d1f0ff;
-  color: #333;
-}
-
-.admin-manage-student-box .box__topic-picker .prompt__topic i {
-  margin-right: 0.5rem;
-}
-
-.admin-manage-student-box .box__topic-picker .prompt__topic__majorid {
-  margin-left: auto;
-  margin-right: 0.5rem;
-}
-
-.admin-manage-student-box .box__topic-picker .prompt__topic:active {
-  -webkit-transform: scale(0.95);
-          transform: scale(0.95);
-}
-
-.admin-manage-student-box .box__topic-picker .prompt__topic-active {
-  background-color: #d1f0ff;
-  color: #333;
-}
-
-.admin-manage-student-box .box__topic-picker .hide-prompt {
-  opacity: 0;
-  overflow: hidden;
-  height: 0;
-  border: none;
-  -webkit-box-shadow: 0 0 0 transparent;
-          box-shadow: 0 0 0 transparent;
-}
-
-.admin-manage-student-box .box__list-topic {
-  display: -ms-grid;
-  display: grid;
-  -ms-grid-columns: (minmax(100px, 1fr))[auto-fill];
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  -ms-grid-rows: (30px)[auto-fill];
-      grid-template-rows: repeat(auto-fill, 30px);
-  grid-gap: 0.25rem;
-  width: 100%;
-  height: 200px;
-  padding: 1rem 0;
-}
-
-.admin-manage-student-box .box__topic {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-pack: distribute;
-      justify-content: space-around;
-  outline: none;
-  border: none;
-  min-width: -webkit-fit-content;
-  min-width: -moz-fit-content;
-  min-width: fit-content;
-  border-radius: 3px;
-  padding: 0.5rem;
-  font-size: 0.9rem;
-  color: #fff;
-  background: #777;
-  cursor: pointer;
-}
-
-.admin-manage-student-box .box__topic i {
-  display: inline-block;
-  cursor: pointer;
-  font-size: 0.8rem;
-}
-
-.admin-manage-student-box .box__topic--default {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  font-size: 0.9rem;
-  cursor: pointer;
-  color: #fff;
-  background: #1cacac;
-}
-
-.admin-manage-student-box .box__topic--selected {
-  color: #fff;
-  background: #28afc7;
-}
-
-.admin-manage-student-box .box__topic--selected-majorid {
-  margin-left: auto;
-  margin-right: 0.5rem;
 }
 
 .admin-manage-student-box .box__bottom {
@@ -302,7 +214,7 @@
           justify-content: flex-end;
 }
 
-.admin-manage-student-box .box__bottom__create, .admin-manage-student-box .box__bottom__close {
+.admin-manage-student-box .box__bottom__apply, .admin-manage-student-box .box__bottom__close {
   font-size: 0.9rem;
   text-transform: uppercase;
   padding: 0.5rem 1rem;
@@ -312,15 +224,21 @@
   background: #fff;
 }
 
-.admin-manage-student-box .box__bottom__create {
+.admin-manage-student-box .box__bottom__apply {
   outline: none;
   border: none;
   margin-right: 0.5rem;
   color: #e3165b;
 }
 
-.admin-manage-student-box .box__bottom__create:hover {
+.admin-manage-student-box .box__bottom__apply:hover {
   background: #f7ecf0;
+}
+
+.admin-manage-student-box .box__bottom .disabled-apply {
+  color: #777;
+  cursor: initial;
+  background: transparent;
 }
 
 .admin-manage-student-box .box__bottom__close:hover {
@@ -332,8 +250,8 @@
 }
 
 .active-admin-manage-student-box .box {
-  -webkit-transform: translateY(0);
-          transform: translateY(0);
+  -webkit-transform: scale(1);
+          transform: scale(1);
   opacity: 1;
 }
 /*# sourceMappingURL=adminManageStudentBox.css.map */

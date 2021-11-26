@@ -1,12 +1,24 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { addLocation } from "../redux/actions/history";
 import { DEFAULT_AVATAR_URL } from "../utils/constant";
 
-function UserInfo({ closeBurger, closeNotification }) {
+function UserInfo({ closeBurger, closeNotification, closeUserInfo }) {
     const user = useSelector(state => state.user);
 
+    const dispatch = useDispatch();
+
+    function handleLinkOnClick(path) {
+        dispatch(addLocation(path));
+        if (closeUserInfo)
+            closeUserInfo();
+    }
+
     function handleUserInfoOnClick() {
-        closeBurger();
-        closeNotification();
+        if (closeBurger)
+            closeBurger();
+        if (closeNotification)
+            closeNotification();
 
         const userWrapper = document.querySelector(".header .userinfo__wrapper");
         userWrapper.classList.toggle("active");
@@ -33,27 +45,42 @@ function UserInfo({ closeBurger, closeNotification }) {
                     </div>
                 </div>
                 <div className="userinfo__menu">
-                    <a className="userinfo__link" href="/home">
+                    <Link
+                        className="userinfo__link"
+                        to="/profile"
+                        onClick={() => handleLinkOnClick("/profile")}
+                    >
                         <i className="userinfo__link__icon material-icons">portrait</i>
                         <p className="userinfo__link__text">Profile</p>
-                    </a>
-                    <a className="userinfo__link" href="/home">
+                    </Link>
+                    <Link
+                        className="userinfo__link"
+                        to="/home"
+                        onClick={() => handleLinkOnClick("/home")}
+                    >
                         <i className="userinfo__link__icon material-icons">settings</i>
                         <p className="userinfo__link__text">Settings</p>
-                    </a>
+                    </Link>
                 </div>
                 <div className="userinfo__menu" >
-                    <a className="userinfo__link" href="/home">
+                    <Link
+                        className="userinfo__link"
+                        to="/home"
+                        onClick={() => handleLinkOnClick("/home")}
+                    >
                         <i className="userinfo__link__icon material-icons">contact_support</i>
                         <p className="userinfo__link__text">Support</p>
-                    </a>
-                    <a className="userinfo__link" href="/sign-out">
+                    </Link>
+                    <Link
+                        className="userinfo__link"
+                        to="/sign-out"
+                    >
                         <i className="userinfo__link__icon material-icons">logout</i>
                         <p className="userinfo__link__text">Sign out</p>
-                    </a>
+                    </Link>
                 </div>
             </div>
-        </section >
+        </section>
     );
 }
 

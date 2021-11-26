@@ -15,15 +15,14 @@ import ActionResultMessage from "../search-page/ActionResultMessage";
 
 function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBack, callRefresh }) {
     const [questions, setQuestions] = useState([]);
-    const [oldQuestions, setoldQuestions] = useState([]);
     const [topicId, setTopicId] = useState(-1);
     const [title, setTitle] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isUpdating, setIsUpdating] = useState(false);
     const [isRemoving, setIsRemoving] = useState(false);
     const [isCanceling, setIsCanceling] = useState(false);
-    const [{ confirmStatus, action }, setConfirm] = useState({ confirmStatus: null, action: null })
     const [invalidMessages, setInvalidMessages] = useState({});
+    const [{ confirmStatus, action }, setConfirm] = useState({ confirmStatus: null, action: null })
     const [{ status, message }, setEditBookingResult] = useState({ status: null, message: null });
 
 
@@ -71,16 +70,15 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
         setInvalidMessages({ ...invalidMessages });
 
         if (isError) return;
-        const updatedQuestions = [...questions].filter(question => question.id != null);
-        const newQuestions = [...questions].filter(question => !question.id);
-        const deletedOldQuestions = [...oldQuestions].filter(oldQuestions =>
-            !questions.find(question => question.id && question.id === oldQuestions.id)
-        );
+
+        const updatedQuestions = [...questions].map(question => {
+            question.bookingId = bookingRequest.id;
+            return question;
+        });
+
         dispatch(newBookingRequest({
             title: title,
             questions: updatedQuestions,
-            newQuestions,
-            deletedOldQuestions,
             topicId: topicId,
             id: bookingRequest.id,
             slotId: bookingRequest.slot.id
@@ -183,16 +181,6 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
         [...textAreas].forEach(item => item.classList.remove("active-question-textarea"));
     }
 
-    // function isClickOnBox(target) {
-    //     const box = document.querySelector(".student-dashboard .edit-box .box");
-    //     return box.contains(target);
-    // }
-
-    // function handleEditBoxOnClick(event) {
-    //     if (isClickOnBox(event.target)) return;
-    //     handleCloseBookingRequest();
-    // }
-
     function handleChangeQuestionContent(event, index) {
         closeAllError()
         if (invalidBookingStatus()) return;
@@ -272,7 +260,6 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
 
                 setIsLoading(false);
                 setQuestions([...data.questions]);
-                setoldQuestions([...data.questions]);
             }
 
             const onGetFailure = (response, status, message) => {
@@ -346,7 +333,7 @@ function EditBookingRequestBox({ bookingRequest, bookingStatus, closeEditCallBac
 
                 setEditBookingResult({
                     status: false,
-                    message: "We have processed questions for you, but the rest is got problems. Please try again!"
+                    message: "Update failed with unknown error. Please try again! DEV:BK"
                 });
             }
 

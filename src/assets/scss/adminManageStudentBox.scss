@@ -21,11 +21,12 @@
     overflow-y: visible;
 
     width: calc(100% - 2rem);
-    max-width: 600px;
+    max-width: 500px;
     max-height: 700px;
     padding: 1rem;
+    border-radius: 6px;
     overflow: auto;
-    transform: translateY(-100vh);
+    transform: scale(0);
 
     transition: opacity 0.4s ease-in-out, transform 0.4s ease-in-out;
     background: #fff;
@@ -64,171 +65,111 @@
       background: #fff;
     }
 
-    &__time-start,
-    &__period,
-    &__time-end {
-      width: 100%;
-      margin-bottom: 1rem;
-    }
-
-    &__period input {
-      width: 100%;
-      height: 2rem;
-      border: none;
-      outline: none;
-      font-size: 0.9rem;
-      border-bottom: 1.5px solid rgba($color: #000000, $alpha: 0.42);
-
-      &:focus-within {
-        padding-top: 0.5px;
-        border-bottom: 2px solid #e3165b;
-      }
-    }
-
-    &__period__unit {
-      display: flex;
-      align-items: flex-end;
-      justify-content: flex-end;
-      width: 40px;
-      height: 2rem;
-    }
-
     &__title {
-      width: 100%;
-      margin-bottom: 0.25rem;
-      color: #777;
+      width: 100px;
+      margin-bottom: 0.5rem;
+      color: #444;
       font-size: 0.9rem;
     }
 
-    &__control {
-      width: 100%;
-      display: flex;
+    &__radio {
+      display: inline-block;
       align-items: center;
-      justify-content: center;
-    }
-
-    &__topic-picker {
       position: relative;
+      width: 100px;
+      margin-bottom: 0.25rem;
 
-      &__input {
-        display: block;
-        width: 100%;
-        height: 2.5rem;
-        padding: 0 1rem 0 0.5rem;
-
-        outline: none;
-        background: transparent;
-        border: 1px solid #aaa;
-
-        &:hover,
-        &:focus-within {
-          background: #fff;
-          box-shadow: 5px 5px 0px #d5dde0;
-        }
-      }
-
-      .prompt {
+      input {
         position: absolute;
-        top: 4.5rem;
-        width: 100%;
-        max-height: 150px;
-
-        overflow: auto;
-        display: block;
-        background: #fff;
-        border: 1px solid #c4c4c4;
-        box-shadow: 5px 5px 0px #d5dde0;
-
-        &__topic {
-          display: flex;
-          padding: 0.5rem;
-          transition: background-color 0.4s ease-in-out,
-            transform 0.4s ease-in-out;
-          cursor: pointer;
-
-          &:hover {
-            background-color: #d1f0ff;
-            color: #333;
-          }
-          i {
-            margin-right: 0.5rem;
-          }
-
-          &__majorid {
-            margin-left: auto;
-            margin-right: 0.5rem;
-          }
-
-          &:active {
-            transform: scale(0.95);
-          }
-        }
-
-        &__topic-active {
-          background-color: #d1f0ff;
-          color: #333;
-        }
+        visibility: hidden;
       }
 
-      .hide-prompt {
-        opacity: 0;
-        overflow: hidden;
-        height: 0;
-        border: none;
-        box-shadow: 0 0 0 transparent;
-      }
-    }
-
-    &__list-topic {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-      grid-template-rows: repeat(auto-fill, 30px);
-      grid-gap: 0.25rem;
-      width: 100%;
-      height: 200px;
-      padding: 1rem 0;
-    }
-
-    &__topic {
-      display: flex;
-      align-items: center;
-      justify-content: space-around;
-      outline: none;
-      border: none;
-      min-width: fit-content;
-
-      border-radius: 3px;
-      padding: 0.5rem;
-      font-size: 0.9rem;
-      color: #fff;
-      background: #777;
-      cursor: pointer;
-
-      i {
-        display: inline-block;
-        cursor: pointer;
-        font-size: 0.8rem;
-      }
-
-      &--default {
+      label {
         display: flex;
         align-items: center;
-        justify-content: center;
-
-        font-size: 0.9rem;
+        position: relative;
         cursor: pointer;
-        color: #fff;
-        background: #1cacac;
+        transition: all 0.25s linear;
       }
 
-      &--selected {
-        color: #fff;
-        background: #28afc7;
-        &-majorid {
-          margin-left: auto;
-          margin-right: 0.5rem;
+      .outer-circle {
+        position: relative;
+        display: inline-block;
+        width: 1.25rem;
+        height: 1.25rem;
+        margin-right: 0.5rem;
+        border: 3px solid #aaaaaa;
+        border-radius: 50%;
+
+        transition: border 0.25s linear;
+        cursor: pointer;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: 3px;
+          left: 3px;
+
+          display: block;
+          width: 0.5rem;
+          height: 0.5rem;
+          border-radius: 50%;
+          margin: auto;
+          transition: background-color 0.25s linear;
         }
       }
+
+      #box-radio-circle-active + label {
+        .outer-circle {
+          border-color: lighten(#009966, 10%);
+        }
+      }
+
+      #box-radio-circle-active:checked + label {
+        .outer-circle {
+          border: 3px solid #009966;
+        }
+        .outer-circle::before {
+          background: #009966;
+        }
+      }
+
+      #box-radio-circle-banned + label {
+        .outer-circle {
+          border-color: lighten(#f02749, 10%);
+        }
+      }
+
+      #box-radio-circle-banned:checked + label {
+        .outer-circle {
+          border: 3px solid #f02749;
+        }
+        .outer-circle::before {
+          background: #f02749;
+        }
+      }
+
+      #box-radio-circle-inactive + label {
+        .outer-circle {
+          border-color: lighten(#3a0e49, 10%);
+        }
+      }
+
+      #box-radio-circle-inactive:checked + label {
+        .outer-circle {
+          border: 3px solid #3a0e49;
+        }
+        .outer-circle::before {
+          background: #3a0e49;
+        }
+      }
+    }
+
+    &__status {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin-bottom: 1rem;
     }
 
     &__bottom {
@@ -238,7 +179,7 @@
       align-items: center;
       justify-content: flex-end;
 
-      &__create,
+      &__apply,
       &__close {
         font-size: 0.9rem;
         text-transform: uppercase;
@@ -249,7 +190,7 @@
         background: #fff;
       }
 
-      &__create {
+      &__apply {
         outline: none;
         border: none;
         margin-right: 0.5rem;
@@ -258,6 +199,12 @@
         &:hover {
           background: #f7ecf0;
         }
+      }
+
+      .disabled-apply {
+        color: #777;
+        cursor: initial;
+        background: transparent;
       }
 
       &__close:hover {
@@ -271,7 +218,7 @@
   opacity: 1;
 
   .box {
-    transform: translateY(0);
+    transform: scale(1);
     opacity: 1;
   }
 }

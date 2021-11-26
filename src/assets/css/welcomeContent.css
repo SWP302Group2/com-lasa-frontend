@@ -117,8 +117,10 @@
           animation: welcome-content-fade-in 1s ease-in-out forwards 3s;
   position: relative;
   display: inline-block;
-  width: 300px;
-  height: 4rem;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  min-height: 4rem;
   margin-top: 2rem;
   margin-left: 6px;
   padding: 15px 25px;
@@ -132,7 +134,7 @@
   -webkit-box-shadow: -6px 6px 0 #404040;
           box-shadow: -6px 6px 0 #404040;
   color: #404040;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 #home-page .welcome-content__slider-container .slide-welcome__button:hover::after {

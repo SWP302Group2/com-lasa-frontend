@@ -4,14 +4,16 @@ import { useHistory } from "react-router-dom";
 import slotApi from "../../api/slotApi";
 import { addLocation } from "../../redux/actions/history";
 import dateTools from "../../utils/dateTools";
+import Loader from "../Loader";
 import PageBar from "./PageBar";
-import TableLoadingEffect from "./TableLoadingEffect";
+import SlotStatusBar from "./SlotStatusBar";
 
 function AdminDashboardSlot() {
     const [totalPages, setTotalPages] = useState(1);
     const [page, setPage] = useState(0);
     const [slots, setSlots] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isGettingSlots, setIsGettingSlots] = useState(true);
 
     const history = useHistory();
     const dispatch = useDispatch();
@@ -22,26 +24,28 @@ function AdminDashboardSlot() {
 
     function handleOnClickChangePage(pageIndex) {
         setPage(pageIndex);
+        setIsGettingSlots(true);
     }
 
-    useEffect(() => {
-        //init
+    useEffect(function activeContent() {
         const slotDashboard = document.querySelector(".admin-dashboard .sidebar__link-slot");
-        // const sidebar = 
-        const start = () => {
-            slotDashboard.classList.add("active-dashboard-content");
-            callGetSlots();
-        }
-        start();
-
-        const end = () => {
+        slotDashboard.classList.add("active-dashboard-content");
+        return () => {
             slotDashboard.classList.remove("active-dashboard-content");
         }
+    }, [])
+
+    useEffect(function callApiGetSlot() {
+        if (!isGettingSlots) return;
+        setIsLoading(true);
+        setIsGettingSlots(false);
+        callGetSlots();
 
         function callGetSlots() {
             const onGetSuccess = (data) => {
                 console.log("Dashboard get slots success:");
                 console.log(data);
+
                 const prepareSlotsDatetime = (slots) => {
                     return [...slots].map(slot => {
                         slot.timeStart = dateTools.convertLocalDateTimeStringToObject(slot.timeStart);
@@ -61,16 +65,14 @@ function AdminDashboardSlot() {
             const onGetFailure = (response, status, message) => {
                 console.log("Dashboard get slots failed:");
                 console.log(response);
-                setSlots(null);
                 setIsLoading(false);
+                setSlots(null);
             }
 
-            setIsLoading(true);
-            slotApi.getAllSlotsWithPaging(page, onGetSuccess, onGetFailure);
+            slotApi.getAllSlotsWithPaging(onGetSuccess, onGetFailure, page);
         }
 
-        return end;
-    }, [page]);
+    }, [page, isGettingSlots]);
 
     return (
         <div className="admin-dashboard__content admin-dashboard__slot">
@@ -80,10 +82,10 @@ function AdminDashboardSlot() {
             <div className="list">
                 <div className="list__headline">
                     <div className="list__headline__th">Id</div>
-                    <div className="list__headline__th">Owner Id</div>
-                    <div className="list__headline__th">Owner Name</div>
-                    <div className="list__headline__th">Time Start</div>
-                    <div className="list__headline__th">Time End</div>
+                    <div className="list__headline__th">Lecturer</div>
+                    <div className="list__headline__th">Lecturer name</div>
+                    <div className="list__headline__th">Date start</div>
+                    <div className="list__headline__th">Time</div>
                     <div className="list__headline__th">Status</div>
                 </div>
                 {slots && slots.length > 0 && slots.map(slot =>
@@ -94,21 +96,18 @@ function AdminDashboardSlot() {
                         <div className="list__row__td slot-id">{slot.id}</div>
                         <div className="list__row__td lecturer-id">{slot.lecturer.id}</div>
                         <div className="list__row__td lecturer-name">{slot.lecturer.name}</div>
-                        <div className="list__row__td time-start">
-                            <div>{`${slot.timeStart.date?.name}, ${slot.timeStart.date?.value}/${slot.timeStart.month?.value + 1}`}</div>
-                            <div>{`${slot.timeStart.hours?.value}:${slot.timeStart.minutes?.value} ${slot.timeEnd.when?.value}`}</div>
+                        <div className="list__row__td date-start">
+                            {slot.timeStart?.getDateString()}
                         </div>
-                        <div className="list__row__td time-end">
-                            <div>{`${slot.timeEnd.date?.name}, ${slot.timeEnd.date?.value}/${slot.timeEnd.month?.value + 1}`}</div>
-                            <div>{`${slot.timeEnd.hours?.value}:${slot.timeEnd.minutes?.value} ${slot.timeEnd.when?.value}`}</div>
+                        <div className="list__row__td time">
+                            {slot.timeStart?.getTimeString()} &#10140; {slot.timeEnd?.getTimeString()}
                         </div>
                         <div className="list__row__td status">
-                            Available
+                            <SlotStatusBar status={slot.status} />
                         </div>
-
                     </div>
                 )}
-                {isLoading ? <TableLoadingEffect /> : null}
+                {isLoading ? <Loader /> : null}
             </div>
             {totalPages && totalPages > 0 &&
                 <PageBar

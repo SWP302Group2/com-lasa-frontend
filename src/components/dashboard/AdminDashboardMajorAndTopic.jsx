@@ -1,105 +1,73 @@
-// import { useEffect, useState } from "react";
-// import majorApi from "../../api/majorApi";
-// import PageBar from "./PageBar";
-// import TableLoadingEffect from "./TableLoadingEffect";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import majorApi from "../../api/majorApi";
+import { addLocation } from "../../redux/actions/history";
+import Loader from "../Loader";
+import MajorBar from "./MajorBar";
+import MajorPanel from "./MajorPanel";
 
 function AdminDashboardMajorAndTopic() {
-    //     const [totalPages, setTotalPages] = useState(1);
-    //     const [page, setPage] = useState(0);
-    //     const [majorsWithTopics, setMajorsWithTopics] = useState([]);
-    //     const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [majors, setMajors] = useState([]);
 
-    //     function handleOnClickChangePage(pageIndex) {
-    //         setPage(pageIndex);
-    //     }
+    const history = useHistory();
+    const dispatch = useDispatch();
 
-    //     useEffect(() => {
-    //         const bookingDashboard = document.querySelector(".admin-dashboard .sidebar__link-major-topic");
-    //         const start = () => {
-    //             bookingDashboard?.classList.add("active-dashboard-content");
-    //             callGetMajorsWithTopics();
-    //         }
-    //         start();
+    useEffect(function saveLocation() {
+        dispatch(addLocation(history?.location?.pathname));
+    }, [dispatch, history]);
 
-    //         const end = () => {
-    //             bookingDashboard?.classList.remove("active-dashboard-content");
-    //         }
 
-    //         function callGetMajorsWithTopics() {
-    //             const onGetSuccess = (data) => {
-    //                 console.log("Dashboard get major-topic success:");
-    //                 console.log(data);
+    useEffect(function activeContent() {
+        const majorDashboard = document.querySelector(".admin-dashboard .sidebar__link-major-topic");
+        majorDashboard?.classList.add("active-dashboard-content");
+        return () => {
+            majorDashboard?.classList.remove("active-dashboard-content");
+        };
+    }, [])
 
-    //                 setIsLoading(false);
-    //                 if (data.number !== page) return;
+    useEffect(function callApiGetMajor() {
+        setIsLoading(true);
+        callGetMajors();
 
-    //                 setMajorsWithTopics(data.content);
-    //                 setTotalPages(data.totalPages);
-    //             }
+        function callGetMajors() {
+            const onGetSuccess = (data) => {
+                console.log("Dashboard get major success:");
+                console.log(data);
 
-    //             const onGetFailure = (response, status, message) => {
-    //                 console.log("Dashboard get major-topic failed:");
-    //                 console.log(response);
+                setIsLoading(false);
+                setMajors(data);
+            }
 
-    //                 setMajorsWithTopics(data.content);
-    //                 setIsLoading(false);
-    //             }
+            const onGetFailure = (response, status, message) => {
+                console.error("Dashboard get major failed:");
+                console.error(response);
 
-    //             setIsLoading(true);
-    //             majorApi.getMajorsWithTopicsWithPaging(page, onGetSuccess, onGetFailure);
-    //         }
+                setIsLoading(false);
+                setMajors([]);
+            }
+            majorApi.getMajorsWithoutPaging(onGetSuccess, onGetFailure);
+        }
+    }, [])
 
-    //         return end;
-    //     }, [page])
-    //     return (
-    //         <div className="admin-dashboard__content admin-dashboard__major-topic">
-    //             <h3 className="admin-dashboard__content__headline">
-    //                 Majors And Topics
-    //             </h3>
-
-    //             <div className="list">
-    //                 <div className="list__headline">
-    //                     <div className="list__headline__th">Id</div>
-    //                     <div className="list__headline__th">Slot Id</div>
-    //                     <div className="list__headline__th">Owner Id</div>
-    //                     <div className="list__headline__th">Owner Name</div>
-    //                     <div className="list__headline__th">Title</div>
-    //                     <div className="list__headline__th">Topic</div>
-    //                     <div className="list__headline__th">Questions</div>
-    //                     <div className="list__headline__th">Status</div>
-    //                 </div>
-    //                 {majorsWithTopics && majorsWithTopics.length > 0 && majorsWithTopics.map(majorWithTopics =>
-    //                     <div
-    //                         className="list__row"
-    //                         key={`slot_${major.id}`}
-    //                     >
-    //                         <div className="list__row__td id">{major.id}</div>
-    //                         <div className="list__row__td slot-id">{major.slotId}</div>
-    //                         <div className="list__row__td student-id">{major.student?.id}</div>
-    //                         <div className="list__row__td student-name">{major.student?.name}</div>
-    //                         <div className="list__row__td title">{major.title}</div>
-    //                         <div className="list__row__td topic">{major.topic?.courseId}</div>
-    //                         <div className="list__row__td question">View question</div>
-    //                         <div className="list__row__td status">
-    //                             {major.status === 1 && "Waiting"}
-    //                             {major.status === 2 && "Accepted"}
-    //                             {major.status === 0 && "Cancled"}
-    //                             {major.status === -1 && "Denied"}
-    //                         </div>
-
-    //                     </div>
-    //                 )}
-    //                 {isLoading ? <TableLoadingEffect /> : null}
-    //             </div>
-    //             {totalPages && totalPages > 0 &&
-    //                 <PageBar
-    //                     currentPage={page}
-    //                     totalPages={totalPages}
-    //                     callBack={handleOnClickChangePage}
-    //                 />
-    //             }
-    //         </div>
-    //     );
+    return (
+        <div className="admin-dashboard__content admin-dashboard__majors-topics">
+            <h3 className="admin-dashboard__content__headline">
+                Majors
+            </h3>
+            <MajorPanel />
+            {Array.isArray(majors) && majors.length > 0 &&
+                majors.map((major, index) =>
+                    <MajorBar
+                        key={`major-bar__${major.id || index}`}
+                        major={major}
+                    />
+                )
+            }
+            {isLoading && <Loader />}
+        </div>
+    );
 }
 
 export default AdminDashboardMajorAndTopic;

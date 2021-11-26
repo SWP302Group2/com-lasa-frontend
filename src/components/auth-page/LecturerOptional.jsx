@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import topicApi from "../../api/topicApi";
 import { createNetworkError } from "../../redux/actions/error";
 import { updateMeetUrlToSignupInfo, updateSignupTopics } from "../../redux/actions/signup";
+import SignUpSelectedTopic from "./SignUpSelectedTopic";
 
 function LecturerOptional({ userInfo }) {
     const dispatch = useDispatch();
@@ -50,36 +51,27 @@ function LecturerOptional({ userInfo }) {
         hiddenSearchResultBox(event?.target);
     }
 
-    function handleSearchItemClick(event) {
-        if (!event.target) return;
+    function handleSearchedItem(event, topic) {
+        if (!topic) return;
+        if (isExistInSelectedTopic(topic.id)) return;
 
-        let target = event.target;
-        if (target.classList.contains("material-icons")) {
-            target = target.parentNode;
-        }
-
-        const notExist = -1;
-        const selectedTopic = topics.find(topic =>
-            topic?.id === Number.parseInt(target.getAttribute("data") || notExist)
-        );
-        if (!selectedTopic) return;
-
-        const signupTopics = Array.isArray(userInfo.topics) ? [...userInfo.topics] : [];
-        const isExist = signupTopics?.find(topic => selectedTopic.id === topic.id);
-        if (isExist) return;
-
-        signupTopics.push(selectedTopic);
-        dispatch(updateSignupTopics(signupTopics));
-        target.style.animation = "auth-signup-searchItem-added 250ms ease";
-        setTimeout(() => target.style.animation = null, 150);
+        const newSelectedTopic = userInfo.topics || [];
+        newSelectedTopic.push(topic);
+        dispatch(updateSignupTopics([...newSelectedTopic]));
+        hiddenSearchResultBox();
     }
 
-    function handleCancleItemClick(event) {
-        const deletedTopicId = Number.parseInt(event?.target.getAttribute("data"));
-        const newUserTopic = userInfo.topics?.filter(topic => topic.id !== deletedTopicId);
-        if (Array.isArray(newUserTopic)) {
-            dispatch(updateSignupTopics(newUserTopic));
-        }
+    function isExistInSelectedTopic(topicId) {
+        if (!Array.isArray(userInfo.topics)) return false;
+        if (userInfo.topics.length <= 0) return false;
+        return userInfo.topics.find(topic => topic.id === topicId);
+    }
+
+    function handleRemoveItem(event, removedTopic) {
+        if (!removedTopic) return;
+
+        const newUserTopic = userInfo.topics?.filter(topic => topic.id !== removedTopic.id);
+        dispatch(updateSignupTopics(newUserTopic));
     }
 
     function activeSearchResultBox(target) {
@@ -100,32 +92,35 @@ function LecturerOptional({ userInfo }) {
         searchResultBox?.classList.remove("search-active");
     }
 
-    useEffect(() => {
-        const searchBox = document.querySelector(".auth-page .sign-up__topic__search");
-        const searchResultBox = document.querySelector(".auth-page .sign-up__topic__search-result");
-
-        //Start
+    useEffect(function callApiGetTopics() {
         topicApi.getTopicsNoPaging(onGetSuccess, onGetFailure);
-        document.addEventListener("click", handleDomClickEvent);
-        document.addEventListener("keydown", handleKeyDownEvent);
-
         function onGetSuccess(data) {
-            console.log(data)
             const topicData = data?.map(item => {
                 delete item["@id"];
                 return item;
             })
+            console.log("Sign up get topic success:")
+            console.log(data)
             console.log(topicData);
             setTopics(topicData);
         }
 
         function onGetFailure(response, status, message) {
+            console.log("Sign up get topic failed:")
             console.log(response);
             if (message === "Network Error") {
                 history.push(createNetworkError());
                 return;
             }
         }
+    }, [history])
+
+    useEffect(() => {
+        const searchBox = document.querySelector(".auth-page .sign-up__topic__search");
+        const searchResultBox = document.querySelector(".auth-page .sign-up__topic__search-result");
+
+        document.addEventListener("click", handleDomClickEvent);
+        document.addEventListener("keydown", handleKeyDownEvent);
 
         function handleDomClickEvent(event) {
             if (!searchBox || !searchResultBox) return;
@@ -176,36 +171,17 @@ function LecturerOptional({ userInfo }) {
                         <p
                             key={topic?.id}
                             className="sign-up__topic__search-item"
-                            data={topic?.id}
-                            onClick={handleSearchItemClick}
+                            onClick={(event) => handleSearchedItem(event, topic)}
                         >
-                            <i
-                                className="material-icons"
-                                data={topic?.id}
-                                onClick={handleSearchItemClick}
-                            >add_box</i>
+                            <i className="material-icons">add_box</i>
                             {`Topic: ${(topic?.courseId || topic.name)} Major: ${topic.majorId}`}
                         </p>
                     )}
                 </div>
-                <div className="sign-up__topic__title">Your topics:</div>
-                <div className="sign-up__topic__display">
-                    {Array.isArray(userInfo.topics) && [...userInfo.topics].map(topic =>
-                        <p
-                            key={topic?.id}
-                            className="sign-up__topic__selected-item"
-                        >
-                            {`${(topic?.courseId || topic?.name)} ${topic?.majorId}`}
-                            <i
-                                className="material-icons"
-                                data={topic?.id}
-                                onClick={handleCancleItemClick}
-                            >
-                                close
-                            </i>
-                        </p>
-                    )}
-                </div>
+                <SignUpSelectedTopic
+                    topics={userInfo.topics}
+                    removeItemCallback={handleRemoveItem}
+                />
             </div>
         </React.Fragment>
     );

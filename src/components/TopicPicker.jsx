@@ -72,10 +72,10 @@ function TopicPicker({ topics, invokeSearch }) {
 
     function calculateMatchedTopics(input) {
         return [...topics].filter(topic => {
-            if (topic.courseId.toLowerCase().includes(input.toLowerCase())) return true;
-            if (topic.majorId.toLowerCase().includes(input.toLowerCase())) return true;
-            if (input.toLowerCase().includes(topic.courseId.toLowerCase())) return true;
-            if (input.toLowerCase().includes(topic.majorId.toLowerCase())) return true;
+            if (topic.courseId?.toLowerCase().includes(input.toLowerCase())) return true;
+            if (topic.majorId?.toLowerCase().includes(input.toLowerCase())) return true;
+            if (input.toLowerCase().includes(topic.courseId?.toLowerCase())) return true;
+            if (input.toLowerCase().includes(topic.majorId?.toLowerCase())) return true;
             return false;
         });
     }
@@ -106,7 +106,7 @@ function TopicPicker({ topics, invokeSearch }) {
     }
 
     function hidePrompt() {
-        const prompt = document.querySelector(".prompt");
+        const prompt = document.querySelector(".box__picker .prompt");
         const promptActiveItem = document.querySelector(".prompt__topic-active");
 
         prompt?.classList.add("hide-prompt");
@@ -115,7 +115,7 @@ function TopicPicker({ topics, invokeSearch }) {
 
     function showPrompt() {
         if (isEmptyPrompt(prompt)) return;
-        const promptBox = document.querySelector(".prompt");
+        const promptBox = document.querySelector(".box__picker .prompt");
         promptBox?.classList.remove("hide-prompt");
     }
 
@@ -124,7 +124,7 @@ function TopicPicker({ topics, invokeSearch }) {
             hidePrompt();
             return;
         }
-        const promptBox = document.querySelector(".prompt");
+        const promptBox = document.querySelector(".box__picker .prompt");
         promptBox?.classList.remove("hide-prompt");
     }, [prompt])
 

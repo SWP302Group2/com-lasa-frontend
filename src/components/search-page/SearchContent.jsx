@@ -124,8 +124,8 @@ function SearchContent({ setIsCheckedAuth }) {
             console.log("Search criteria");
             console.log(searchCriteria);
 
-            if (!searchCriteria.searchBarValue) {
-                if (!searchCriteria.searchLecturerValue) return false;
+            if (!searchCriteria.searchBarValue && !searchCriteria.searchLecturerValue) {
+                return true;
             }
 
             if (searchCriteria.searchBarValue) {

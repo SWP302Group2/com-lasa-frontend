@@ -28,10 +28,10 @@ function DashboardContent({ setIsCheckedAuth }) {
 
     useEffect(() => {
         const header = document.querySelector(".header");
-        header?.classList.add("white-mode");
+        header?.classList.add("dark-mode");
 
         return () => {
-            header?.classList.remove("white-mode");
+            header?.classList.remove("dark-mode");
         }
     }, [])
 

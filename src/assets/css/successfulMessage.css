@@ -11,13 +11,13 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
-  border: 2px solid #29cc67;
+  border: 1px solid #1faa54;
 }
 
 #successful-message .message-content {
   text-align: justify;
   font-size: 0.8rem;
   font-weight: 600;
-  color: #03af51;
+  color: #07943d;
 }
 /*# sourceMappingURL=successfulMessage.css.map */

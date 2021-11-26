@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
 
-function CreateSlotSelectedTopic({ removeItemCallback, ...props }) {
+function CreateSlotSelectedTopic({ removeItemCallback }) {
     const topics = useSelector(state => state.slot.selectedTopics)
     return (
         <div className="box__list-topic">
