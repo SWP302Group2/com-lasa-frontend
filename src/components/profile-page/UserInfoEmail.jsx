@@ -29,7 +29,7 @@ function UserInfoEmail() {
     }
 
     function enableEdit() {
-        if (!user.role || user.role !== ADMIN_ROLE) return;
+        // if (!user.role || user.role !== ADMIN_ROLE) return;
         setIsEditing(true);
         setNewEmail(user.email);
     }

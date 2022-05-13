@@ -29,7 +29,7 @@ function UserInfoMSSV() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewMSSV(user.mssv);
     }

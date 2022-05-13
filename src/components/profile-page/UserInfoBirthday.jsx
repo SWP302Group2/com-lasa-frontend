@@ -32,7 +32,7 @@ function UserInfoBirthday() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         if (user.birthday) {
             const oldBirthday = new Date(user.birthday);

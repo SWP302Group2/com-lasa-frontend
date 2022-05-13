@@ -31,7 +31,7 @@ function UserInfoName() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewName(user.name);
     }

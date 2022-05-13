@@ -43,9 +43,9 @@ function DashboardContent({ setIsCheckedAuth }) {
             {role && role === LECTURER_ROLE &&
                 <LecturerDashboard />
             }
-            {role && role === ADMIN_ROLE &&
+            {/* {role && role === ADMIN_ROLE && */}
                 <AdminDashboard />
-            }
+            {/* } */}
         </div>
     );
 }

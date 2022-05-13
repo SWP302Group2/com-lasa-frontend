@@ -30,7 +30,7 @@ function UserInfoPassword() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewPassword("");
         setConfirm("");

@@ -26,64 +26,64 @@ function HomePage() {
 
   useEffect(() => (document.title = HOME_PAGE_TITLE), []);
 
-  useEffect(checkAuthAndGetUserInfo, [dispatch, history, role, isCheckedAuth]);
+  // useEffect(checkAuthAndGetUserInfo, [dispatch, history, role, isCheckedAuth]);
 
-  function checkAuthAndGetUserInfo() {
-    if (isCheckedAuth === true) return;
-    setIsCheckedAuth(true);
-    processUserAuth();
+  // function checkAuthAndGetUserInfo() {
+  //   if (isCheckedAuth === true) return;
+  //   setIsCheckedAuth(true);
+  //   processUserAuth();
 
-    function processUserAuth() {
-      const onGetSuccess = (userInfo) => {
-        console.log("Homepage - get userinfo success:");
-        console.log(userInfo);
+  //   function processUserAuth() {
+  //     const onGetSuccess = (userInfo) => {
+  //       console.log("Homepage - get userinfo success:");
+  //       console.log(userInfo);
 
-        dispatch(updateUserInfo({
-          ...userInfo.information,
-          role: userInfo.role,
-        }));
-      };
+  //       dispatch(updateUserInfo({
+  //         ...userInfo.information,
+  //         role: userInfo.role,
+  //       }));
+  //     };
 
-      const onGetFailure = (response, status, message) => {
-        console.log("Homepage get userinfo failed: ");
-        console.log(response);
+  //     const onGetFailure = (response, status, message) => {
+  //       console.log("Homepage get userinfo failed: ");
+  //       console.log(response);
 
-        storageTools.removeAccessToken();
-        dispatch(newUserInfo());
-        setAccessToken("");
+  //       storageTools.removeAccessToken();
+  //       dispatch(newUserInfo());
+  //       setAccessToken("");
 
-        if (message === "Network Error") {
-          //Backend server is down
-          history.push(createNetworkError());
-        }
+  //       if (message === "Network Error") {
+  //         //Backend server is down
+  //         history.push(createNetworkError());
+  //       }
 
-        const location = history.location;
-        if (isInAuthPage(location)) {
-          history.push("/home");
-        }
+  //       const location = history.location;
+  //       if (isInAuthPage(location)) {
+  //         history.push("/home");
+  //       }
 
-      };
+  //     };
 
-      function isInAuthPage(location) {
-        if (!location) return false;
-        return !notAuthLocationList.find(notAuthLocation => location === notAuthLocation);
-      }
+  //     function isInAuthPage(location) {
+  //       if (!location) return false;
+  //       return !notAuthLocationList.find(notAuthLocation => location === notAuthLocation);
+  //     }
 
-      authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
-    }
-  }
+  //     authApi.getCurrentUserInfo(onGetSuccess, onGetFailure);
+  //   }
+  // }
 
-  useEffect(setCheckAuthLoop, [history.location]);
+  // useEffect(setCheckAuthLoop, [history.location]);
 
-  function setCheckAuthLoop() {
-    const timer = setInterval(() => {
-      setIsCheckedAuth(false);
-    }, 10 * 1000)
+  // function setCheckAuthLoop() {
+  //   const timer = setInterval(() => {
+  //     setIsCheckedAuth(false);
+  //   }, 10 * 1000)
 
-    return () => {
-      clearInterval(timer);
-    }
-  }
+  //   return () => {
+  //     clearInterval(timer);
+  //   }
+  // }
 
   return (
     <section id="home-page">
@@ -101,30 +101,30 @@ function HomePage() {
           <WelcomeContent setIsCheckedAuth={setIsCheckedAuth} />
         </Route>
 
-        {role && accessToken ? (
+        {/* {role && accessToken ? ( */}
           <Route exact path="/search">
             <SearchContent setIsCheckedAuth={setIsCheckedAuth} />
             <Footer />
           </Route>
-        ) : (
-          <Redirect to="/auth" />
-        )}
+        {/* ) : ( */}
+          {/* <Redirect to="/auth" />
+        )} */}
 
-        {role && accessToken ? (
+        {/* {role && accessToken ? ( */}
           <Route path="/dashboard">
             <DashboardContent setIsCheckedAuth={setIsCheckedAuth} />
           </Route>
-        ) : (
+        {/* ) : (
           <Redirect to="/auth" />
-        )}
-        {role && accessToken ? (
+        )} */}
+        {/* {role && accessToken ? ( */}
           <Route path="/profile">
             <ProfileContent setIsCheckedAuth={setIsCheckedAuth} />
             <Footer />
           </Route>
-        ) : (
+        {/* ) : (
           <Redirect to="/auth" />
-        )}
+        )} */}
       </Switch>
     </section>
   );

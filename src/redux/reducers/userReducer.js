@@ -1,5 +1,7 @@
 
-const initialUser = {}
+const initialUser = {
+    role: "ADMIN_ROLE"
+}
 
 const userReducer = (state = initialUser, action) => {
     function mergePayloadToState(newState, payload) {

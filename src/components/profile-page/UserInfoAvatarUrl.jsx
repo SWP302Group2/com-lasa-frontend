@@ -31,7 +31,7 @@ function UserInfoAvatarUrl() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewAvatarUrl(user.avatarUrl);
     }

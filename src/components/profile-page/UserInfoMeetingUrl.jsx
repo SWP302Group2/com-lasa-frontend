@@ -30,7 +30,7 @@ function UserInfoMeetingUrl() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewMeetingUrl(user.meetingUrl);
     }

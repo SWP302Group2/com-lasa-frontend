@@ -81,7 +81,7 @@ function Header() {
           closeNotification={closeNotification}
           closeUserInfo={closeUserInfo}
         />
-        {isSignedIn && (
+        {/* {isSignedIn && ( */}
           <React.Fragment>
             <Notification
               closeBurger={closeBurger}
@@ -94,13 +94,13 @@ function Header() {
               closeUserInfo={closeUserInfo}
             />
           </React.Fragment>
-        )}
+        {/* )} */}
 
-        {!isSignedIn && (
+        {/* {!isSignedIn && (
           <Link className="sign-in" to="/auth/sign-in">
             <p className="sign-in__text">Sign in</p>
           </Link>
-        )}
+        )} */}
       </div>
     </header>
   );

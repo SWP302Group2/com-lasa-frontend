@@ -11,9 +11,9 @@ function SecurityInfo() {
                 <div className="security-info__header__title">Security Info</div>
             </div>
             <div className="security-info__content">
-                {userInfo.role === ADMIN_ROLE &&
+                {/* {userInfo.role === ADMIN_ROLE && */}
                     <UserInfoPassword />
-                }
+                {/* } */}
             </div>
         </div>
     );

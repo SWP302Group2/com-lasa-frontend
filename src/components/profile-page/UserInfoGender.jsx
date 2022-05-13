@@ -33,7 +33,7 @@ function UserInfoGender() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewGender(user.gender);
     }

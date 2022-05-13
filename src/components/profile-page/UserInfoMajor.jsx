@@ -31,7 +31,7 @@ function UserInfoMajor() {
     }
 
     function enableEdit() {
-        if (!user.role) return;
+        // if (!user.role) return;
         setIsEditing(true);
         setNewMajor(user.majorId);
     }
